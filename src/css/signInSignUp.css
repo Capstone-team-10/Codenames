@@ -1,0 +1,24 @@
+/* SignInSignUp  */
+.sign-in-sign-up-container {
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+}
+
+/* AuthForms */
+.auth-form-container {
+  max-width: 40%;
+  max-height: 300px;
+  margin: 5rem 10px;
+  padding: 5px;
+  background-color: burlywood;
+}
+
+/* GameDescription */
+.description-container {
+  height: 100%;
+  margin: 5rem 10px;
+  padding: 10px;
+  max-width: 40%;
+  background-color: burlywood;
+}
