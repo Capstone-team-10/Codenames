@@ -1,14 +1,16 @@
 import React from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import logo from "./logo.svg";
 import "./App.css";
+import Title from "./components/Title"
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Switch>{/* Add other routes here */}</Switch>
+      <Switch>
+        <Route exact path="/" component={Title}></Route>
+      </Switch>
     </Router>
   );
 }
