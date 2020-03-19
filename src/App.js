@@ -5,10 +5,10 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 //component imports
 import Navbar from "./components/Navbar";
 import SignInSignUp from "./components/signInSignUpPage/SignInSignUp";
+import Title from "./components/Title";
+
 //style import
 import "./css/App.css";
-import "./App.css";
-import Title from "./components/Title";
 
 function App() {
   return (
