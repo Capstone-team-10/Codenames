@@ -1,4 +1,4 @@
-// const admin = require('firebase-admin');
+const admin = require('firebase-admin');
 // const functions = require('firebase-functions');
 
 // admin.initializeApp(functions.config().firebase);
@@ -18,7 +18,7 @@
 
 // Initialize Firebase
 const config = {
-  apiKey: "AIzaSyDHAJ-kFwWPyokiH9FGotl2yb5gOqQ0Stg"
+  apiKey: process.env.FIRESTORE_API_KEY
   authDomain: "codenames-3a350.firebaseapp.com"
   databaseURL: "https://codenames-3a350.firebaseio.com"
   projectID: "codenames-3a350"
