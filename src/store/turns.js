@@ -1,6 +1,6 @@
 ///Initial State
 const initialState = {
-  turns: []
+  currentTurn: {}
 }
 
 ///action
