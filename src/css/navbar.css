@@ -1,0 +1,21 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controls-btn {
+  margin-left: 6px;
+}
+
+.header-logo {
+  margin: 0px 1rem;
+}
+
+.logo-container {
+  border-radius: 4px;
+}
+
+.btns-right-container {
+  margin-right: 6px;
+}
