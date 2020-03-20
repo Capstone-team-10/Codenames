@@ -18,9 +18,9 @@ const admin = require('firebase-admin');
 
 // Initialize Firebase
 const config = {
-  apiKey: process.env.FIRESTORE_API_KEY
-  authDomain: "codenames-3a350.firebaseapp.com"
-  databaseURL: "https://codenames-3a350.firebaseio.com"
+  apiKey: process.env.FIRESTORE_API_KEY,
+  authDomain: "codenames-3a350.firebaseapp.com",
+  databaseURL: "https://codenames-3a350.firebaseio.com",
   projectID: "codenames-3a350"
   // storageBucket:
   // messagingSenderId:
