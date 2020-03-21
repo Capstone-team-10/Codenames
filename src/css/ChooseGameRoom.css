@@ -1,0 +1,11 @@
+.ChooseGame-container{
+  background-image: url('./main-image.jpg');
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+a{
+  color:white
+}
