@@ -3,6 +3,8 @@
   display: flex;
   justify-content: space-around;
   height: 100%;
+  background-image: url('./main-image.jpg');
+  background-size: cover;
 }
 
 /* AuthForms */
