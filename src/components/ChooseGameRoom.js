@@ -15,7 +15,7 @@ export default function ChooseGameRoom() {
           New Game
         </button>
         <button className="title-button">
-          <Link to="/lobby">
+          <Link to="/JoinGame">
             Join Game
           </Link>
         </button>

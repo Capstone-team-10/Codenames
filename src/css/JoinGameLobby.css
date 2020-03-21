@@ -1,0 +1,27 @@
+.JoinGameLobby-container{
+  background-image: url('./main-image.jpg');
+  background-size: cover;
+  height: 100vh;
+}
+.JoinGame-container{
+  margin: 10%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.JoinGame-container > button{
+  margin: 5px;
+}
+
+.JoinGame-container > h2{
+  margin: 15px;
+  font-size: 4vh;
+  color: white;
+  font-family: "Avant Garde"
+}
+h2{
+  color:white;
+  font-family: "Avant Garde"
+}

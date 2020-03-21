@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import ChooseGameRoom from "../ChooseGameRoom"
 
 const SignUp = () => {
   const initialInfo = {
@@ -12,6 +14,7 @@ const SignUp = () => {
   const submitHandler = evt => {
     evt.preventDefault();
     console.log(evt);
+      /// On submit go to <ChooseGameRoom />
   };
 
   const onChangeHandler = evt => {
