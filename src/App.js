@@ -8,6 +8,7 @@ import SignInSignUp from "./components/signInSignUpPage/SignInSignUp";
 import Title from "./components/Title";
 import JoinGameLobby from "./components/JoinGameLobby";
 import ChooseGameRoom from "./components/ChooseGameRoom" // Delete route once form is working
+import EndGameScreen from "./components/EndGameScreen" // Delete route once form is working
 //style import
 import "./css/App.css";
 
@@ -20,6 +21,8 @@ function App() {
         <Route path="/onSubmit" component={ChooseGameRoom}
         />
         <Route path="/JoinGame" component={JoinGameLobby}
+        />
+        <Route path="/GameOver" component={EndGameScreen}
         />
         <Route exact path="/" component={Title}
         />
