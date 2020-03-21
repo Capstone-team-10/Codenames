@@ -19,7 +19,7 @@ const PlayerGameBoard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="gameBoard-container">
       <PlayArea deck={deck} />
       <SideBar />
     </div>
