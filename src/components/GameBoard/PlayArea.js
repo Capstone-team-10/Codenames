@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import GameCard from "./GameCard";
+import PlayerCard from "./PlayerCard";
 
 const PlayArea = ({ deck }) => {
   // console.log("In PlayArea deck is: ", deck);
@@ -10,7 +10,7 @@ const PlayArea = ({ deck }) => {
     <div className="playArea-container">
       <div className="cards-wrapper">
         {deck.map(card => (
-          <GameCard card={card} key={card.word} />
+          <PlayerCard card={card} key={card.word} />
         ))}
       </div>
     </div>
