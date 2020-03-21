@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from "react-router-dom"    /* Delete after demo Demonstration */
 import "../css/JoinGameLobby.css";
 
 export default class JoinGameLobby extends Component {
@@ -20,6 +21,12 @@ export default class JoinGameLobby extends Component {
             {game.title}
           </button>)) : <h2> There are currently no open games to join</h2>}
         </div>
+        <button className="title-button">
+        {/* Delete after demo Demonstration */}
+        <Link to="/GameOver" >
+          Fake Room - Link to End Game screen
+          </Link>
+        </button>
       </div>
     )
   }
