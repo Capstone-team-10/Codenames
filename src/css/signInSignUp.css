@@ -24,3 +24,22 @@
   max-width: 40%;
   background-color: burlywood;
 }
+.User{
+  background-image: url('./main-image.jpg');
+  background-size: cover;
+  height: 100vh;
+  display:flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.User-container {
+  margin-top: 10vh;
+  padding: 10px;
+  height: 20%;
+  max-width: 40%;
+  background-color: burlywood;
+}
+a{
+  color: black;
+}

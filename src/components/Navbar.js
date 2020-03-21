@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 import "../css/navbar.css";
 
 const Navbar = () => {
-  let  loggedIn = false
+  let  loggedIn = true
   return (
     <nav id="navbar" className="navbar nav-wrapper red darken-4">
       <button className="btn controls-btn waves-effect waves-dark teal darken-2">
@@ -32,7 +32,9 @@ const Navbar = () => {
           </Link>
         </button>
         {loggedIn ? <button className="btn right waves-effect waves-dark teal darken-2">
-          User Info
+        <Link to="/userProfile">
+        User Info
+          </Link>
         </button> : ""}
       </div>
     </nav>
