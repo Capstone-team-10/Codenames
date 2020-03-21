@@ -2,6 +2,9 @@
 import React from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
+//firestore imports
+import firebase, { db } from "./fireStore";
+
 //component imports
 import Navbar from "./components/Navbar";
 import SignInSignUp from "./components/signInSignUpPage/SignInSignUp";

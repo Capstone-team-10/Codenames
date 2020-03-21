@@ -1,4 +1,5 @@
 import React from "react";
+import firebase, { db } from "../fireStore";
 
 import "../css/navbar.css";
 
