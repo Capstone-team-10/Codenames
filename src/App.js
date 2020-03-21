@@ -14,6 +14,7 @@ import Title from "./components/Title";
 import "./css/App.css";
 
 function App() {
+  // console.log("----", db.collection("user");
   return (
     <Router>
       <Navbar />
