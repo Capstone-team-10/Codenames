@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import {Link} from "react-router-dom"    /* Delete after demo Demonstration */
+import ChooseGameRoom from "../ChooseGameRoom"
 
 const SignIn = () => {
   const [formEmail, setFormEmail] = useState("");
@@ -7,6 +10,7 @@ const SignIn = () => {
   const submitHandler = evt => {
     evt.preventDefault();
     console.log(evt);
+    /// On submit go to <ChooseGameRoom />
   };
 
   const onChangeHandler = evt => {
@@ -29,7 +33,9 @@ const SignIn = () => {
           <input type="password" id="password" onChange={onChangeHandler} />
         </div>
         <button type="submit" className="btn center">
+        <Link to="/onSubmit" >    {/* Delete after demo Demonstration */}
           Login
+          </Link>
         </button>
       </form>
     </div>

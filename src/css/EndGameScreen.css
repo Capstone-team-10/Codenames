@@ -1,0 +1,35 @@
+.EndGameScreen{
+  background-image: url('./main-image.jpg');
+  background-size: cover;
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.EndScreen-message{
+  background-color: white;
+}
+
+.EndScreen-buttons{
+  padding: 5%;
+}
+button{
+  margin:3px;
+}
+.bluewin{
+    background-image: url('./blue-win.jpg');
+}
+
+.redwin{
+  background-image: url('./red-win.jpg');
+}
+
+.bluekilled{
+  background-image: url('./assassinated.jpg');
+}
+
+.redkilled{
+  background-image: url('./assassinated.jpg');
+}
