@@ -6,7 +6,8 @@ import "../../css/playerGameBoard.css";
 import dealCards from "../../utils/dealer";
 
 const PlayerGameBoard = () => {
-  const [deck, setDeck] = useState([]);
+  const spyMaster = false;
+  const [deck, setDeck] = useState({ spy: [], spyMaster: [] });
 
   useEffect(() => {
     console.log("The deck is: ", deck);
@@ -20,8 +21,17 @@ const PlayerGameBoard = () => {
 
   return (
     <div className="gameBoard-container">
-      <PlayArea deck={deck} />
-      <SideBar />
+      {spyMaster ? (
+        <React.Fragment>
+          <PlayArea deck={deck.spyMaster} />
+          <SideBar spyMaster={spyMaster} />
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <PlayArea deck={deck.spy} />
+          <SideBar />
+        </React.Fragment>
+      )}
     </div>
   );
 };
