@@ -85,7 +85,8 @@
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
-  /* box-shadow: 0px 1px 1px black; */
+  /* box-shadow: 0px 1px 1px #000000; */
+  /* filter: drop-shadow(0 0.1rem 0.05rem crimson); */
 }
 
 /* .card-inner:hover .flip-card {
@@ -141,7 +142,5 @@
   }
   .card-inner {
     flex: 1 1 calc(32% - 14px);
-    /* min-width: 8rem; */
-    box-shadow: 0px 1px 1px black;
   }
 }
