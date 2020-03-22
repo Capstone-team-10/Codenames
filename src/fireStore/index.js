@@ -13,3 +13,18 @@ firebase.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
 
 export default firebase;
+
+// const gameRef = db.collection("games")
+
+// export const gameById = id => db.collection('games').doc(id)
+
+// export const joinGame = gameId => gameById(gameId).update({
+//   [`players.${auth.currentUser.uid}`]: {email: auth.currentUser.email, role:'player'},
+// })
+
+/// APP.js
+{
+  /* <Route path="/:gameId" component={
+            ({match: {params: {gameId}}}) => <Game game={gameById(gameId)}/>
+          } /> */
+}
