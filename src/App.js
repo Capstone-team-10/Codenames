@@ -8,6 +8,7 @@ import firebase, { db } from "./fireStore";
 //component imports
 import Navbar from "./components/Navbar";
 import SignInSignUp from "./components/signInSignUpPage/SignInSignUp";
+import PlayerGameBoard from "./components/GameBoard/PlayerGameBoard";
 import UserProfile from "./components/signInSignUpPage/UserProfile";
 import UpdateUser from "./components/signInSignUpPage/UpdateUser";
 import Title from "./components/Title";
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
+        <Route path="/play" component={PlayerGameBoard}></Route>
         <Route path="/auth" component={SignInSignUp} />
         <Route path="/userProfile" component={UserProfile} />
         <Route path="/onSubmit" component={ChooseGameRoom} />

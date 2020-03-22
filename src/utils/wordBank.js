@@ -655,9 +655,10 @@ const WordList = [
   "Zero",
   "Zipper",
   "Zone",
-  "Zoo",
+  "Zoo"
 ];
 const masterWordList = WordList.map(word => {
   return word.toUpperCase();
 });
+
 export default masterWordList;
