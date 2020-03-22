@@ -26,7 +26,7 @@ export const sentMessage = (
     db.collection("Games")
       .doc(`${gamessessionid}`)
       .update({
-        chat: [...initialState.chat, { text: message, Sender: sender }],
+        chat: [...initialState.chat, { message: message, Sender: sender }],
       });
 
     dispatch(sendMessage(sender, message));
