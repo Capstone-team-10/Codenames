@@ -1,25 +1,34 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import {Link} from "react-router-dom"    /* Delete after demo Demonstration */
-import ChooseGameRoom from "../ChooseGameRoom"
+import {Link} from "react-router-dom"
+import {connect} from "react-redux"
+import {createProfile} from "../../store/user"
+// import ChooseGameRoom from "../ChooseGameRoom"
 
-const SignUp = () => {
-  const initialInfo = {
-    name: "",
-    email: "",
-    password: ""
-  };
-
-  const [formInfo, setFormInfo] = useState(initialInfo);
+const SignUp = (props) => {
+  const [formEmail, setFormEmail] = useState("");
+  const [formPassword, setFormPassword] = useState("");
+  const [formName, setFormName] = useState("");
 
   const submitHandler = evt => {
     evt.preventDefault();
-    console.log(evt);
+    console.log("Our STate", formName,formEmail,formPassword)
+    props.createProfile(formName,formEmail,formPassword)
       /// On submit go to <ChooseGameRoom />
   };
 
   const onChangeHandler = evt => {
-    console.log(evt);
+    console.log(props.createProfile)
+
+    if (evt.target.id === "email") {
+      setFormEmail(evt.target.value);
+    }
+    else if(evt.target.id ==="name"){
+      setFormName(evt.target.value)
+    }
+    else {
+      setFormPassword(evt.target.value);
+    }
   };
 
   return (
@@ -27,7 +36,7 @@ const SignUp = () => {
       <form id="signUp" className="container" onSubmit={submitHandler}>
         <div className="input-field">
           <label htmlFor="name">Display Name</label>
-          <input type="text" onChange={onChangeHandler} />
+          <input type="text" id="name" onChange={onChangeHandler} />
         </div>
         <div className="input-field">
           <label htmlFor="email">Email</label>
@@ -38,13 +47,18 @@ const SignUp = () => {
           <input type="password" id="password" onChange={onChangeHandler} />
         </div>
         <button type="submit" className="btn center">
-        <Link to="/onSubmit" >    {/* Delete after demo Demonstration */}
           Sign Up
-          </Link>
         </button>
       </form>
     </div>
   );
 };
 
-export default SignUp;
+const mapDispatchToProps = dispatch => {
+  return {
+    createProfile: (name,email,password) => dispatch(createProfile(name,email,password))
+  }
+}
+
+
+export default connect(null,mapDispatchToProps)(SignUp)
