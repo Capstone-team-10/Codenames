@@ -1,6 +1,6 @@
 import React from "react";
 
-const SideBar = () => {
+const SideBar = ({ spyMaster }) => {
   const submitChat = text => {
     console.log(text);
   };
@@ -79,8 +79,18 @@ const SideBar = () => {
         })}
       </div>
       <div className="hint-container">
-        <h5>{`Hint: ${hint}`}</h5>
-        <h5>{`For: ${hintCount} cards `}</h5>
+        {spyMaster ? (
+          <React.Fragment>
+            <h5>{`Hint: ${hint}`}</h5>
+            <h5>{`For: ${hintCount} cards `}</h5>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <p>{`Hint: ${hint}`}</p>
+            <p>{`For: ${hintCount} cards `}</p>
+            <input />
+          </React.Fragment>
+        )}
       </div>
       <div className="chat-container">
         <div className="log-wrapper">
