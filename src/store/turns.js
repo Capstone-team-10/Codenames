@@ -44,6 +44,38 @@ export const settingHint = (
   }
 };
 
+export const startingGame = (
+  gamesessionid,startingTeam
+) => async dispatch => {
+  try {
+    // In the DB change status of game so id doesn't appear as Open Game in Join Game Lobby
+    db.collection("Games")
+      .doc(`${gamesessionid}`)
+      .update({
+        status:true
+      });
+
+    dispatch(startGame(startingTeam));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const endingGame = (
+  gamesessionid
+) => async dispatch => {
+  try {
+    // Delete game from Game Room ??? How to handle Replay with Same Team Option
+    db.collection("Games")
+      .doc(`${gamesessionid}`)
+      .delete();
+
+    dispatch(endGame());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 ///Reducer
 
 export default function(state = initialState, action) {
