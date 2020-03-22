@@ -1,19 +1,18 @@
 ///Initial State
 const initialState = {
-  cards: [],
+  Deck: [],
 };
 
 ///action
+const SETUP_DECK = "SETUP_DECK";
 const SELECT_CARD = "SELECT_CARD";
-const REVEAL_CARD = "REVEAL_CARD";
 /// action creator
 
-// const setUpCards = cards => ({ type: SETUP_CARDS, cards });
-// const selectCard = (cardIndex, cardColor) => ({
-//   type: SELECT_CARD,
-//   index: cardIndex,
-//   color: cardColor,
-// });
+const setupDeck = deck => ({ type: SETUP_CARDS, deck });
+const selectCard = (card) => ({
+  type: SELECT_CARD,
+  card
+});
 
 /// Thunk
 
@@ -21,21 +20,16 @@ const REVEAL_CARD = "REVEAL_CARD";
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case SETUP_DECK:
+      return{deck: action.deck}
+    case SELECT_CARD:
+      const newDeck = [...state.Deck]
+      newDeck.map(card=>{
+        if(card.word === action.card.word) return action.card
+        return card
+      })
+      return {deck: newDeck}
     default:
       return state;
   }
 }
-
-// const cards = (state = initialState.cards, action) => {
-//   if (action.type === START_GAME) return action.cards;
-
-//   if (action.type === REVEAL_CARD) {
-//     const newCards = [...state];
-//     const { index, color } = action;
-//     const card = state[index];
-//     newCards[index] = { ...card, color, flipped: true };
-//     return newCards;
-//   }
-
-//   return state;
-// };
