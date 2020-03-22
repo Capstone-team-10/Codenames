@@ -36,18 +36,17 @@ export const getProfile = () => async dispatch => {
   }
 };
 
-export const createProfile = (name,email) => async dispatch => {
+export const createProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
   try {
-    // db.collection("Users").add({
-    //       name: name,
-    //       email: email
-    //     }).get()
-    //     .then(snapshot => {
-    //       snapshot.docs.forEach(doc => {
-    //         dispatch(gotProfile(doc.data()))
-    //       })
-    //   })
-    console.log(" Create Profile Thunk")
+    console.log("In create Thunk")
+    const firestore = getFirestore()
+    firestore.collection("Users").add({
+          name: name,
+          email: email,
+          password: password
+        })
+    dispatch(gotProfile({name,email,password}))
+    console.log(" Dispatched Creat Thunk")
     }
   catch (error) {
     console.error(error);

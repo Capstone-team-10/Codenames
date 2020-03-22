@@ -5,7 +5,7 @@ import firebase, { db } from "../fireStore";
 import "../css/navbar.css";
 
 const Navbar = () => {
-  let loggedIn = true;
+  let loggedIn = false;
   return (
     <nav id="navbar" className="navbar nav-wrapper red darken-4">
       <button className="btn controls-btn waves-effect waves-dark teal darken-2">
