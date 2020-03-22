@@ -8,7 +8,7 @@ const SETUP_DECK = "SETUP_DECK";
 const SELECT_CARD = "SELECT_CARD";
 /// action creator
 
-const setupDeck = deck => ({ type: SETUP_CARDS, deck });
+const setupDeck = deck => ({ type: SETUP_DECK, deck });
 const selectCard = (card) => ({
   type: SELECT_CARD,
   card

@@ -20,56 +20,53 @@ const setPlayer = (name, team,master) => ({
 });
 
 /// Thunk
-export const getProfile = () => async
-  dispatch
-) => {
+export const getProfile = () => async dispatch => {
   try {
-    db.collection("Users")
-    .where("Name", "==", "AAron")
-    .get()
-    .then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        dispatch(gotProfile(doc.data()))
-      });
-    })
+    // db.collection("Users")
+    // .where("Name", "==", "AAron")
+    // .get()
+    // .then(snapshot => {
+    //   snapshot.docs.forEach(doc => {
+    //     dispatch(gotProfile(doc.data()))
+    //   });
+    // })
+    console.log(" Get Profile Thunk")
   } catch (error) {
     console.error(error);
   }
 };
 
-export const createProfile = (name,email) => async
-  dispatch
- => {
+export const createProfile = (name,email) => async dispatch => {
   try {
-    db.collection("Users").add({
-          name: name,
-          email: email
-        }).get()
-        .then(snapshot => {
-          snapshot.docs.forEach(doc => {
-            dispatch(gotProfile(doc.data()))
-          })
-      })
+    // db.collection("Users").add({
+    //       name: name,
+    //       email: email
+    //     }).get()
+    //     .then(snapshot => {
+    //       snapshot.docs.forEach(doc => {
+    //         dispatch(gotProfile(doc.data()))
+    //       })
+    //   })
+    console.log(" Create Profile Thunk")
     }
   catch (error) {
     console.error(error);
   }
 };
 
-export const settingPlayer = (name,team,master,gamessessionid) => async
-  dispatch
- => {
+export const settingPlayer = (name,team,master,gamessessionid) => async dispatch => {
   try {
-    db.collection("Games")
-      .doc(`${gamessessionid}`)
-      .update({
-        UsersInRoom: `${name}`:{
-          displayName: name,
-          Team: team,
-          isSpyMaster: master
-        },
-      });
-    dispatch(setPlayer(name, team,master));
+    // db.collection("Games")
+    //   .doc(`${gamessessionid}`)
+    //   .update({
+    //     UsersInRoom: `${name}`:{
+    //       displayName: name,
+    //       Team: team,
+    //       isSpyMaster: master
+    //     },
+    //   });
+    // dispatch(setPlayer(name, team,master));
+    console.log("SettingPlayer Thunk")
   }
   catch (error) {
     console.error(error);
