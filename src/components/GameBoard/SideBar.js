@@ -81,14 +81,15 @@ const SideBar = ({ spyMaster }) => {
       <div className="hint-container">
         {spyMaster ? (
           <React.Fragment>
-            <h5>{`Hint: ${hint}`}</h5>
-            <h5>{`For: ${hintCount} cards `}</h5>
+            <p>{`Hint: ${hint}`}</p>
+            <p>{`For: ${hintCount} cards `}</p>
+            <label htmlFor="hint">One Word Hint</label>
+            <input type="text" name="hint" />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <p>{`Hint: ${hint}`}</p>
-            <p>{`For: ${hintCount} cards `}</p>
-            <input />
+            <h6>{`Hint: ${hint}`}</h6>
+            <h6>{`For: ${hintCount} cards `}</h6>
           </React.Fragment>
         )}
       </div>
