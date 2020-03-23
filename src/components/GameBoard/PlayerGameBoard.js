@@ -7,25 +7,23 @@ import dealCards from "../../utils/dealer";
 
 const PlayerGameBoard = () => {
   const spyMaster = true;
-  const [deck, setDeck] = useState({ spy: [], spyMaster: [] });
+  const [deck, setDeck] = useState([]);
 
   useEffect(() => {
     console.log("The deck is: ", deck);
-
-    let cardsFromDealer = dealCards();
-    setDeck(cardsFromDealer);
+    setDeck(dealCards());
   }, []);
 
   return (
     <div className="gameBoard-container">
       {spyMaster ? (
         <>
-          <PlayArea deck={deck.spyMaster} />
+          <PlayArea deck={deck} />
           <SideBar spyMaster={spyMaster} />
         </>
       ) : (
         <>
-          <PlayArea deck={deck.spy} />
+          <PlayArea deck={deck} />
           <SideBar />
         </>
       )}

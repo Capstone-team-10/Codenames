@@ -75,15 +75,15 @@ export const buildDeck = wordList => {
   return cardDeck;
 };
 
-const makeSpyAndSpyMasterDecks = deck => {
-  const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
-  return { spyMaster: deck, spy };
-};
+//move to game logic
+// const makeSpyAndSpyMasterDecks = deck => {
+//   const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
+//   return { spyMaster: deck, spy };
+// };
 
 const dealCards = (wordList = masterWordList) => {
   let deck = buildDeck(wordList);
-  deck = shuffle(deck);
-  return makeSpyAndSpyMasterDecks(deck);
+  return shuffle(deck);
 };
 
 export default dealCards;
