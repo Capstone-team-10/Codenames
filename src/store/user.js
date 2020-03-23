@@ -43,13 +43,16 @@ export const createProfile = (name,email,password) => async (dispatch, getState,
     const {user} = await auth.createUserWithEmailAndPassword(email, password)
     console.log("sign up user", user.uid)
     console.log("sign up user", user)
+    /////
     const firestore = getFirestore()
     await firestore.collection("Users").doc(user.uid).set({
-      Win:0,
+      Win:20,
       Loss:0
     })
-    const doc = await firestore.collection('users').doc(user.uid)
-    console.log("Collection user", doc)
+    firestore.collection('Users').doc(user.uid).get().then(doc => {
+
+      console.log("ForEach Doc", doc.data().Win, user.email, user.displayName)
+    });
     dispatch(gotProfile({name,email}))
     }
   catch (error) {
