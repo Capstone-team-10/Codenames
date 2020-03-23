@@ -26,10 +26,50 @@
   border-radius: 5px;
 }
 
-.chat-wrapper {
-  background-color: snow;
+.spyMaster-hint-text-wrapper {
+  display: flex;
+
+  justify-content: space-around;
+}
+
+.spyMaster-hint-text {
+  margin: 3px 0px;
+}
+
+#hintInput {
+  background-color: cadetblue;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: lightgray;
   border: 1px solid black;
   border-radius: 5px;
+}
+
+.word-hint-wrapper {
+  flex-basis: 75%;
+}
+
+/* select {
+  height: 1rem;
+} */
+
+.hintNumber {
+  display: block;
+  height: 2rem;
+  border: 1px solid #b3abab;
+}
+
+/* .word-hint-wrapper {
+  flex: 0 0;
+} */
+
+.input {
+  height: 25px !important;
+  margin-bottom: 4px !important;
 }
 
 .submit-chat {
@@ -58,6 +98,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   background-color: paleturquoise;
+
   height: 90%;
   max-width: 90%;
   min-width: 500px;
@@ -106,6 +147,7 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 6px;
+  /* background-image: linear-gradient(135deg, white 0%, tan 50%, blue 100%); */
 }
 
 .card-front {
