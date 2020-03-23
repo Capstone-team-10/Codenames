@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SideBar = ({ spyMaster }) => {
+  const [hint, setHint] = useState("");
+  const [hintNumber, setHintNumber] = useState(1);
+
+  const changeHandler = evt => {
+    console.log(evt.target.value);
+    if (evt.target.id === "hint") {
+      setHint(evt.target.value.split(/(\W|\d)/)[0].toUpperCase());
+    } else {
+      setHintNumber(evt.target.value);
+    }
+  };
+
+  const submitHint = () => {};
+
   const submitChat = text => {
     console.log(text);
   };
@@ -11,8 +25,6 @@ const SideBar = ({ spyMaster }) => {
 
   const displayName = "displayName";
   const teamColor = "color";
-  const hint = "bananas";
-  let hintCount = 6;
   const chatLog = [
     {
       sender: "Bob",
@@ -81,15 +93,52 @@ const SideBar = ({ spyMaster }) => {
       <div className="hint-container">
         {spyMaster ? (
           <React.Fragment>
-            <p>{`Hint: ${hint}`}</p>
-            <p>{`For: ${hintCount} cards `}</p>
-            <label htmlFor="hint">One Word Hint</label>
-            <input type="text" name="hint" />
+            <div className="spyMaster-hint-text-wrapper">
+              <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
+              <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
+            </div>
+            <div className="input-wrapper">
+              <div className="word-hint-wrapper">
+                <label htmlFor="hint">One Word Hint</label>
+                <input
+                  onChange={changeHandler}
+                  type="text"
+                  className="input"
+                  name="hint"
+                  id="hint"
+                />
+              </div>
+              <div className="number-hint-wrapper">
+                <label htmlFor="hintNumber">Number</label>
+                <select
+                  onChange={changeHandler}
+                  name="hintNumber"
+                  className="hintNumber"
+                  id="hintNumber"
+                >
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                  <option value={9}>9</option>
+                </select>
+              </div>
+            </div>
+            <button
+              className="submit-hint-btn btn center waves-effect waves-dark teal darken-4"
+              onClick={submitHint}
+            >
+              Submit Hint
+            </button>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <h6>{`Hint: ${hint}`}</h6>
-            <h6>{`For: ${hintCount} cards `}</h6>
+            <h6>{`For: ${hintNumber} cards `}</h6>
           </React.Fragment>
         )}
       </div>
@@ -106,8 +155,8 @@ const SideBar = ({ spyMaster }) => {
             );
           })}
         </div>
-        <div className="chat-wrapper">
-          <input className="chat-input" type="text" />
+        <div className="input-wrapper">
+          <input className="input" type="text" />
         </div>
         <button
           className="submit-chat btn waves-effect waves-dark teal darken-2"
