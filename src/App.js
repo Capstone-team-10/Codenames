@@ -3,7 +3,7 @@ import React from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 //firestore imports
-import firebase, { db } from "./fireStore";
+import firebase, { auth,db } from "./fireStore";
 
 //component imports
 import Navbar from "./components/Navbar";

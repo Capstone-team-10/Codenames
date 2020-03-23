@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import {Link} from "react-router-dom"
 import {connect} from "react-redux"
 import {createProfile} from "../../store/user"
+import firebase, {auth,google} from "../../fireStore"
+// import { Redirect } from "react-router-dom"
 // import ChooseGameRoom from "../ChooseGameRoom"
 
 const SignUp = (props) => {
@@ -31,6 +33,11 @@ const SignUp = (props) => {
     }
   };
 
+  const AuthWithGoogle = () =>{
+    console.log("Log with google")
+    auth.signInWithPopup(google)
+  }
+
   return (
     <div className="signUp-wrapper">
       <form id="signUp" className="container" onSubmit={submitHandler}>
@@ -50,6 +57,7 @@ const SignUp = (props) => {
           Sign Up
         </button>
       </form>
+      <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
     </div>
   );
 };
