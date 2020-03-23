@@ -6,22 +6,27 @@ import "../../css/playerGameBoard.css";
 import dealCards from "../../utils/dealer";
 
 const PlayerGameBoard = () => {
+  const spyMaster = true;
   const [deck, setDeck] = useState([]);
 
   useEffect(() => {
     console.log("The deck is: ", deck);
-
-    let cardsFromDealer = dealCards();
-    //look into replacing setTimeout with promises
-    setTimeout(() => {
-      setDeck(cardsFromDealer);
-    }, 250);
+    setDeck(dealCards());
   }, []);
 
   return (
     <div className="gameBoard-container">
-      <PlayArea deck={deck} />
-      <SideBar />
+      {spyMaster ? (
+        <>
+          <PlayArea deck={deck} />
+          <SideBar spyMaster={spyMaster} />
+        </>
+      ) : (
+        <>
+          <PlayArea deck={deck} />
+          <SideBar />
+        </>
+      )}
     </div>
   );
 };

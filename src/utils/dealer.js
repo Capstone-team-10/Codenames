@@ -38,16 +38,6 @@ export const buildDeck = wordList => {
   let black = 1;
   let white = 6;
 
-  // function getUniqueWord() {
-  //   const wordSelected = {};
-  //   let randomWord = wordList[Math.floor(Math.random() * 600)];
-  //   if (wordSelected[randomWord] === true) {
-  //     getUniqueWord();
-  //   }
-  //   wordSelected[randomWord] = true;
-  //   return randomWord;
-  // }
-
   while (red || blue || black || white) {
     if (red > 0) {
       cardDeck.push({
@@ -84,6 +74,12 @@ export const buildDeck = wordList => {
   }
   return cardDeck;
 };
+
+//move to game logic
+// const makeSpyAndSpyMasterDecks = deck => {
+//   const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
+//   return { spyMaster: deck, spy };
+// };
 
 const dealCards = (wordList = masterWordList) => {
   let deck = buildDeck(wordList);
