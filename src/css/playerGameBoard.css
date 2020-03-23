@@ -9,6 +9,7 @@
 .sideBar-wrapper {
   background-color: lightgrey;
   padding: 0px 5px;
+  height: calc(100% - 64px);
 }
 
 .players-text {
@@ -26,26 +27,68 @@
   border-radius: 5px;
 }
 
-.chat-wrapper {
-  background-color: snow;
+.spyMaster-hint-text-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.spyMaster-hint-text {
+  margin: 3px 0px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hintInput {
+  background-color: cadetblue;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: lightgray;
   border: 1px solid black;
   border-radius: 5px;
+}
+
+.word-hint-wrapper {
+  flex-basis: 75%;
+}
+
+.hintNumber {
+  display: block;
+  height: 2rem;
+  border: 1px solid #b3abab;
+}
+
+.input {
+  height: 25px !important;
+  margin-bottom: 4px !important;
+}
+
+.submit-hint-btn {
+  width: 100%;
+  margin: 3px 0px;
+  height: 30px;
 }
 
 .submit-chat {
   width: 100%;
   margin-top: 3px;
+  height: 30px;
 }
 
 .leave-game-btn {
   width: 100%;
+  height: 30px;
 }
 
 /* PlayArea */
 
 .playArea-container {
   width: 100%;
-  height: 93vh;
+  height: 100%;
+  padding: 30px;
   background-color: navajowhite;
   display: flex;
   justify-content: center;
@@ -57,8 +100,10 @@
   flex-direction: row;
   flex-wrap: wrap;
   background-color: paleturquoise;
+
   height: 90%;
-  max-width: 85%;
+  max-width: 90%;
+  min-width: 500px;
   padding: 10px;
 }
 
@@ -67,10 +112,12 @@
 .cardContainer {
   position: relative;
   display: flex;
+  flex: 1 1 calc(20% - 14px);
   justify-content: center;
   align-items: center;
   height: 8rem;
-  width: 8.25rem;
+  min-width: 8.25rem;
+  /* max-width: 11rem; */
   padding: 7px;
 }
 
@@ -81,7 +128,8 @@
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
-  box-shadow: 0px 2px 1px black;
+  /* box-shadow: 0px 1px 1px #000000; */
+  /* filter: drop-shadow(0 0.1rem 0.05rem crimson); */
 }
 
 /* .card-inner:hover .flip-card {
@@ -101,6 +149,7 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 6px;
+  /* background-image: linear-gradient(135deg, white 0%, tan 50%, blue 100%); */
 }
 
 .card-front {
@@ -120,4 +169,22 @@
 
 .black {
   color: white;
+}
+
+@media screen and (max-width: 1000px) {
+  .card-inner {
+    flex: 1 1 calc(25% - 14px);
+  }
+}
+
+@media (max-width: 800px) {
+  .playArea-container {
+    padding: 15px 0px;
+  }
+  .cards-wrapper {
+    min-width: 0px;
+  }
+  .card-inner {
+    flex: 1 1 calc(32% - 14px);
+  }
 }
