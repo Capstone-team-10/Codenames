@@ -75,12 +75,6 @@ export const buildDeck = wordList => {
   return cardDeck;
 };
 
-//move to game logic
-// const makeSpyAndSpyMasterDecks = deck => {
-//   const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
-//   return { spyMaster: deck, spy };
-// };
-
 const dealCards = (wordList = masterWordList) => {
   let deck = buildDeck(wordList);
   return shuffle(deck);
