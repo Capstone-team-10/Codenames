@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom"
 import {connect} from "react-redux"
-import {createProfile} from "../../store/user"
-import firebase, {auth,google} from "../../fireStore"
+import {createProfile,googleProfile} from "../../store/user"
 // import { Redirect } from "react-router-dom"
 // import ChooseGameRoom from "../ChooseGameRoom"
 
@@ -14,9 +13,8 @@ const SignUp = (props) => {
 
   const submitHandler = evt => {
     evt.preventDefault();
-    console.log("Our STate", formName,formEmail,formPassword)
     props.createProfile(formName,formEmail,formPassword)
-      /// On submit go to <ChooseGameRoom />
+      // / On submit go to <ChooseGameRoom />
   };
 
   const onChangeHandler = evt => {
@@ -35,7 +33,7 @@ const SignUp = (props) => {
 
   const AuthWithGoogle = () =>{
     console.log("Log with google")
-    auth.signInWithPopup(google)
+    props.googleProfile(formName,formEmail,formPassword)
   }
 
   return (
@@ -64,7 +62,8 @@ const SignUp = (props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createProfile: (name,email,password) => dispatch(createProfile(name,email,password))
+    createProfile: (name,email,password) => dispatch(createProfile(name,email,password)),
+    googleProfile: (name,email,password) => dispatch(googleProfile(name,email,password))
   }
 }
 

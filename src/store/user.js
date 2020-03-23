@@ -1,3 +1,5 @@
+import firebase, {auth,google} from "../fireStore"
+
 ///Initial State
 const initialState = {
   profile: {},
@@ -38,15 +40,27 @@ export const getProfile = () => async dispatch => {
 
 export const createProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
   try {
-    console.log("In create Thunk")
+    const {user} = await auth.createUserWithEmailAndPassword(email, password)
+    console.log("sign up user", user.uid)
+    console.log("sign up user", user)
     const firestore = getFirestore()
-    firestore.collection("Users").add({
-          name: name,
-          email: email,
-          password: password
-        })
-    dispatch(gotProfile({name,email,password}))
-    console.log(" Dispatched Creat Thunk")
+    await firestore.collection("Users").doc(user.uid).set({
+      Win:0,
+      Loss:0
+    })
+    const doc = await firestore.collection('users').doc(user.uid)
+    console.log("Collection user", doc)
+    dispatch(gotProfile({name,email}))
+    }
+  catch (error) {
+    console.error(error);
+  }
+};
+
+export const googleProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
+  try {
+    await auth.signInWithPopup(google)
+    dispatch(createProfile(name,email,password))
     }
   catch (error) {
     console.error(error);

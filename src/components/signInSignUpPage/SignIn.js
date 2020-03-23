@@ -27,13 +27,13 @@ const SignIn = () => {
     auth.signInWithPopup(google)
   }
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
 
-    return ()=>{
-      unsubscribe && unsubscribe()
-    }
-  },[])
+  //   return ()=>{
+  //     unsubscribe && unsubscribe()
+  //   }
+  // },[])
 
   return (
     <div className="login-wrapper">
