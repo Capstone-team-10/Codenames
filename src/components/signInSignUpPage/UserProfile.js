@@ -36,12 +36,16 @@ const UserProfile = () => {
   )
 };
 
-// const mapStateToProps = (state) => {
-//   return: state.User
-// }
+const mapStateToProps = (state) => {
+  console.log("state", state)
+  console.log("fire", state.firestore);;
+  return {
+    User: state.user.profile
+  }
+}
 
 export default compose(
-  connect(mapStateToProps)
+  connect(mapStateToProps),
   firestoreConnect([
     { collection: "Users" }
   ])
