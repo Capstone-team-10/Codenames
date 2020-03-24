@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { ToastProvider } from "react-toast-notifications";
 import "./index.css";
 import App from "./App";
 import store from "./store";
@@ -11,7 +12,9 @@ import firebase, { db } from "./fireStore";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ToastProvider>
+      <App />
+    </ToastProvider>
   </Provider>,
   document.getElementById("root")
 );
