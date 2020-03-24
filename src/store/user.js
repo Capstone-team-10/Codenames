@@ -1,4 +1,4 @@
-import firebase, {auth,google} from "../fireStore"
+import {google} from "../fireStore"
 
 ///Initial State
 const initialState = {
@@ -38,35 +38,36 @@ export const getProfile = () => async dispatch => {
   }
 };
 
-export const createProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
+export const createProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
   try {
-
-    const {user} = await auth.createUserWithEmailAndPassword(email, password)
-
+    const firebase = getFirebase()
+    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
     await user.updateProfile({
       displayName:name
     })
-    console.log("Named user", user)
-    const firestore = getFirestore()
-    await firestore.collection("Users").doc(user.uid).set({
-      Win:20,
-      Loss:0
-    })
-    // firestore.collection('Users').doc(user.uid).get().then(doc => {
 
-    //   console.log("ForEach Doc", doc.data().Win, user.email, user.displayName)
-    // });
-    dispatch(gotProfile({name,email}))
-    }
-  catch (error) {
+    const db = getFirestore()
+
+    db.collection("Users").doc(user.uid).set({
+      Win:100,
+      Loss:70
+    })
+  }
+    catch (error) {
     console.error(error);
   }
 };
 
-export const googleProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
+export const googleProfile = () => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    await auth.signInWithPopup(google)
-    dispatch(createProfile(name,email,password))
+    const firebase = getFirebase()
+    const {user} = await firebase.auth().signInWithPopup(google)
+
+    const firestore = getFirestore()
+    await firestore.collection("Users").doc(user.uid).set({
+      Win:2000,
+      Loss:10
+    })
     }
   catch (error) {
     console.error(error);

@@ -33,7 +33,7 @@ const SignUp = (props) => {
 
   const AuthWithGoogle = () =>{
     console.log("Log with google")
-    props.googleProfile(formName,formEmail,formPassword)
+    props.googleProfile()
   }
 
   return (
@@ -63,7 +63,7 @@ const SignUp = (props) => {
 const mapDispatchToProps = dispatch => {
   return {
     createProfile: (name,email,password) => dispatch(createProfile(name,email,password)),
-    googleProfile: (name,email,password) => dispatch(googleProfile(name,email,password))
+    googleProfile: () => dispatch(googleProfile())
   }
 }
 

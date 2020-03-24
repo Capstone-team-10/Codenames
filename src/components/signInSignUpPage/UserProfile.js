@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { Link } from "react-router-dom"    /* Delete after demo Demonstration */
 import ChooseGameRoom from "../ChooseGameRoom"
 
@@ -8,30 +8,38 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
-const User = {
+const currentUser = {
   name: "Poppy",
   Email: "test@test.com",
   Win: 70,
   Loss: 0
 }
 
-const UserProfile = () => {
-  // const {User} = this.props
-  // const firstUser = User[0]
+const UserProfile = (props) => {
+  // const [currentUser, setCurrentUser] = useState({})
+  // const [currentRecord, setCurrentRecord] = useState({})
+
+  // useEffect(() => {
+  //   setCurrentUser(props.AllUser[0])
+  //   setCurrentRecord(props.SignInUser)
+
+  // },[props.AllUser,props.SignInUser]);
+  // console.log("Props - AllUsers", props.AllUser)
+  //   console.log("Props 2 - SignInUser", props.SignInUser)
   return (
     <div className="User">
       <div className="User-container">
+        {currentUser.displayName &&  <p>
+          Player Name: {currentUser.displayName}
+        </p>}
         <p>
-          Player Name: {User.name}
+          Player Email:{currentUser.email}
         </p>
         <p>
-          Player Email:{User.email}
-        </p>
-        <p>
-          Game Record: {User.Win} : {User.Loss}
+          Game Record: {currentUser.Win} : {currentUser.Loss}
         </p>
         <button>
-          <Link to={`/profile/${User.name}`}>Edit Profile information</Link>
+          <Link to={`/profile/${currentUser.uid}`}>Edit Profile information</Link>
         </button>
       </div>
     </div>
@@ -39,9 +47,9 @@ const UserProfile = () => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("fire", state.firestore);
   return {
-    User: state.firestore.ordered.users
+    AllUser: state.firestore.ordered.Users,
+    SignInUser: state.firebase.auth
   }
 }
 
