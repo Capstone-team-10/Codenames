@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
 
-import dealCards from "../utils/dealer";
-import dummyData from "../utils/dummyData";
+import { dealCards, dummyData, turnTracker } from "../utils";
+// import dummyData from "../utils/dummyData";
 
 const GameLogic = () => {
   //Dummy data start
