@@ -24,8 +24,10 @@ const Navbar = () => {
       </div>
       <div className="btns-right-container">
         <button className="btn right waves-effect waves-dark teal darken-2">
-          <Link to="/auth">Login</Link>
+          <Link to="/auth">Register/Login</Link>
         </button>
+
+        {/* If not logged in do NOT show user Profile */}
         {loggedIn ? (
           <button className="btn right waves-effect waves-dark teal darken-2">
             <Link to="/userProfile">User Info</Link>

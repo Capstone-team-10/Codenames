@@ -1,3 +1,5 @@
+import {google} from "../fireStore"
+
 ///Initial State
 const initialState = {
   profile: {},
@@ -20,38 +22,73 @@ const setPlayer = (name, team,master) => ({
 });
 
 /// Thunk
-export const getProfile = () => async dispatch => {
+// export const getProfile = () => async dispatch => {
+//   try {
+//     // db.collection("Users")
+//     // .where("Name", "==", "AAron")
+//     // .get()
+//     // .then(snapshot => {
+//     //   snapshot.docs.forEach(doc => {
+//     //     dispatch(gotProfile(doc.data()))
+//     //   });
+//     // })
+//     console.log(" Get Profile Thunk")
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+export const createProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
   try {
-    // db.collection("Users")
-    // .where("Name", "==", "AAron")
-    // .get()
-    // .then(snapshot => {
-    //   snapshot.docs.forEach(doc => {
-    //     dispatch(gotProfile(doc.data()))
-    //   });
-    // })
-    console.log(" Get Profile Thunk")
-  } catch (error) {
+    const firebase = getFirebase()
+    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
+    await user.updateProfile({
+      displayName:name
+    })
+
+    const db = getFirestore()
+
+    db.collection("Users").doc(user.uid).set({
+      Win:100,
+      Loss:70
+    })
+  }
+    catch (error) {
     console.error(error);
   }
 };
 
-export const createProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
+export const googleProfile = () => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("In create Thunk")
+    const firebase = getFirebase()
+    const {user} = await firebase.auth().signInWithPopup(google)
+
     const firestore = getFirestore()
-    firestore.collection("Users").add({
-          name: name,
-          email: email,
-          password: password
-        })
-    dispatch(gotProfile({name,email,password}))
-    console.log(" Dispatched Creat Thunk")
+    await firestore.collection("Users").doc(user.uid).set({
+      Win:2000,
+      Loss:10
+    })
     }
   catch (error) {
     console.error(error);
   }
 };
+
+export const updateProfile = (id,name,email) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    console.log("before", firebase.auth().currentUser)
+    const firebase = getFirebase()
+    const user = firebase.auth().currentUser
+    user.updateProfile({
+      displayName: name,
+    })
+    user.updateEmail(email)
+    console.log("after", firebase.auth().currentUser)
+    }
+  catch (error) {
+    console.error(error);
+  }
+}
 
 export const settingPlayer = (name,team,master,gamessessionid) => async dispatch => {
   try {
