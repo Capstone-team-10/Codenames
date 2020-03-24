@@ -212,27 +212,34 @@
   box-shadow: 0px 0px 15px red;
 }
 
+.spyMaster-check-wrapper {
+  border: 1px solid white;
+  border-radius: 25px;
+  margin: 0px 7px;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0px 0px 15px darkgrey;
+}
+
+.spyMaster-check-wrapper:hover {
+  box-shadow: 0px 0px 20px white;
+}
+
 .red-spyMaster-text,
 .blue-spyMaster-text {
   color: white;
   text-align: center;
   font-family: "Rock Salt", cursive;
+  text-shadow: 0px 0px 10px white;
   transition: all 0.5s ease-in-out;
 }
 
-.spyMaster-default {
-  text-shadow: 0px 0px 10px white;
-  color: slategray;
-}
-
 .red-spyMaster-selected {
-  text-shadow: 0px 0px 15px red;
   color: crimson;
 }
 
 .blue-spyMaster-selected {
-  text-shadow: 0px 0px 15px blue;
-  color: darkblue;
+  color: lightskyblue;
 }
 
 @media screen and (max-width: 1000px) {
@@ -253,5 +260,9 @@
   }
   .team-select-wrapper {
     flex-direction: column;
+  }
+
+  .deep-cover-agent {
+    display: none;
   }
 }
