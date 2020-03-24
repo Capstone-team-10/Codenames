@@ -12,7 +12,6 @@ const JoinGameLobby = (props) => {
 
   const isFetching = !Array.isArray(props.Games)
   const games = isFetching ? null : props.Games
-  console.log('the props from connect baby', games)
 
   return (
     <div>
@@ -21,7 +20,7 @@ const JoinGameLobby = (props) => {
           <h2>Click a Game to Join!</h2>
           <div className="JoinGame-container">
             {games.length ? (
-              games.map(game => (
+              games.filter(game => !game.GameStarted).map(game => (
                 <button key={game.id} className="title-button">
                   {/* Make as Link to Game Component */}
                   {game.id}
