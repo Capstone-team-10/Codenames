@@ -22,21 +22,21 @@ const setPlayer = (name, team,master) => ({
 });
 
 /// Thunk
-export const getProfile = () => async dispatch => {
-  try {
-    // db.collection("Users")
-    // .where("Name", "==", "AAron")
-    // .get()
-    // .then(snapshot => {
-    //   snapshot.docs.forEach(doc => {
-    //     dispatch(gotProfile(doc.data()))
-    //   });
-    // })
-    console.log(" Get Profile Thunk")
-  } catch (error) {
-    console.error(error);
-  }
-};
+// export const getProfile = () => async dispatch => {
+//   try {
+//     // db.collection("Users")
+//     // .where("Name", "==", "AAron")
+//     // .get()
+//     // .then(snapshot => {
+//     //   snapshot.docs.forEach(doc => {
+//     //     dispatch(gotProfile(doc.data()))
+//     //   });
+//     // })
+//     console.log(" Get Profile Thunk")
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 export const createProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
   try {
@@ -73,6 +73,22 @@ export const googleProfile = () => async (dispatch, getState, {getFirebase,getFi
     console.error(error);
   }
 };
+
+export const updateProfile = (id,name,email) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    console.log("before", firebase.auth().currentUser)
+    const firebase = getFirebase()
+    const user = firebase.auth().currentUser
+    user.updateProfile({
+      displayName: name,
+    })
+    user.updateEmail(email)
+    console.log("after", firebase.auth().currentUser)
+    }
+  catch (error) {
+    console.error(error);
+  }
+}
 
 export const settingPlayer = (name,team,master,gamessessionid) => async dispatch => {
   try {

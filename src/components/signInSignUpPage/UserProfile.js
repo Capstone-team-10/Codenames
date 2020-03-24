@@ -1,28 +1,19 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect,useState } from "react";
-import { Link } from "react-router-dom"    /* Delete after demo Demonstration */
-import ChooseGameRoom from "../ChooseGameRoom"
+import React from "react";
 
 //testing firestoreConnect
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
- // const [currentUser, setCurrentUser] = useState({})
-  // const [currentRecord, setCurrentRecord] = useState({})
-
-  // useEffect(() => {
-  //   setCurrentUser(props.AllUser[0])
-  //   setCurrentRecord(props.SignInUser)
-
-  // },[props.AllUser,props.SignInUser]);
-
 const UserProfile = (props) => {
 
   const isFetching = !Array.isArray(props.AllUser)
-  console.log("Fetch", isFetching)
   const authUser = isFetching ? null : props.SignInUser
-  const currentUser = isFetching ? null : props.AllUser[0]
+  const realUser = isFetching ? null : props.AllUser.filter(user=>(
+    (user.id === props.SignInUser.uid)
+  ))
+  const currentUser = isFetching ? null : realUser[0]
 
     return (
       <div>
@@ -38,9 +29,9 @@ const UserProfile = (props) => {
         <p>
           Game Record: {currentUser.Win} : {currentUser.Loss}
         </p>
-        <button>
+        {/* <button>
           <Link to={`/profile/${authUser.displayName}`}>Edit Profile information</Link>
-        </button>
+        </button> */}
       </div>
     </div>)}
       </div>
@@ -53,8 +44,6 @@ const mapStateToProps = (state) => {
     SignInUser: state.firebase.auth
   }
 }
-
-// export default connect(mapStateToProps)(UserProfile)
 
 export default compose(
   firestoreConnect([
