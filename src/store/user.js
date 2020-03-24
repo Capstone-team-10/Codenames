@@ -23,42 +23,37 @@ const setPlayer = (name, team,master) => ({
 });
 
 /// Thunk
-// export const getProfile = () => async dispatch => {
-//   try {
-//     // db.collection("Users")
-//     // .where("Name", "==", "AAron")
-//     // .get()
-//     // .then(snapshot => {
-//     //   snapshot.docs.forEach(doc => {
-//     //     dispatch(gotProfile(doc.data()))
-//     //   });
-//     // })
-//     console.log(" Get Profile Thunk")
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
 
+// Signs user up
 export const createProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
   try {
     const firebase = getFirebase()
-    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
-    await user.updateProfile({
-      displayName:name
-    })
+    const providers = await firebase.auth().fetchSignInMethodsForEmail(email)
+    console.log("Provider", providers)
+    // create user
+    if(providers.length === 0){
+        const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        await user.updateProfile({
+        displayName:name
+      })
 
-    const db = getFirestore()
+      const db = getFirestore()
 
-    db.collection("Users").doc(user.uid).set({
-      Win:100,
-      Loss:70
-    })
+      db.collection("Users").doc(user.uid).set({
+        Win:500,
+        Loss:700
+      })
+    }
+    // sign user in
+    else{
+      firebase.auth().signInWithEmailAndPassword(email, password)
+    }
   }
     catch (error) {
     console.error(error);
   }
 };
-
+// Signs Google User
 export const googleProfile = () => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     const firebase = getFirebase()
@@ -74,7 +69,7 @@ export const googleProfile = () => async (dispatch, getState, {getFirebase,getFi
     console.error(error);
   }
 };
-
+/// Log Out User
 export const logout = () => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     const firebase = getFirebase()
@@ -84,6 +79,25 @@ export const logout = () => async (dispatch, getState, {getFirebase,getFirestore
     console.error(error);
   }
 };
+
+// export const settingPlayer = (name,team,master,gamessessionid) => async dispatch => {
+//   try {
+//     // db.collection("Games")
+//     //   .doc(`${gamessessionid}`)
+//     //   .update({
+//     //     UsersInRoom: `${name}`:{
+//     //       displayName: name,
+//     //       Team: team,
+//     //       isSpyMaster: master
+//     //     },
+//     //   });
+//     // dispatch(setPlayer(name, team,master));
+//     console.log("SettingPlayer Thunk")
+//   }
+//   catch (error) {
+//     console.error(error);
+//   }
+// };
 
 // export const updateProfile = (id,name,email) => async (dispatch, getState, {getFirebase,getFirestore}) => {
 //   try {
@@ -101,26 +115,22 @@ export const logout = () => async (dispatch, getState, {getFirebase,getFirestore
 //   }
 // }
 
-export const settingPlayer = (name,team,master,gamessessionid) => async dispatch => {
-  try {
-    // db.collection("Games")
-    //   .doc(`${gamessessionid}`)
-    //   .update({
-    //     UsersInRoom: `${name}`:{
-    //       displayName: name,
-    //       Team: team,
-    //       isSpyMaster: master
-    //     },
-    //   });
-    // dispatch(setPlayer(name, team,master));
-    console.log("SettingPlayer Thunk")
-  }
-  catch (error) {
-    console.error(error);
-  }
-};
 
-
+// export const getProfile = () => async dispatch => {
+//   try {
+//     // db.collection("Users")
+//     // .where("Name", "==", "AAron")
+//     // .get()
+//     // .then(snapshot => {
+//     //   snapshot.docs.forEach(doc => {
+//     //     dispatch(gotProfile(doc.data()))
+//     //   });
+//     // })
+//     console.log(" Get Profile Thunk")
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 ///Reducer
 
 export default function(state = initialState, action) {

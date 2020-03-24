@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { ToastProvider } from "react-toast-notifications";
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import "./index.css";
 import App from "./App";
 import store,{rrfProps} from "./store";
