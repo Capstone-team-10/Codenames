@@ -10,33 +10,34 @@ const UserProfile = (props) => {
 
   const isFetching = !Array.isArray(props.AllUser)
   const authUser = isFetching ? null : props.SignInUser
-  const realUser = isFetching ? null : props.AllUser.filter(user=>(
+  const realUser = isFetching ? null : props.AllUser.filter(user => (
     (user.id === props.SignInUser.uid)
   ))
   const currentUser = isFetching ? null : realUser[0]
 
-    return (
-      <div>
-        {isFetching ? (<div>Still Loading</div>) : (
+  // you need to be logged in for this to not error, which is okay.
+  return (
+    <div>
+      {isFetching ? (<div>Still Loading</div>) : (
         <div className="User">
-      <div className="User-container">
-        <p>
-          Player Name: {authUser.displayName}
-        </p>
-        <p>
-          Player Email:{authUser.email}
-        </p>
-        <p>
-          Game Record: {currentUser.Win} : {currentUser.Loss}
-        </p>
-        {/* <button>
+          <div className="User-container">
+            <p>
+              Player Name: {authUser.displayName}
+            </p>
+            <p>
+              Player Email:{authUser.email}
+            </p>
+            <p>
+              Game Record: {currentUser.Win} : {currentUser.Loss}
+            </p>
+            {/* <button>
           <Link to={`/profile/${authUser.displayName}`}>Edit Profile information</Link>
         </button> */}
-      </div>
-    </div>)}
-      </div>
-    )
-  }
+          </div>
+        </div>)}
+    </div>
+  )
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -47,8 +48,9 @@ const mapStateToProps = (state) => {
 
 export default compose(
   firestoreConnect([
-    { collection: "Users"
-   }
+    {
+      collection: "Users"
+    }
   ]),
   connect(mapStateToProps)
 )(UserProfile)
