@@ -49,8 +49,19 @@ const mapStateToProps = (state) => {
 
 export default compose(
   firestoreConnect([
-    { collection: "Users" }
+    { collection: "Users"
+   }
   ]),
   connect(mapStateToProps)
 )(UserProfile)
+
+
+// export default compose(
+//   firestoreConnect([
+//     { collection: "Users",
+//     doc:"1XJoOFMuUSUPLXLjoV1f"
+//    }
+//   ]),
+//   connect(mapStateToProps)
+// )(UserProfile)
 //when this componenet first laods or whenever firestore data is changed, this will induce the firestore reducer (in index) to sync the store state with that collection, it will trigger the firestore reducer will update the state to that change

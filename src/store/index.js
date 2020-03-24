@@ -10,7 +10,6 @@ import {
   getFirebase,
   firebaseReducer
 } from "react-redux-firebase";
-import firebase, {rrfConfig} from "../fireStore/index.js";
 import cards from "./cards";
 import turns from "./turns";
 import chat from "./chat";

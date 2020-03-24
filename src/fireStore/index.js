@@ -6,6 +6,7 @@ import firebase from "firebase/app";
 // Add the Firebase services that you want to use
 import "firebase/firestore";
 import "firebase/auth";
+import  'firebase/database'
 
 
 import firebaseConfig from "./config";
@@ -13,7 +14,8 @@ import firebaseConfig from "./config";
 firebase.initializeApp(firebaseConfig);
 
 export const rrfConfig = {
-  userProfile: 'users'
+  userProfile: 'users',
+  useFirestoreForProfile: true
 }
 
 export const google = new firebase.auth.GoogleAuthProvider();

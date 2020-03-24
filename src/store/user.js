@@ -40,19 +40,22 @@ export const getProfile = () => async dispatch => {
 
 export const createProfile = (name,email,password) => async (dispatch, getState, {getFirestore}) => {
   try {
+
     const {user} = await auth.createUserWithEmailAndPassword(email, password)
-    console.log("sign up user", user.uid)
-    console.log("sign up user", user)
-    /////
+
+    await user.updateProfile({
+      displayName:name
+    })
+    console.log("Named user", user)
     const firestore = getFirestore()
     await firestore.collection("Users").doc(user.uid).set({
       Win:20,
       Loss:0
     })
-    firestore.collection('Users').doc(user.uid).get().then(doc => {
+    // firestore.collection('Users').doc(user.uid).get().then(doc => {
 
-      console.log("ForEach Doc", doc.data().Win, user.email, user.displayName)
-    });
+    //   console.log("ForEach Doc", doc.data().Win, user.email, user.displayName)
+    // });
     dispatch(gotProfile({name,email}))
     }
   catch (error) {
