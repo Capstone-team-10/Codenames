@@ -8,15 +8,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
-const currentUser = {
-  name: "Poppy",
-  Email: "test@test.com",
-  Win: 70,
-  Loss: 0
-}
-
-const UserProfile = (props) => {
-  // const [currentUser, setCurrentUser] = useState({})
+ // const [currentUser, setCurrentUser] = useState({})
   // const [currentRecord, setCurrentRecord] = useState({})
 
   // useEffect(() => {
@@ -24,27 +16,36 @@ const UserProfile = (props) => {
   //   setCurrentRecord(props.SignInUser)
 
   // },[props.AllUser,props.SignInUser]);
-  // console.log("Props - AllUsers", props.AllUser)
-  //   console.log("Props 2 - SignInUser", props.SignInUser)
-  return (
-    <div className="User">
+
+const UserProfile = (props) => {
+
+  const isFetching = !Array.isArray(props.AllUser)
+  console.log("Fetch", isFetching)
+  const authUser = isFetching ? null : props.SignInUser
+  const currentUser = isFetching ? null : props.AllUser[0]
+
+    return (
+      <div>
+        {isFetching ? (<div>Still Loading</div>) : (
+        <div className="User">
       <div className="User-container">
-        {currentUser.displayName &&  <p>
-          Player Name: {currentUser.displayName}
-        </p>}
         <p>
-          Player Email:{currentUser.email}
+          Player Name: {authUser.displayName}
+        </p>
+        <p>
+          Player Email:{authUser.email}
         </p>
         <p>
           Game Record: {currentUser.Win} : {currentUser.Loss}
         </p>
         <button>
-          <Link to={`/profile/${currentUser.uid}`}>Edit Profile information</Link>
+          <Link to={`/profile/${authUser.displayName}`}>Edit Profile information</Link>
         </button>
       </div>
-    </div>
-  )
-};
+    </div>)}
+      </div>
+    )
+  }
 
 const mapStateToProps = (state) => {
   return {
