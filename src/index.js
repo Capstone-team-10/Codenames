@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { ToastProvider } from "react-toast-notifications";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import "./index.css";
 import App from "./App";
 import store,{rrfProps} from "./store";
@@ -9,9 +11,11 @@ import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
-    </ReactReduxFirebaseProvider>
+    <ToastProvider>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <App />
+      </ReactReduxFirebaseProvider>
+    </ToastProvider>
   </Provider>,
   document.getElementById("root")
 );
