@@ -12,6 +12,10 @@ import firebaseConfig from "./config";
 
 firebase.initializeApp(firebaseConfig);
 
+export const rrfConfig = {
+  userProfile: 'users'
+}
+
 export const google = new firebase.auth.GoogleAuthProvider();
 export const email = new firebase.auth.EmailAuthProvider()
 export const auth = firebase.auth();
