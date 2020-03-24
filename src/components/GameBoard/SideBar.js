@@ -113,7 +113,7 @@ const SideBar = ({
           <input className="input" type="text" />
         </div>
         <button
-          className="submit-chat btn waves-effect waves-dark teal darken-2"
+          className="submit-chat btn waves-effect waves-dark teal darken-4"
           onClick={submitChat}
         >
           Send Message
