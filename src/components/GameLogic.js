@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
-import PlayerGameBoard from "./GameBoard/PlayerGameBoard";
+import PlayerGameBoard from "./GameBoard";
 
 import dealCards from "../utils/dealer";
+import dummyData from "../utils/dummyData";
 
 const GameLogic = () => {
+  //Dummy data start
+  const {
+    allPlayers,
+    chatLog,
+    displayName,
+    gameStatus,
+    spyMaster,
+    teamColor
+  } = dummyData;
+  //End dummy data
+
   const [deck, setDeck] = useState([]);
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
@@ -22,13 +34,28 @@ const GameLogic = () => {
     makeSpyAndSpyMasterDecks(cardsFromDealer);
   }, []);
 
-  const spyMaster = true;
   return (
     <>
       {spyMaster ? (
-        <PlayerGameBoard spyMaster={spyMaster} deck={spyMasterDeck} />
+        <PlayerGameBoard
+          allPlayers={allPlayers}
+          chatLog={chatLog}
+          deck={spyMasterDeck}
+          displayName={displayName}
+          gameStatus={gameStatus}
+          spyMaster={spyMaster}
+          teamColor={teamColor}
+        />
       ) : (
-        <PlayerGameBoard spyMaster={spyMaster} deck={spyDeck} />
+        <PlayerGameBoard
+          allPlayers={allPlayers}
+          chatLog={chatLog}
+          deck={spyDeck}
+          displayName={displayName}
+          gameStatus={gameStatus}
+          spyMaster={spyMaster}
+          teamColor={teamColor}
+        />
       )}
     </>
   );
