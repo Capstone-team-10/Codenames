@@ -5,6 +5,7 @@ import React from "react";
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import {Redirect} from "react-router-dom"
 
 const UserProfile = (props) => {
 
@@ -41,7 +42,7 @@ const UserProfile = (props) => {
 const mapStateToProps = (state) => {
   return {
     AllUser: state.firestore.ordered.Users,
-    SignInUser: state.firebase.auth
+    SignInUser: state.firebase.auth,
   }
 }
 
