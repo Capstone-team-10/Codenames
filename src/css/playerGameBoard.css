@@ -226,7 +226,8 @@
 }
 
 .red-spyMaster-text,
-.blue-spyMaster-text {
+.blue-spyMaster-text,
+.lobby-header-text {
   color: white;
   text-align: center;
   font-family: "Rock Salt", cursive;
@@ -264,5 +265,13 @@
 
   .deep-cover-agent {
     display: none;
+  }
+}
+
+@media (max-width: 550px) {
+  .agent-image-blue,
+  .agent-image-red {
+    width: 150px;
+    margin: 7px;
   }
 }
