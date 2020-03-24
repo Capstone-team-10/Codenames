@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom"
 import {connect} from "react-redux"
-import {createProfile} from "../../store/user"
+import {createProfile,googleProfile} from "../../store/user"
+// import { Redirect } from "react-router-dom"
 // import ChooseGameRoom from "../ChooseGameRoom"
 
 const SignUp = (props) => {
@@ -12,9 +13,8 @@ const SignUp = (props) => {
 
   const submitHandler = evt => {
     evt.preventDefault();
-    console.log("Our STate", formName,formEmail,formPassword)
     props.createProfile(formName,formEmail,formPassword)
-      /// On submit go to <ChooseGameRoom />
+      // / On submit go to <ChooseGameRoom />
   };
 
   const onChangeHandler = evt => {
@@ -30,6 +30,11 @@ const SignUp = (props) => {
       setFormPassword(evt.target.value);
     }
   };
+
+  const AuthWithGoogle = () =>{
+    console.log("Log with google")
+    props.googleProfile()
+  }
 
   return (
     <div className="signUp-wrapper">
@@ -50,13 +55,15 @@ const SignUp = (props) => {
           Sign Up
         </button>
       </form>
+      <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
     </div>
   );
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    createProfile: (name,email,password) => dispatch(createProfile(name,email,password))
+    createProfile: (name,email,password) => dispatch(createProfile(name,email,password)),
+    googleProfile: () => dispatch(googleProfile())
   }
 }
 

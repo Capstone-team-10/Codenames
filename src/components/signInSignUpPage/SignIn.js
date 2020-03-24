@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom"    /* Delete after demo Demonstration */
 import ChooseGameRoom from "../ChooseGameRoom"
+import firebase, {auth,google} from "../../fireStore"
 
 const SignIn = () => {
   const [formEmail, setFormEmail] = useState("");
@@ -21,6 +22,19 @@ const SignIn = () => {
     }
   };
 
+  const AuthWithGoogle = () =>{
+    console.log("Log with google")
+    auth.signInWithPopup(google)
+  }
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
+
+  //   return ()=>{
+  //     unsubscribe && unsubscribe()
+  //   }
+  // },[])
+
   return (
     <div className="login-wrapper">
       <form id="login" onSubmit={submitHandler}>
@@ -38,6 +52,7 @@ const SignIn = () => {
           </Link>
         </button>
       </form>
+      <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
     </div>
   );
 };

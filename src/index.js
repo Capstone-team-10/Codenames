@@ -2,18 +2,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ToastProvider } from "react-toast-notifications";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import firebase, { rrfConfig } from "./fireStore";
+import { createFirestoreInstance } from "redux-firestore";
 import "./index.css";
 import App from "./App";
 import store from "./store";
 import * as serviceWorker from "./serviceWorker";
 
-//firestore imports
-import firebase, { db } from "./fireStore";
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+};
 
 ReactDOM.render(
   <Provider store={store}>
     <ToastProvider>
-      <App />
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <App />
+      </ReactReduxFirebaseProvider>
     </ToastProvider>
   </Provider>,
   document.getElementById("root")
