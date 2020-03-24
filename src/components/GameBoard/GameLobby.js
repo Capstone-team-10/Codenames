@@ -45,6 +45,10 @@ const GameLobby = ({ allPlayers }) => {
     setAgency(selectedAgency);
   };
 
+  const readyHandler = () => {
+    console.log("ready to start clicked");
+  };
+
   return (
     <div className="gameLobby-container">
       <div className="team-select-wrapper">
@@ -97,6 +101,9 @@ const GameLobby = ({ allPlayers }) => {
           />
         </div>
       </div>
+      <button onClick={readyHandler} className="ready-btn btn teal darken-4">
+        ready to start
+      </button>
     </div>
   );
 };
