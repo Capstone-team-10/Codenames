@@ -1,52 +1,63 @@
 import React, { useState, useEffect } from "react";
+import { useToasts } from "react-toast-notifications";
 
 const GameLobby = ({ allPlayers }) => {
   const [agency, setAgency] = useState("");
+  const [isSpyMaster, setIsSpyMaster] = useState(false);
 
   const [spyMasters, setSpyMasters] = useState({
-    red: false,
-    blue: false
+    red: "",
+    blue: ""
   });
 
+  const { addToast } = useToasts();
+
   useEffect(() => {
+    console.log(allPlayers);
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
         if (player.spyMaster) {
-          acc[player.team] = true;
+          acc[player.team] = player.displayName;
         }
         return acc;
       },
-      { red: false, blue: false }
+      { red: "", blue: "" }
     );
+    console.log(spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
 
-  const spyMasterAvailable = agency => {
-    console.log(`${agency}-spyMaster-text`);
-    if (!spyMasters[agency]) {
-      document
-        .getElementById(`${agency}-spyMaster-text`)
-        .classList.toggle("spyMaster-default");
+  const spyMasterHandler = agency => {
+    if (spyMasters[agency] === "") {
+      setIsSpyMaster(true);
+      selectAgencyHandler(agency);
+    } else {
+      console.log(`${agency} Spy Master already chosen`);
+      addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
     }
   };
 
   const selectAgencyHandler = selectedAgency => {
     console.log(`Player chose the ${selectedAgency} agency`);
     setAgency(selectedAgency);
-    spyMasterAvailable(selectedAgency);
   };
 
   return (
     <div className="gameLobby-container">
       <div className="team-select-wrapper">
         <div className="blue-team-wrapper">
-          <div className="spyMaster-check">
-            <p
-              id="blue-spyMaster-text"
-              className="blue-spyMaster-text spyMaster-default"
-            >
-              {`${spyMasters.blue ? "Be Spy Master?" : "Spy Master Chosen"}`}
-            </p>
+          <div
+            onClick={() => spyMasterHandler("blue")}
+            className="spyMaster-check-wrapper"
+          >
+            {spyMasters.blue === "" ? (
+              <p className="blue-spyMaster-text"> Click to be Spy Master</p>
+            ) : (
+              <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
+            )}
           </div>
           <img
             onClick={() => selectAgencyHandler("blue")}
@@ -56,23 +67,25 @@ const GameLobby = ({ allPlayers }) => {
           />
           <img
             onClick={() => selectAgencyHandler("blue")}
-            className="agent-image-blue"
+            className="agent-image-blue deep-cover-agent"
             src={process.env.PUBLIC_URL + "/images/agent-blue-2.png"}
             alt="blue agent female"
           />
         </div>
         <div className="red-team-wrapper">
-          <div className="spyMaster-check">
-            <p
-              id="red-spyMaster-text"
-              className="red-spyMaster-text spyMaster-default"
-            >
-              {`${spyMasters.red ? "Be Spy Master?" : "Spy Master Chosen"}`}
-            </p>
+          <div
+            onClick={() => spyMasterHandler("red")}
+            className="spyMaster-check-wrapper"
+          >
+            {spyMasters.red === "" ? (
+              <p className="red-spyMaster-text"> Click to be Spy Master</p>
+            ) : (
+              <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
+            )}
           </div>
           <img
             onClick={() => selectAgencyHandler("red")}
-            className="agent-image-red"
+            className="agent-image-red deep-cover-agent"
             src={process.env.PUBLIC_URL + "/images/agent-red-1.jpeg"}
             alt="red agent male"
           />
