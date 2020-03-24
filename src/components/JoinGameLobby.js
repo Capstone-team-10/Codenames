@@ -14,13 +14,6 @@ const JoinGameLobby = (props) => {
   const games = isFetching ? null : props.Games
   console.log('the props from connect baby', games)
 
-  // const games = [
-  //   { id: 1, title: "AAron's room" },
-  //   { id: 2, title: "Sunil's room" },
-  //   { id: 3, title: "Stas's room" },
-  //   { id: 4, title: "Poppy's room" },
-  // ]
-
   return (
     <div>
       {isFetching ? (<div>Still Loading</div>) : (
@@ -31,7 +24,7 @@ const JoinGameLobby = (props) => {
               games.map(game => (
                 <button key={game.id} className="title-button">
                   {/* Make as Link to Game Component */}
-                  {game.title}
+                  {game.id}
                 </button>
               ))
             ) : (
