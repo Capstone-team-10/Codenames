@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-const SideBar = ({ spyMaster }) => {
+const SideBar = ({
+  allPlayers,
+  chatLog,
+  displayName,
+  spyMaster,
+  teamColor
+}) => {
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
 
@@ -23,58 +29,6 @@ const SideBar = ({ spyMaster }) => {
     console.log(evt);
   };
 
-  const displayName = "displayName";
-  const teamColor = "color";
-  const chatLog = [
-    {
-      sender: "Bob",
-      message: "Is red team ready to go?"
-    },
-    {
-      sender: "Fred",
-      message: "We're all ready."
-    },
-    {
-      sender: "Alan",
-      message: "You're ready to lose?"
-    },
-    {
-      sender: "Charles",
-      message: "That must be it blue team is winning this one."
-    }
-  ];
-  const allPlayers = [
-    {
-      displayName: "Bob",
-      team: "red",
-      spyMaster: true
-    },
-    {
-      displayName: "Fred",
-      team: "red",
-      spyMaster: false
-    },
-    {
-      displayName: "George",
-      team: "red",
-      spyMaster: false
-    },
-    {
-      displayName: "Alan",
-      team: "blue",
-      spyMaster: true
-    },
-    {
-      displayName: "Charles",
-      team: "blue",
-      spyMaster: false
-    },
-    {
-      displayName: "James",
-      team: "blue",
-      spyMaster: false
-    }
-  ];
   return (
     <div className="sideBar-wrapper wrapper right">
       <div className="playerInfo-container container">
