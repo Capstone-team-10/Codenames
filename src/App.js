@@ -1,9 +1,7 @@
 //react imports
 import React from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
-
-//firestore imports
-import firebase, { auth,db } from "./fireStore";
+import { connect } from 'react-redux';
 
 //component imports
 import Navbar from "./components/Navbar";
@@ -18,22 +16,34 @@ import EndGameScreen from "./components/EndGameScreen"; // Delete route once for
 //style import
 import "./css/App.css";
 
-function App() {
+function App(props) {
+  const { isLoggedIn } = props;
+  console.log("props",props)
   return (
     <Router>
       <Navbar />
       <Switch>
+      <Route path="/auth" component={SignInSignUp} />
+      <Route exact path="/" component={Title} />
+      {isLoggedIn && (
+      <Switch>
         <Route path="/play" component={GameLogic}></Route>
-        <Route path="/auth" component={SignInSignUp} />
         <Route path="/userProfile" component={UserProfile} />
         <Route path="/onSubmit" component={ChooseGameRoom} />
         <Route path="/JoinGame" component={JoinGameLobby} />
         <Route path="/GameOver" component={EndGameScreen} />
+      </Switch>)}
         {/* <Route exact path="/profile/:name" component={UpdateUser} /> */}
-        <Route exact path="/" component={Title} />
       </Switch>
     </Router>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: !state.firebase.auth.isEmpty,
+    // isLoggedOut: state.firebase.auth.isEmpty
+  }
+}
+
+export default connect(mapStateToProps)(App);

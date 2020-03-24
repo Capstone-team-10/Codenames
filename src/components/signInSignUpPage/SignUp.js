@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
 import {connect} from "react-redux"
 import {createProfile,googleProfile} from "../../store/user"
-// import { Redirect } from "react-router-dom"
-// import ChooseGameRoom from "../ChooseGameRoom"
+import { Redirect } from "react-router-dom"
 
 const SignUp = (props) => {
+
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
   const [formName, setFormName] = useState("");
@@ -14,7 +13,7 @@ const SignUp = (props) => {
   const submitHandler = evt => {
     evt.preventDefault();
     props.createProfile(formName,formEmail,formPassword)
-      // / On submit go to <ChooseGameRoom />
+    props.props.history.push("/onSubmit")
   };
 
   const onChangeHandler = evt => {
@@ -32,33 +31,39 @@ const SignUp = (props) => {
   };
 
   const AuthWithGoogle = () =>{
-    console.log("Log with google")
     props.googleProfile()
+    props.props.history.push("/onSubmit")
   }
-
-  return (
-    <div className="signUp-wrapper">
-      <form id="signUp" className="container" onSubmit={submitHandler}>
-        <div className="input-field">
-          <label htmlFor="name">Display Name</label>
-          <input type="text" id="name" onChange={onChangeHandler} />
-        </div>
-        <div className="input-field">
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" onChange={onChangeHandler} />
-        </div>
-        <div className="input-field">
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" onChange={onChangeHandler} />
-        </div>
-        <button type="submit" className="btn center">
-          Sign Up
-        </button>
-      </form>
-      <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
-    </div>
-  );
+    return (
+      <div className="signUp-wrapper">
+        <form id="signUp" className="container" onSubmit={submitHandler}>
+          <div className="input-field">
+            <label htmlFor="name">Display Name</label>
+            <input type="text" id="name" onChange={onChangeHandler} />
+          </div>
+          <div className="input-field">
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" onChange={onChangeHandler} />
+          </div>
+          <div className="input-field">
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" onChange={onChangeHandler} />
+          </div>
+          <button type="submit" className="btn center">
+            Sign Up
+          </button>
+        </form>
+        <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
+      </div>
+    );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: !state.firebase.auth.isEmpty,
+    // isLoggedOut: state.firebase.auth.isEmpty
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -68,4 +73,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(null,mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp)

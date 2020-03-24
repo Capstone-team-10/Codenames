@@ -1,5 +1,6 @@
 import {google} from "../fireStore"
 
+
 ///Initial State
 const initialState = {
   profile: {},
@@ -74,21 +75,31 @@ export const googleProfile = () => async (dispatch, getState, {getFirebase,getFi
   }
 };
 
-export const updateProfile = (id,name,email) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+export const logout = () => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("before", firebase.auth().currentUser)
     const firebase = getFirebase()
-    const user = firebase.auth().currentUser
-    user.updateProfile({
-      displayName: name,
-    })
-    user.updateEmail(email)
-    console.log("after", firebase.auth().currentUser)
-    }
+    await firebase.auth().signOut()
+  }
   catch (error) {
     console.error(error);
   }
-}
+};
+
+// export const updateProfile = (id,name,email) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+//   try {
+//     console.log("before", firebase.auth().currentUser)
+//     const firebase = getFirebase()
+//     const user = firebase.auth().currentUser
+//     user.updateProfile({
+//       displayName: name,
+//     })
+//     user.updateEmail(email)
+//     console.log("after", firebase.auth().currentUser)
+//     }
+//   catch (error) {
+//     console.error(error);
+//   }
+// }
 
 export const settingPlayer = (name,team,master,gamessessionid) => async dispatch => {
   try {
