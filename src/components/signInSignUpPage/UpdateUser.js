@@ -1,62 +1,76 @@
-import React, { Component } from 'react'
-import {Link} from "react-router-dom"
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import {updateProfile} from "../../store/user"
 
-export default class UpdateUser extends Component {
-  constructor(){
-    super()
-    this.state = {
-        name: "Poppy",
-        Email: "test@test.com",
-    }
-    this.onChangeHandler = this.onChangeHandler.bind(this)
-    this.submitHandler = this.submitHandler.bind(this)
-  }
-  submitHandler(event) {
-    try {
-      event.preventDefault()
-      const {name, Email,} = this.state
-      this.setState({
-        name: '',
-        Email: '',
-      })
-    }
-    catch (error) {
-       console.error(error)
-    }
+
+const UpdateUser = (props) => {
+
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+
+  useEffect(() => {
+    setName(props.SignInUser.displayName)
+    setEmail(props.SignInUser.email)
+  }, [props.SignInUser])
+
+  const submitHandler = (evt) =>{
+    evt.preventDefault();
+    props.updateProfile(props.SignInUser.uid,name,email)
+    setEmail("")
+    setName("")
   }
 
-  onChangeHandler(event) {
-    try {
-      this.setState({
-        [event.target.name]: event.target.value
-      })
-    } catch (error) {
-      console.error(error)
+  const onChangeHandler = (evt) =>{
+    if (evt.target.name === "Email") {
+      setEmail(evt.target.value);
+    } else {
+      setName(evt.target.value);
     }
   }
 
-  render() {
     return (
       <div className="User">
       <div className="User-container">
         <h1>Edit Profile</h1>
-        <form id="update" onSubmit={this.submitHandler}>
+        <form id="update" onSubmit={submitHandler}>
         <div className="input-field">
           <label htmlFor="name">Name</label>
-          <input name="name" onChange={this.onChangeHandler} value={this.state.name}/>
+          <input name="name" onChange={onChangeHandler} value={name}/>
         </div>
         <div className="input-field">
           <label htmlFor="Email">Email</label>
-          <input type="email" name="Email" onChange={this.onChangeHandler} value={this.state.Email}/>
+          <input type="email" name="Email" onChange={onChangeHandler} value={email}/>
         </div>
         <button type="submit" className="btn center">
-        <Link to="/userProfile">   {/* Delete after demo Demonstration */}
           submit
-          </Link>
+        {/* <Link to="/userProfile">
+          submit
+          </Link> */}
         </button>
       </form>
       </div>
       </div>
     )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    SignInUser: state.firebase.auth
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateProfile: (id,name,email) => dispatch(updateProfile(id,name,email))
+  }
+}
+
+export default compose(
+  firestoreConnect([
+    { collection: "Users"
+   }
+  ]),
+  connect(mapStateToProps,mapDispatchToProps)
+)(UpdateUser)
