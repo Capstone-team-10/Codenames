@@ -51,6 +51,7 @@ const GameLobby = ({ allPlayers }) => {
 
   return (
     <div className="gameLobby-container">
+      <p className="lobby-header-text">Choose your Side</p>
       <div className="team-select-wrapper">
         <div className="blue-team-wrapper">
           <div
@@ -101,7 +102,10 @@ const GameLobby = ({ allPlayers }) => {
           />
         </div>
       </div>
-      <button onClick={readyHandler} className="ready-btn btn teal darken-4">
+      <button
+        onClick={readyHandler}
+        className="ready-btn btn  waves-effect waves-dark teal darken-4"
+      >
         ready to start
       </button>
     </div>
