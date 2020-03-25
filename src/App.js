@@ -30,10 +30,6 @@ function App(props) {
         <Route path="/GameOver" component={EndGameScreen} />
         {/* <Route path="/play" component={GameLogic}></Route> */}
         <Route path="/play/:id" component={GameLogic}></Route>
-
-        {/* <Route path="/play/:gameId" component={
-            ({match: {params: {gameId}}}) => <Game game={gameById(gameId)}/>
-          } /> */}
       </Switch>)}
       {isLoggedOut && (
         <Switch>
@@ -50,9 +46,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: !state.firebase.auth.isEmpty,
-    // (false, log || true, out)
     isLoggedOut: state.firebase.auth.isEmpty
-    // (true, log || true, out)
   }
 }
 

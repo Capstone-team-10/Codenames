@@ -2,10 +2,17 @@ import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
 
 import { dealCards, dummyData, turnTracker } from "../utils";
+
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 // import dummyData from "../utils/dummyData";
 
-const GameLogic = () => {
+const GameLogic = (props) => {
   //Dummy data start
+  const id = props.match.params.id
+  console.log("Game id", props.match.params.id)
+  console.log("Fire Store id", props.Game)
   const {
     allPlayers,
     chatLog,
@@ -61,4 +68,18 @@ const GameLogic = () => {
   );
 };
 
-export default GameLogic;
+const mapStateToProps = (state) => {
+  return {
+    Game: state.firestore.data.Games,
+    User: state.firebase.auth,
+  }
+}
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Games"
+    }
+  ]),
+  connect(mapStateToProps)
+)(GameLogic)

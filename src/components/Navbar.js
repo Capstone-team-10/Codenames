@@ -6,7 +6,6 @@ import {logout} from "../store/user"
 import "../css/navbar.css";
 
 const Navbar = (props) => {
-  console.log("Nav", props)
   const { isLoggedOut,isLoggedIn } = props;
   const LoggingOut = () =>{
     props.logout()
