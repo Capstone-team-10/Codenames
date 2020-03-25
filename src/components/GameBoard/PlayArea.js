@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 
-const PlayArea = ({ deck }) => {
+const PlayArea = ({ deck, playersPick, setPickResult, spyMaster }) => {
   // console.log("In PlayArea deck is: ", deck);
   useEffect(() => {
     console.log("In PlayArea the deck is: ", deck);
@@ -9,8 +9,15 @@ const PlayArea = ({ deck }) => {
   return (
     <div className="playArea-container">
       <div className="cards-wrapper">
-        {deck.map(card => (
-          <PlayerCard card={card} key={card.word} />
+        {deck.map((card, index) => (
+          <PlayerCard
+            card={card}
+            index={index}
+            key={card.word}
+            playersPick={playersPick}
+            setPickResult={setPickResult}
+            spyMaster={spyMaster}
+          />
         ))}
       </div>
     </div>

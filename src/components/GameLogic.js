@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
 
-import { dealCards, dummyData, turnTracker } from "../utils";
-// import dummyData from "../utils/dummyData";
+//import utils
+import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 
 const GameLogic = () => {
   //Dummy data start
@@ -16,9 +16,49 @@ const GameLogic = () => {
   } = dummyData;
   //End dummy data
 
-  const [deck, setDeck] = useState([]);
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
+  const [pickResult, setPickResult] = useState();
+
+  const cardPick = deck => {
+    return (cardPicked, currentTeam) => {
+      const rightCard = currentTeam;
+      const wrongCard = currentTeam === "red" ? "blue" : "red";
+      const neutralCard = "white";
+      const fatalCard = "black";
+      switch (deck[cardPicked].color) {
+        case rightCard:
+          setPickResult("good");
+          return {
+            outcome: "good",
+            image: getResultImage(rightCard)
+          };
+        case neutralCard:
+          setPickResult("neutral");
+          return {
+            outcome: "neutral",
+            image: getResultImage(neutralCard)
+          };
+        case wrongCard:
+          setPickResult("bad");
+          return {
+            outcome: "bad",
+            image: getResultImage(wrongCard)
+          };
+        case fatalCard:
+          setPickResult("fatal");
+          return {
+            outcome: "fatal",
+            image: getResultImage(fatalCard)
+          };
+        default:
+          console.error(
+            `Invalid input cardPicked: ${cardPicked}, currentTeam: ${currentTeam}, deck: `,
+            deck
+          );
+      }
+    };
+  };
 
   const makeSpyAndSpyMasterDecks = deck => {
     const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
@@ -28,9 +68,11 @@ const GameLogic = () => {
   };
 
   useEffect(() => {
-    console.log("The deck is: ", deck);
+    console.log("pickResult is: ", pickResult);
+  }, [pickResult]);
+
+  useEffect(() => {
     let cardsFromDealer = dealCards();
-    setDeck(cardsFromDealer);
     makeSpyAndSpyMasterDecks(cardsFromDealer);
   }, []);
 
@@ -53,6 +95,8 @@ const GameLogic = () => {
           deck={spyDeck}
           displayName={displayName}
           gameStatus={gameStatus}
+          setPickResult={setPickResult}
+          playersPick={cardPick(spyMasterDeck)}
           spyMaster={spyMaster}
           teamColor={teamColor}
         />
