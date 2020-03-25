@@ -24,57 +24,75 @@ export const startGame = first => ({ type: START_GAME, first });
 export const setHint = (hint, count) => ({ type: SET_HINT, hint, count });
 
 /// Thunk
-export const settingHint = (
-  hintWord,
-  hintcount,
-  gamesessionid
-) => async dispatch => {
+export const joinGame = (id,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    // In the DB change hintword = "" hintcount = 0
-    db.collection("Games")
-      .doc(`${gamesessionid}`)
-      .update({
-        HintWord: hintWord,
-        HintCount: hintcount,
-      });
+    console.log("JoinGame Think", id)
+    console.log("JoinGame USER", user)
 
-    dispatch(setHint(hintWord, hintcount));
-  } catch (error) {
-    console.error(error);
+    // const firestore = getFirestore()
+
+    // await firestore.collection("Games").doc(id).collection("UsersInRoom").doc(user.uid).set({
+    //   DisplayName: user.displayName
+    // })
+
+  }
+  catch (error) {
+    console.error(error)
   }
 };
 
-export const startingGame = (
-  gamesessionid,startingTeam
-) => async dispatch => {
-  try {
-    // In the DB change status of game so id doesn't appear as Open Game in Join Game Lobby
-    db.collection("Games")
-      .doc(`${gamesessionid}`)
-      .update({
-        status:true
-      });
 
-    dispatch(startGame(startingTeam));
-  } catch (error) {
-    console.error(error);
-  }
-};
+// export const settingHint = (
+//   hintWord,
+//   hintcount,
+//   gamesessionid
+// ) => async dispatch => {
+//   try {
+//     // In the DB change hintword = "" hintcount = 0
+//     db.collection("Games")
+//       .doc(`${gamesessionid}`)
+//       .update({
+//         HintWord: hintWord,
+//         HintCount: hintcount,
+//       });
 
-export const endingGame = (
-  gamesessionid
-) => async dispatch => {
-  try {
-    // Delete game from Game Room ??? How to handle Replay with Same Team Option
-    db.collection("Games")
-      .doc(`${gamesessionid}`)
-      .delete();
+//     dispatch(setHint(hintWord, hintcount));
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-    dispatch(endGame());
-  } catch (error) {
-    console.error(error);
-  }
-};
+// export const startingGame = (
+//   gamesessionid,startingTeam
+// ) => async dispatch => {
+//   try {
+//     // In the DB change status of game so id doesn't appear as Open Game in Join Game Lobby
+//     db.collection("Games")
+//       .doc(`${gamesessionid}`)
+//       .update({
+//         status:true
+//       });
+
+//     dispatch(startGame(startingTeam));
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+// export const endingGame = (
+//   gamesessionid
+// ) => async dispatch => {
+//   try {
+//     // Delete game from Game Room ??? How to handle Replay with Same Team Option
+//     db.collection("Games")
+//       .doc(`${gamesessionid}`)
+//       .delete();
+
+//     dispatch(endGame());
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 ///Reducer
 

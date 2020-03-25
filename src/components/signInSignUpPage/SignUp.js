@@ -50,7 +50,7 @@ const SignUp = (props) => {
             <input type="password" id="password" onChange={onChangeHandler} />
           </div>
           <button type="submit" className="btn center">
-            Sign Up
+            Login/Sign Up
           </button>
         </form>
         <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>

@@ -66,7 +66,7 @@ export const googleProfile = () => async (dispatch, getState, {getFirebase,getFi
     })
     }
   catch (error) {
-    console.error(error);
+    console.error(error)
   }
 };
 /// Log Out User
