@@ -34,7 +34,7 @@ function App(props) {
       </Switch>)}
       {isLoggedOut && (
         <Switch>
-           <Route path="/auth" component={SignInSignUp} />
+           <Route path="/auth/:enter" component={SignInSignUp} />
         </Switch>
       )}
         {/* <Route exact path="/profile/:name" component={UpdateUser} /> */}

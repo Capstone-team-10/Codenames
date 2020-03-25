@@ -2,14 +2,13 @@ import {google} from "../fireStore"
 
 /// Thunk
 // Signs user up
-export const createOrLoginProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+export const createProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
   try {
     const firebase = getFirebase()
-    const providers = await firebase.auth().fetchSignInMethodsForEmail(email)
-    // create user
-    if(providers.length === 0){
-        const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        await user.updateProfile({
+
+    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
+
+    await user.updateProfile({
         displayName:name
       })
 
@@ -18,16 +17,23 @@ export const createOrLoginProfile = (name,email,password) => async (dispatch, ge
         Win:0,
         Loss:0
       })
-    }
-    // sign user in
-    else{
-      await firebase.auth().signInWithEmailAndPassword(email, password)
-    }
   }
     catch (error) {
     return error.message
   }
 };
+
+export const LoginProfile = (email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+  try {
+    const firebase = getFirebase()
+
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+  }
+    catch (error) {
+    return error.message
+  }
+};
+
 // Signs Google User
 export const googleProfile = () => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {

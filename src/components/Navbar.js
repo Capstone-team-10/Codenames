@@ -36,9 +36,16 @@ const Navbar = (props) => {
 
           {isLoggedIn ? ( <button className="btn right waves-effect waves-dark teal darken-2" onClick={LoggingOut}>
             Log Out
-          </button>) : ( <button className="btn right waves-effect waves-dark teal darken-2">
-            <Link to="/auth">Register/Login</Link>
-          </button>)}
+          </button>) : (
+            <>
+            <button className="btn right waves-effect waves-dark teal darken-2">
+            <Link to="/auth/register">Register</Link>
+          </button>
+          <button className="btn right waves-effect waves-dark teal darken-2">
+          <Link to="/auth/login">Login</Link>
+        </button>
+        </>
+          )}
           {isLoggedIn && (
             <button className="btn right waves-effect waves-dark teal darken-2">
               <Link to="/userProfile">User Record</Link>

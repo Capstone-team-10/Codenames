@@ -7,7 +7,7 @@ export default function Title() {
     <div className="title-container">
       <h1 className="title-name">CODENAMES</h1>
       <button className="title-button">
-        <Link to="/auth">Want to be a spy?</Link>
+        <Link to="/auth/register">Want to be a spy?</Link>
       </button>
     </div>
   )
