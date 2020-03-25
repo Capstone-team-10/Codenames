@@ -22,6 +22,7 @@ function App(props) {
     <Router>
       <Navbar />
       <Switch>
+      <Route exact path="/" component={Title} />
       {isLoggedIn && (
       <Switch>
         <Route path="/userProfile" component={UserProfile} />
@@ -34,7 +35,6 @@ function App(props) {
       {isLoggedOut && (
         <Switch>
            <Route path="/auth" component={SignInSignUp} />
-           <Route exact path="/" component={Title} />
         </Switch>
       )}
         {/* <Route exact path="/profile/:name" component={UpdateUser} /> */}

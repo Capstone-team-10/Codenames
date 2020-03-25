@@ -40,8 +40,8 @@ export const createProfile = (name,email,password) => async (dispatch, getState,
       const firestore = getFirestore()
 
       firestore.collection("Users").doc(user.uid).set({
-        Win:500,
-        Loss:700
+        Win:0,
+        Loss:0
       })
     }
     // sign user in

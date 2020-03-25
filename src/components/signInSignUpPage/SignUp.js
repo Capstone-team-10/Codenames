@@ -13,7 +13,7 @@ const SignUp = (props) => {
   const submitHandler = evt => {
     evt.preventDefault();
     props.createProfile(formName,formEmail,formPassword)
-    props.props.history.push("/onSubmit")
+    props.props.history.push("/userProfile")
   };
 
   const onChangeHandler = evt => {
@@ -32,7 +32,7 @@ const SignUp = (props) => {
 
   const AuthWithGoogle = () =>{
     props.googleProfile()
-    props.props.history.push("/onSubmit")
+    props.props.history.push("/userProfile")
   }
     return (
       <div className="signUp-wrapper">
