@@ -29,9 +29,18 @@ export const joinGame = (id,user) => async (dispatch, getState, {getFirebase,get
     console.log("JoinGame Think", id)
     console.log("JoinGame USER", user)
 
-    // const firestore = getFirestore()
+    const firestore = getFirestore()
 
-    // await firestore.collection("Games").doc(id).collection("UsersInRoom").doc(user.uid).set({
+    await firestore.collection("Games").doc(id).update({
+      UsersInRoom:{
+        [user.uid]:{
+          DisplayName:user.displayName,
+          Team: "Red",
+          isSpyMaster: false
+        }
+      }
+    })
+    // doc(user.uid).set({
     //   DisplayName: user.displayName
     // })
 
