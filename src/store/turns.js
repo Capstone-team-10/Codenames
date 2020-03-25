@@ -40,6 +40,9 @@ export const newGame = (history,user) => async (dispatch, getState, {getFirebase
   }
 };
 
+
+// Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
+
 export const leaveGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     console.log("Users In room before", game.UsersInRoom)

@@ -5,7 +5,6 @@ import React from "react";
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import {Redirect} from "react-router-dom"
 
 const UserProfile = (props) => {
 
@@ -15,7 +14,6 @@ const UserProfile = (props) => {
     (user.id === props.SignInUser.uid)
   ))
   const currentUser = isFetching ? null : realUser[0]
-
   // you need to be logged in for this to not error, which is okay.
   return (
     <div>

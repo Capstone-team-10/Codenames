@@ -10,10 +10,19 @@ const SignUp = (props) => {
   const [formPassword, setFormPassword] = useState("");
   const [formName, setFormName] = useState("");
 
-  const submitHandler = evt => {
-    evt.preventDefault();
-    props.createProfile(formName,formEmail,formPassword)
-    props.props.history.push("/userProfile")
+  const submitHandler = async evt => {
+    try {
+      evt.preventDefault();
+      const err = await props.createProfile(formName,formEmail,formPassword)
+      if(err === undefined) {
+        props.props.history.push("/userProfile")
+      }
+      else{
+        console.log("In singup TRY ",err)
+      }
+    } catch (error) {
+      console.error("In Singup Err", error)
+    }
   };
 
   const onChangeHandler = evt => {

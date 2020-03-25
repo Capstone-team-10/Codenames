@@ -14,18 +14,18 @@ export const createOrLoginProfile = (name,email,password) => async (dispatch, ge
       })
 
       const firestore = getFirestore()
-      firestore.collection("Users").doc(user.uid).set({
+      await firestore.collection("Users").doc(user.uid).set({
         Win:0,
         Loss:0
       })
     }
     // sign user in
     else{
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      await firebase.auth().signInWithEmailAndPassword(email, password)
     }
   }
     catch (error) {
-    console.error(error);
+    return error.message
   }
 };
 // Signs Google User
@@ -63,11 +63,12 @@ export const selectAgency = (color,gameId,game,User) => async (dispatch, getStat
         await firestore.collection("Games").doc(gameId).set({
         UsersInRoom: {...game.UsersInRoom,
           [User.uid]:{
+            DisplayName: User.displayName,
             Team: color,
             isSpyMaster: false
           }
         }
-      },{merge: true})
+      })
     }
   }
   catch (error) {
@@ -81,10 +82,12 @@ export const selectMaster = (color,gameId,game,User) => async (dispatch, getStat
     await firestore.collection("Games").doc(gameId).set({
       UsersInRoom: {...game.UsersInRoom,
         [User.uid]:{
+          DisplayName: User.displayName,
+          Team: color,
           isSpyMaster: true
         }
       }
-    },{merge: true})
+    })
     }
   catch (error) {
     console.error(error);
