@@ -12,7 +12,9 @@ const PlayerGameBoard = ({
   playersPick,
   setPickResult,
   spyMaster,
-  teamColor
+  teamColor,
+  gameId,
+  history,
 }) => {
   const [bannedWords, setBannedWords] = useState([]);
 
@@ -34,7 +36,7 @@ const PlayerGameBoard = ({
           {gameStatus ? (
             <PlayArea deck={deck} spyMaster={spyMaster} />
           ) : (
-            <GameLobby allPlayers={allPlayers} />
+            <GameLobby allPlayers={allPlayers} gameId={gameId} history={history}/>
           )}
           <SideBar
             allPlayers={allPlayers}

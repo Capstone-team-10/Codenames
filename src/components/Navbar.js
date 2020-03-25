@@ -6,19 +6,20 @@ import {logout} from "../store/user"
 import "../css/navbar.css";
 
 const Navbar = (props) => {
-  console.log("Nav", props)
-  const { isLoggedOut } = props;
+  const { isLoggedOut,isLoggedIn } = props;
   const LoggingOut = () =>{
     props.logout()
   }
-  if(isLoggedOut){
-    return <Redirect to="/"/>
-  }
-  else{
+  // if(isLoggedOut){
+  //   return <Redirect to="/"/>
+  // }
+  // else{
     return (
       <nav id="navbar" className="navbar nav-wrapper red darken-4">
         <button className="btn controls-btn waves-effect waves-dark teal darken-2">
-          Controls
+          <Link to="/onSubmit">
+          Go to Game Room
+          </Link>
         </button>
         <div className="logo-container brand-logo teal darken-2 center">
           <h1 id="header-logo" className="header-logo hide-on-med-and-down">
@@ -33,23 +34,24 @@ const Navbar = (props) => {
         </div>
         <div className="btns-right-container">
 
-          {!isLoggedOut ? ( <button className="btn right waves-effect waves-dark teal darken-2" onClick={LoggingOut}>
+          {isLoggedIn ? ( <button className="btn right waves-effect waves-dark teal darken-2" onClick={LoggingOut}>
             Log Out
           </button>) : ( <button className="btn right waves-effect waves-dark teal darken-2">
             <Link to="/auth">Register/Login</Link>
           </button>)}
-          {!isLoggedOut && (
+          {isLoggedIn && (
             <button className="btn right waves-effect waves-dark teal darken-2">
               <Link to="/userProfile">User Record</Link>
             </button>)}
         </div>
       </nav>
     );
-  }
+  // }
 };
 
 const mapStateToProps = (state) => {
   return {
+    isLoggedIn: !state.firebase.auth.isEmpty,
     isLoggedOut: state.firebase.auth.isEmpty,
   }
 }

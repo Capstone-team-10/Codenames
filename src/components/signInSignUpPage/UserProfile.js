@@ -22,6 +22,8 @@ const UserProfile = (props) => {
       {isFetching ? (<div>Still Loading</div>) : (
         <div className="User">
           <div className="User-container">
+           <h1> Welcome, {authUser.displayName}</h1>
+            <h3> Below is your current information and record</h3>
             <p>
               Player Name: {authUser.displayName}
             </p>
@@ -29,7 +31,7 @@ const UserProfile = (props) => {
               Player Email:{authUser.email}
             </p>
             <p>
-              Game Record: {currentUser.Win} : {currentUser.Loss}
+              Game Record: {currentUser.Win} wins : {currentUser.Loss} losses
             </p>
             {/* <button>
           <Link to={`/profile/${authUser.displayName}`}>Edit Profile information</Link>

@@ -15,15 +15,11 @@ import {
 import firebase, {rrfConfig} from "../fireStore"
 import firebaseConfig from "../fireStore/config";
 import cards from "./cards";
-import turns from "./turns";
 import chat from "./chat";
-import user from "./user";
 
 const reducer = combineReducers({
   cards,
-  turns,
   chat,
-  user,
   firebase: firebaseReducer,
   firestore: firestoreReducer
 });

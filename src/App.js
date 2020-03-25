@@ -17,22 +17,26 @@ import EndGameScreen from "./components/EndGameScreen"; // Delete route once for
 import "./css/App.css";
 
 function App(props) {
-  const { isLoggedIn } = props;
-  console.log("props",props)
+  const { isLoggedIn, isLoggedOut } = props;
   return (
     <Router>
       <Navbar />
       <Switch>
-      <Route path="/auth" component={SignInSignUp} />
       <Route exact path="/" component={Title} />
       {isLoggedIn && (
       <Switch>
-        <Route path="/play" component={GameLogic}></Route>
         <Route path="/userProfile" component={UserProfile} />
         <Route path="/onSubmit" component={ChooseGameRoom} />
         <Route path="/JoinGame" component={JoinGameLobby} />
         <Route path="/GameOver" component={EndGameScreen} />
+        {/* <Route path="/play" component={GameLogic}></Route> */}
+        <Route path="/play/:id" component={GameLogic}></Route>
       </Switch>)}
+      {isLoggedOut && (
+        <Switch>
+           <Route path="/auth" component={SignInSignUp} />
+        </Switch>
+      )}
         {/* <Route exact path="/profile/:name" component={UpdateUser} /> */}
       </Switch>
     </Router>
@@ -42,7 +46,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: !state.firebase.auth.isEmpty,
-    // isLoggedOut: state.firebase.auth.isEmpty
+    isLoggedOut: state.firebase.auth.isEmpty
   }
 }
 

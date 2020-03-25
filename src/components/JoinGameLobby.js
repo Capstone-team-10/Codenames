@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom"; /* Delete after demo Demonstration */
 import "../css/JoinGameLobby.css";
 
@@ -7,11 +7,18 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
+import {joinGame} from "../store/turns"
+
 
 const JoinGameLobby = (props) => {
 
   const isFetching = !Array.isArray(props.Games)
   const games = isFetching ? null : props.Games
+
+  const enterGame = (id,game) =>{
+    props.joinGame(id,game, props.User)
+    props.history.push(`/play/${id}`)
+  }
 
   return (
     <div>
@@ -21,7 +28,7 @@ const JoinGameLobby = (props) => {
           <div className="JoinGame-container">
             {games.length ? (
               games.filter(game => !game.GameStarted).map(game => (
-                <button key={game.id} className="title-button">
+                <button key={game.id} className="title-button" onClick={()=>enterGame(game.id,game)}>
                   {/* Make as Link to Game Component */}
                   {game.id}
                 </button>
@@ -43,7 +50,14 @@ const JoinGameLobby = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    Games: state.firestore.ordered.Games
+    Games: state.firestore.ordered.Games,
+    User: state.firebase.auth,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    joinGame: (id,game,user) => dispatch(joinGame(id,game,user))
   }
 }
 
@@ -53,5 +67,5 @@ export default compose(
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps)
+  connect(mapStateToProps,mapDispatchToProps)
 )(JoinGameLobby)

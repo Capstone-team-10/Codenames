@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {connect} from "react-redux"
-import {createProfile,googleProfile} from "../../store/user"
+import {createOrLoginProfile,googleProfile} from "../../store/user"
 import { Redirect } from "react-router-dom"
 
 const SignUp = (props) => {
@@ -13,11 +13,10 @@ const SignUp = (props) => {
   const submitHandler = evt => {
     evt.preventDefault();
     props.createProfile(formName,formEmail,formPassword)
-    props.props.history.push("/onSubmit")
+    props.props.history.push("/userProfile")
   };
 
   const onChangeHandler = evt => {
-    console.log(props.createProfile)
 
     if (evt.target.id === "email") {
       setFormEmail(evt.target.value);
@@ -32,7 +31,7 @@ const SignUp = (props) => {
 
   const AuthWithGoogle = () =>{
     props.googleProfile()
-    props.props.history.push("/onSubmit")
+    props.props.history.push("/userProfile")
   }
     return (
       <div className="signUp-wrapper">
@@ -50,7 +49,7 @@ const SignUp = (props) => {
             <input type="password" id="password" onChange={onChangeHandler} />
           </div>
           <button type="submit" className="btn center">
-            Sign Up
+            Login/Sign Up
           </button>
         </form>
         <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
@@ -67,7 +66,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createProfile: (name,email,password) => dispatch(createProfile(name,email,password)),
+    createProfile: (name,email,password) => dispatch(createOrLoginProfile(name,email,password)),
     googleProfile: () => dispatch(googleProfile())
   }
 }

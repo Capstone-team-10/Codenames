@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom"
 import "../css/EndGameScreen.css";
-const result = "bluekilled"
+const result = "redwin"
 
 export default function EndGameScreen(/*result*/) {
   let className, message
