@@ -2,13 +2,15 @@
 import React, { useState } from "react";
 import {connect} from "react-redux"
 import {createOrLoginProfile,googleProfile} from "../../store/user"
-import { Redirect } from "react-router-dom"
+import { useToasts } from "react-toast-notifications";
 
 const SignUp = (props) => {
 
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
   const [formName, setFormName] = useState("");
+
+  const {addToast} = useToasts()
 
   const submitHandler = async evt => {
     try {
@@ -18,7 +20,10 @@ const SignUp = (props) => {
         props.props.history.push("/userProfile")
       }
       else{
-        console.log("In singup TRY ",err)
+        addToast(err, {
+          appearance: "warning",
+          autoDismiss: true
+        });
       }
     } catch (error) {
       console.error("In Singup Err", error)
