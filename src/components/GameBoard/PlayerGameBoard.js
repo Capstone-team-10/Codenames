@@ -14,6 +14,19 @@ const PlayerGameBoard = ({
   spyMaster,
   teamColor
 }) => {
+  const [bannedWords, setBannedWords] = useState([]);
+
+  useEffect(() => {
+    const banned = [];
+    deck.forEach(({ word, flipped }) => {
+      if (!flipped) {
+        banned.push(word);
+      }
+    });
+    setBannedWords(banned);
+    console.log("banned words are: ", banned);
+  }, [deck]);
+
   return (
     <div className="gameBoard-container">
       {spyMaster ? (
@@ -25,6 +38,7 @@ const PlayerGameBoard = ({
           )}
           <SideBar
             allPlayers={allPlayers}
+            bannedWords={bannedWords}
             displayName={displayName}
             chatLog={chatLog}
             spyMaster={spyMaster}
