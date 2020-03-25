@@ -2,7 +2,7 @@ import {google} from "../fireStore"
 
 /// Thunk
 // Signs user up
-export const createProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+export const createOrLoginProfile = (name,email,password) => async (dispatch, getState, {getFirebase, getFirestore}) => {
   try {
     const firebase = getFirebase()
     const providers = await firebase.auth().fetchSignInMethodsForEmail(email)
@@ -50,6 +50,22 @@ export const logout = () => async (dispatch, getState, {getFirebase,getFirestore
     const firebase = getFirebase()
     await firebase.auth().signOut()
   }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+export const selectAgency = (color,gameId,game,User) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    const firestore = getFirestore()
+    await firestore.collection("Games").doc(gameId).set({
+      UsersInRoom: {...game.UsersInRoom,
+        [User.uid]:{
+          Team: color
+        }
+      }
+    },{merge: true})
+    }
   catch (error) {
     console.error(error);
   }

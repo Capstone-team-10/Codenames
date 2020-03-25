@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {connect} from "react-redux"
-import {createProfile,googleProfile} from "../../store/user"
+import {createOrLoginProfile,googleProfile} from "../../store/user"
 import { Redirect } from "react-router-dom"
 
 const SignUp = (props) => {
@@ -17,7 +17,6 @@ const SignUp = (props) => {
   };
 
   const onChangeHandler = evt => {
-    console.log(props.createProfile)
 
     if (evt.target.id === "email") {
       setFormEmail(evt.target.value);
@@ -67,7 +66,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createProfile: (name,email,password) => dispatch(createProfile(name,email,password)),
+    createProfile: (name,email,password) => dispatch(createOrLoginProfile(name,email,password)),
     googleProfile: () => dispatch(googleProfile())
   }
 }

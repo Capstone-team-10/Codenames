@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
 import {leaveGame} from "../../store/turns"
+import {selectAgency} from "../../store/user"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
 const GameLobby = (props) => {
-  const {allPlayers,history, gameId,leaveGame,User,Games} = props
+  const {allPlayers,history, gameId,leaveGame,selectAgency,User,Games} = props
   const [agency, setAgency] = useState("");
   const [isSpyMaster, setIsSpyMaster] = useState(false);
 
@@ -25,10 +26,9 @@ const GameLobby = (props) => {
 
   const { addToast } = useToasts();
 
-  // useEffect(() => {
-  //   // <code here runs every time agency is changed>
-  //   Thunk when Agency changed
-  // },[agency]);
+  useEffect(() => {
+    selectAgency(agency,gameId,game,User)
+  },[agency]);
 
   useEffect(() => {
     console.log("AllPlayers",allPlayers);
@@ -145,7 +145,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    leaveGame: (id,game,user) => dispatch(leaveGame(id,game,user))
+    leaveGame: (id,game,user) => dispatch(leaveGame(id,game,user)),
+    selectAgency: (color,gameId,game,User) => dispatch(selectAgency(color,gameId,game,User))
   }
 }
 
