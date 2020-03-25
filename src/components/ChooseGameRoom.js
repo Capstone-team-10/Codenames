@@ -9,7 +9,7 @@ import { compose } from 'redux'
 
 const ChooseGameRoom = (props)=> {
   const newGameRoom = () =>{
-    props.newGame(props.history)
+    props.newGame(props.history,props.User)
   }
 
   return (
@@ -34,14 +34,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    newGame: (history) => dispatch(newGame(history))
+    newGame: (history,user) => dispatch(newGame(history,user))
   }
 }
 
 export default compose(
   firestoreConnect([
     {
-      collection: "Games"
+      collection: "Game"
     }
   ]),
   connect(mapStateToProps,mapDispatchToProps)

@@ -16,9 +16,9 @@ const JoinGameLobby = (props) => {
   const isFetching = !Array.isArray(props.Games)
   const games = isFetching ? null : props.Games
 
-  const enterGame = (id) =>{
+  const enterGame = (id,game) =>{
     console.log("Game ID", id)
-    props.joinGame(id,props.User)
+    props.joinGame(id,game, props.User)
     props.history.push(`/play/${id}`)
   }
 
@@ -30,7 +30,7 @@ const JoinGameLobby = (props) => {
           <div className="JoinGame-container">
             {games.length ? (
               games.filter(game => !game.GameStarted).map(game => (
-                <button key={game.id} className="title-button" onClick={()=>enterGame(game.id)}>
+                <button key={game.id} className="title-button" onClick={()=>enterGame(game.id,game)}>
                   {/* Make as Link to Game Component */}
                   {game.id}
                 </button>
@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    joinGame: (id,user) => dispatch(joinGame(id,user))
+    joinGame: (id,game,user) => dispatch(joinGame(id,game,user))
   }
 }
 

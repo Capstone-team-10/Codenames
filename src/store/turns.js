@@ -24,18 +24,15 @@ export const startGame = first => ({ type: START_GAME, first });
 export const setHint = (hint, count) => ({ type: SET_HINT, hint, count });
 
 /// Thunk
-export const joinGame = (id,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("JoinGame Think", id)
-    console.log("JoinGame USER", user)
-
     const firestore = getFirestore()
-
+    // const docRef = await firestore.collection("Games").doc(id)
     await firestore.collection("Games").doc(id).update({
-      UsersInRoom:{
+      UsersInRoom: {...game.UsersInRoom,
         [user.uid]:{
-          DisplayName:user.displayName,
-          Team: "Red",
+          DisplayName:user.displayName,,
+          Team: "",
           isSpyMaster: false
         }
       }
@@ -50,14 +47,18 @@ export const joinGame = (id,user) => async (dispatch, getState, {getFirebase,get
   }
 };
 
-export const newGame = (history) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+export const newGame = (history,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("Name history", history)
-
     const firestore = getFirestore()
-
-   const {id} = await firestore.collection("Games").add({
-     GameStarted: false
+    const {id} = await firestore.collection("Games").add({
+     GameStarted: false,
+     UsersInRoom: {
+      [user.uid]:{
+        DisplayName:user.displayName,
+        Team: "",
+        isSpyMaster: false
+      }
+    }
    })
    console.log("Game Ref", id)
 

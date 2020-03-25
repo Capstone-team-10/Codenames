@@ -29,7 +29,6 @@ export const createProfile = (name,email,password) => async (dispatch, getState,
   try {
     const firebase = getFirebase()
     const providers = await firebase.auth().fetchSignInMethodsForEmail(email)
-    console.log("Provider", providers)
     // create user
     if(providers.length === 0){
         const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -38,7 +37,6 @@ export const createProfile = (name,email,password) => async (dispatch, getState,
       })
 
       const firestore = getFirestore()
-
       firestore.collection("Users").doc(user.uid).set({
         Win:0,
         Loss:0
@@ -62,7 +60,7 @@ export const googleProfile = () => async (dispatch, getState, {getFirebase,getFi
     const firestore = getFirestore()
     await firestore.collection("Users").doc(user.uid).set({
       Win:2000,
-      Loss:10
+      Loss:0
     })
     }
   catch (error) {

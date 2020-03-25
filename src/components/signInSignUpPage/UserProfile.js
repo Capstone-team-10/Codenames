@@ -22,7 +22,6 @@ const UserProfile = (props) => {
       {isFetching ? (<div>Still Loading</div>) : (
         <div className="User">
           <div className="User-container">
-          {/* {(currentUser.Win===0 && currentUser.Loss ===0 )  */}
            <h1> Welcome, {authUser.displayName}</h1>
             <h3> Below is your current information and record</h3>
             <p>
