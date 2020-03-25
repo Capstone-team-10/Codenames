@@ -44,10 +44,14 @@ export const leaveGame = (id,game,user) => async (dispatch, getState, {getFireba
   try {
     console.log("Users In room before", game.UsersInRoom)
     console.log("Specific User", game.UsersInRoom[user.uid])
-    console.log(typeof user.uid)
-    //  const firestore = getFirestore()
-    //  const firebase = getFirebase()
+    const copy = Object.assign({},game.UsersInRoom);
+    delete copy[user.uid]
 
+     const firestore = getFirestore()
+    await firestore.collection("Games").doc(id).update({
+      UsersInRoom: {...copy
+        }
+      })
   }
   catch (error) {
     console.error(error)

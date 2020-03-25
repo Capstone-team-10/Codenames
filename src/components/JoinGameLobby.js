@@ -11,13 +11,11 @@ import {joinGame} from "../store/turns"
 
 
 const JoinGameLobby = (props) => {
-  console.log("LobbyProps", props.history)
 
   const isFetching = !Array.isArray(props.Games)
   const games = isFetching ? null : props.Games
 
   const enterGame = (id,game) =>{
-    console.log("Game ID", id)
     props.joinGame(id,game, props.User)
     props.history.push(`/play/${id}`)
   }

@@ -25,12 +25,13 @@ const GameLobby = (props) => {
 
   const { addToast } = useToasts();
 
-  useEffect(() => {
-    // <code here runs every time agency is changed>
-  },[agency]);
+  // useEffect(() => {
+  //   // <code here runs every time agency is changed>
+  //   Thunk when Agency changed
+  // },[agency]);
 
   useEffect(() => {
-    console.log(allPlayers);
+    console.log("AllPlayers",allPlayers);
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
         if (player.spyMaster) {
@@ -40,7 +41,7 @@ const GameLobby = (props) => {
       },
       { red: "", blue: "" }
     );
-    console.log(spyMasterSelected);
+    console.log("who are masters",spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
 //Choosing SpyMaster
