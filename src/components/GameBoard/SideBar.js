@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 
+import { useToasts } from "react-toast-notifications";
+
 const SideBar = ({
   allPlayers,
+  bannedWords,
   chatLog,
   displayName,
   spyMaster,
@@ -9,6 +12,8 @@ const SideBar = ({
 }) => {
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
+
+  const { addToast } = useToasts();
 
   const changeHandler = evt => {
     console.log(evt.target.value);
@@ -19,10 +24,47 @@ const SideBar = ({
     }
   };
 
-  const submitHint = () => {};
+  const submitHint = () => {
+    if (bannedWords.indexOf(hint) > 0) {
+      addToast(
+        `The word ${hint} is on the board and cannot be used as a hint!`,
+        {
+          appearance: "warning",
+          autoDismiss: true
+        }
+      );
+      setHint("");
+    } else {
+    }
+    document.getElementById("hint").value = "";
+    document.getElementById("hintNumber").value = "1";
+  };
 
-  const submitChat = text => {
-    console.log(text);
+  //Consider moving function out to utils folder
+  const spyMasterChatBan = message => {
+    for (let i = 0; i < message.length; i++) {
+      if (bannedWords.indexOf(message[i].toUpperCase()) > 0) {
+        addToast(
+          `The word ${message[i]} is on the board and you cannot send it in chat!`,
+          {
+            appearance: "warning",
+            autoDismiss: true
+          }
+        );
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const submitChat = () => {
+    let chatMsg = document.getElementById("chatMsg").value;
+    if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
+      console.log("Banned word used");
+    } else {
+      console.log("Submit chat message");
+    }
+    document.getElementById("chatMsg").value = "";
   };
 
   const leaveHandler = evt => {
@@ -110,7 +152,7 @@ const SideBar = ({
           })}
         </div>
         <div className="input-wrapper">
-          <input className="input" type="text" />
+          <input className="input" type="text" id="chatMsg" />
         </div>
         <button
           className="submit-chat btn waves-effect waves-dark teal darken-4"

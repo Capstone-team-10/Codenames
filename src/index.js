@@ -5,7 +5,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { ToastProvider } from "react-toast-notifications";
 import "./index.css";
 import App from "./App";
-import store,{rrfProps} from "./store";
+import store, { rrfProps } from "./store";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(

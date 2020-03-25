@@ -9,22 +9,38 @@ const PlayerGameBoard = ({
   deck,
   displayName,
   gameStatus,
+  playersPick,
+  setPickResult,
   spyMaster,
   teamColor,
   gameId,
   history,
 }) => {
+  const [bannedWords, setBannedWords] = useState([]);
+
+  useEffect(() => {
+    const banned = [];
+    deck.forEach(({ word, flipped }) => {
+      if (!flipped) {
+        banned.push(word);
+      }
+    });
+    setBannedWords(banned);
+    console.log("banned words are: ", banned);
+  }, [deck]);
+
   return (
     <div className="gameBoard-container">
       {spyMaster ? (
         <>
           {gameStatus ? (
-            <PlayArea deck={deck} />
+            <PlayArea deck={deck} spyMaster={spyMaster} />
           ) : (
             <GameLobby allPlayers={allPlayers} gameId={gameId} history={history}/>
           )}
           <SideBar
             allPlayers={allPlayers}
+            bannedWords={bannedWords}
             displayName={displayName}
             chatLog={chatLog}
             spyMaster={spyMaster}
@@ -34,7 +50,12 @@ const PlayerGameBoard = ({
       ) : (
         <>
           {gameStatus ? (
-            <PlayArea deck={deck} />
+            <PlayArea
+              deck={deck}
+              playersPick={playersPick}
+              setPickResult={setPickResult}
+              spyMaster={spyMaster}
+            />
           ) : (
             <GameLobby allPlayers={allPlayers} />
           )}
