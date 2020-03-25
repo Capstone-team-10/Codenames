@@ -26,12 +26,12 @@ export const setHint = (hint, count) => ({ type: SET_HINT, hint, count });
 /// Thunk
 export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
+    console.log("Users In room", game.UsersInRoom)
     const firestore = getFirestore()
-    // const docRef = await firestore.collection("Games").doc(id)
     await firestore.collection("Games").doc(id).update({
       UsersInRoom: {...game.UsersInRoom,
         [user.uid]:{
-          DisplayName:user.displayName,,
+          DisplayName:user.displayName,
           Team: "",
           isSpyMaster: false
         }
@@ -70,6 +70,21 @@ export const newGame = (history,user) => async (dispatch, getState, {getFirebase
   }
 };
 
+export const leaveGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    console.log("Users In room before", game.UsersInRoom)
+     const firestore = getFirestore()
+     const firebase = getFirebase()
+    await firestore.collection("Games").doc(id).update({
+      UsersInRoom: {
+        [user.uid]: firebase.firestore.FieldValue.delete()
+      }
+    })
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
 
 // export const settingHint = (
 //   hintWord,

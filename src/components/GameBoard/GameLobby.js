@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
+import {leaveGame} from "../../store/turns"
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
-const GameLobby = ({ allPlayers }) => {
+const GameLobby = (props) => {
+  const {allPlayers,history, gameId,leaveGame,User,Games} = props
   const [agency, setAgency] = useState("");
   const [isSpyMaster, setIsSpyMaster] = useState(false);
+
+  const isFetching = Games !== undefined
+  const game = isFetching ? Games[gameId] : null
+
+  const LeaveGame = () =>{
+    leaveGame(gameId,game,User)
+    history.push("/userProfile")
+  }
 
   const [spyMasters, setSpyMasters] = useState({
     red: "",
@@ -11,6 +24,10 @@ const GameLobby = ({ allPlayers }) => {
   });
 
   const { addToast } = useToasts();
+
+  useEffect(() => {
+    // <code here runs every time agency is changed>
+  },[agency]);
 
   useEffect(() => {
     console.log(allPlayers);
@@ -26,7 +43,7 @@ const GameLobby = ({ allPlayers }) => {
     console.log(spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
-
+//Choosing SpyMaster
   const spyMasterHandler = agency => {
     if (spyMasters[agency] === "") {
       setIsSpyMaster(true);
@@ -39,7 +56,7 @@ const GameLobby = ({ allPlayers }) => {
       });
     }
   };
-
+/// Choosing Sides
   const selectAgencyHandler = selectedAgency => {
     console.log(`Player chose the ${selectedAgency} agency`);
     setAgency(selectedAgency);
@@ -108,8 +125,34 @@ const GameLobby = ({ allPlayers }) => {
       >
         ready to start
       </button>
+      <button
+        onClick={LeaveGame}
+        className="ready-btn btn  waves-effect waves-dark teal darken-4"
+      >
+        Leave Game
+      </button>
     </div>
   );
 };
 
-export default GameLobby;
+const mapStateToProps = (state) => {
+  return {
+    Games: state.firestore.data.Games,
+    User: state.firebase.auth,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    leaveGame: (id,game,user) => dispatch(leaveGame(id,game,user))
+  }
+}
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Games"
+    }
+  ]),
+  connect(mapStateToProps,mapDispatchToProps)
+)(GameLobby)

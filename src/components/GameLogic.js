@@ -9,10 +9,9 @@ import { compose } from 'redux'
 // import dummyData from "../utils/dummyData";
 
 const GameLogic = (props) => {
-  //Dummy data start
+  //Dummy data start)
+  const history = props.history
   const id = props.match.params.id
-  console.log("Game id", props.match.params.id)
-  console.log("Fire Store id", props.Game)
   const {
     allPlayers,
     chatLog,
@@ -45,6 +44,8 @@ const GameLogic = (props) => {
     <>
       {spyMaster ? (
         <PlayerGameBoard
+          gameId = {id}
+          history = {history}
           allPlayers={allPlayers}
           chatLog={chatLog}
           deck={spyMasterDeck}

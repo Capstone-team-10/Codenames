@@ -10,7 +10,9 @@ const PlayerGameBoard = ({
   displayName,
   gameStatus,
   spyMaster,
-  teamColor
+  teamColor,
+  gameId,
+  history,
 }) => {
   return (
     <div className="gameBoard-container">
@@ -19,7 +21,7 @@ const PlayerGameBoard = ({
           {gameStatus ? (
             <PlayArea deck={deck} />
           ) : (
-            <GameLobby allPlayers={allPlayers} />
+            <GameLobby allPlayers={allPlayers} gameId={gameId} history={history}/>
           )}
           <SideBar
             allPlayers={allPlayers}
