@@ -12,8 +12,8 @@ const PlayArea = ({ deck, playersPick, setPickResult, spyMaster }) => {
         {deck.map((card, index) => (
           <PlayerCard
             card={card}
-            key={card.word}
             index={index}
+            key={card.word}
             playersPick={playersPick}
             setPickResult={setPickResult}
             spyMaster={spyMaster}
