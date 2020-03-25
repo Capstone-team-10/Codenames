@@ -2,13 +2,16 @@ import React from "react";
 import { Link,Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import {logout} from "../store/user"
+import { withRouter } from 'react-router'
 
 import "../css/navbar.css";
 
 const Navbar = (props) => {
+  console.log("NAVVV", props)
   const { isLoggedOut,isLoggedIn } = props;
   const LoggingOut = () =>{
     props.logout()
+    props.history.push("/")
   }
   // if(isLoggedOut){
   //   return <Redirect to="/"/>
@@ -70,4 +73,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Navbar))
