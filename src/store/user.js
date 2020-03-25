@@ -57,11 +57,31 @@ export const logout = () => async (dispatch, getState, {getFirebase,getFirestore
 
 export const selectAgency = (color,gameId,game,User) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
+      const user = game.UsersInRoom[User.uid]
+      const firestore = getFirestore()
+      if ( !user.isSpyMaster|| (user.isSpyMaster && (user.Team !== color))){
+        await firestore.collection("Games").doc(gameId).set({
+        UsersInRoom: {...game.UsersInRoom,
+          [User.uid]:{
+            Team: color,
+            isSpyMaster: false
+          }
+        }
+      },{merge: true})
+    }
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+export const selectMaster = (color,gameId,game,User) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
     const firestore = getFirestore()
     await firestore.collection("Games").doc(gameId).set({
       UsersInRoom: {...game.UsersInRoom,
         [User.uid]:{
-          Team: color
+          isSpyMaster: true
         }
       }
     },{merge: true})

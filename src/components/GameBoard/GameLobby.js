@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
 import {leaveGame} from "../../store/turns"
-import {selectAgency} from "../../store/user"
+import {selectAgency, selectMaster} from "../../store/user"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
 const GameLobby = (props) => {
-  const {allPlayers,history, gameId,leaveGame,selectAgency,User,Games} = props
+  const {allPlayers,history, gameId,leaveGame,selectAgency,User,Games,selectMaster} = props
   const [agency, setAgency] = useState("");
   const [isSpyMaster, setIsSpyMaster] = useState(false);
 
@@ -49,6 +49,7 @@ const GameLobby = (props) => {
     if (spyMasters[agency] === "") {
       setIsSpyMaster(true);
       selectAgencyHandler(agency);
+      selectMaster(agency,gameId,game,User)
     } else {
       console.log(`${agency} Spy Master already chosen`);
       addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
@@ -146,7 +147,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     leaveGame: (id,game,user) => dispatch(leaveGame(id,game,user)),
-    selectAgency: (color,gameId,game,User) => dispatch(selectAgency(color,gameId,game,User))
+    selectAgency: (color,gameId,game,User) => dispatch(selectAgency(color,gameId,game,User)),
+    selectMaster: (color,gameId,game,User) => dispatch(selectMaster(color,gameId,game,User))
   }
 }
 

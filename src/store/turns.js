@@ -4,7 +4,7 @@ export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebas
   try {
     console.log("Users In room", game.UsersInRoom)
     const firestore = getFirestore()
-    await firestore.collection("Games").doc(id).update({
+    await firestore.collection("Games").doc(id).set({
       UsersInRoom: {...game.UsersInRoom,
         [user.uid]:{
           DisplayName:user.displayName,
@@ -12,7 +12,7 @@ export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebas
           isSpyMaster: false
         }
       }
-    })
+    },{merge: true})
   }
   catch (error) {
     console.error(error)
