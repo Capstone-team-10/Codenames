@@ -37,9 +37,9 @@ export const createProfile = (name,email,password) => async (dispatch, getState,
         displayName:name
       })
 
-      const db = getFirestore()
+      const firestore = getFirestore()
 
-      db.collection("Users").doc(user.uid).set({
+      firestore.collection("Users").doc(user.uid).set({
         Win:500,
         Loss:700
       })

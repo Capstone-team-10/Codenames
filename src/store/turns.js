@@ -1,4 +1,4 @@
-import { db } from "../fireStore";
+
 
 ///Initial State
 const initialState = {
@@ -34,6 +34,25 @@ export const joinGame = (id,user) => async (dispatch, getState, {getFirebase,get
     // await firestore.collection("Games").doc(id).collection("UsersInRoom").doc(user.uid).set({
     //   DisplayName: user.displayName
     // })
+
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
+
+export const newGame = (history) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    console.log("Name history", history)
+
+    const firestore = getFirestore()
+
+   const {id} = await firestore.collection("Games").add({
+     GameStarted: false
+   })
+   console.log("Game Ref", id)
+
+   history.push(`/play/${id}`)
 
   }
   catch (error) {
