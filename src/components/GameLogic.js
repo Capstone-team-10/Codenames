@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
 
 //import utils
-import { dealCards, dummyData, turnTracker } from "../utils";
+import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 
 const GameLogic = () => {
   //Dummy data start
@@ -29,16 +29,28 @@ const GameLogic = () => {
       switch (deck[cardPicked].color) {
         case rightCard:
           setPickResult("good");
-          return "good";
+          return {
+            outcome: "good",
+            image: getResultImage(rightCard)
+          };
         case neutralCard:
           setPickResult("neutral");
-          return "neutral";
+          return {
+            outcome: "neutral",
+            image: getResultImage(neutralCard)
+          };
         case wrongCard:
           setPickResult("bad");
-          return "bad";
+          return {
+            outcome: "bad",
+            image: getResultImage(wrongCard)
+          };
         case fatalCard:
           setPickResult("fatal");
-          return "fatal";
+          return {
+            outcome: "fatal",
+            image: getResultImage(fatalCard)
+          };
         default:
           console.error(
             `Invalid input cardPicked: ${cardPicked}, currentTeam: ${currentTeam}, deck: `,
