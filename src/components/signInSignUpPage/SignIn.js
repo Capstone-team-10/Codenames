@@ -1,17 +1,34 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import {Link} from "react-router-dom"    /* Delete after demo Demonstration */
-import ChooseGameRoom from "../ChooseGameRoom"
-import firebase, {auth,google} from "../../fireStore"
+import {connect} from "react-redux"
+import {LoginProfile,googleProfile} from "../../store/user"
+import { useToasts } from "react-toast-notifications";
 
-const SignIn = () => {
+
+const SignIn = (props) => {
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
 
-  const submitHandler = evt => {
-    evt.preventDefault();
-    console.log(evt);
-    /// On submit go to <ChooseGameRoom />
+  const {addToast} = useToasts()
+
+  const submitHandler = async evt => {
+    try {
+      evt.preventDefault();
+      const err = await props.loginProfile(formEmail,formPassword)
+      if(err === undefined) {
+        props.history.push("/userProfile")
+      }
+      else{
+        addToast(err, {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+
   };
 
   const onChangeHandler = evt => {
@@ -23,17 +40,9 @@ const SignIn = () => {
   };
 
   const AuthWithGoogle = () =>{
-    console.log("Log with google")
-    auth.signInWithPopup(google)
+    props.googleProfile()
+    props.history.push("/userProfile")
   }
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
-
-  //   return ()=>{
-  //     unsubscribe && unsubscribe()
-  //   }
-  // },[])
 
   return (
     <div className="login-wrapper">
@@ -47,9 +56,7 @@ const SignIn = () => {
           <input type="password" id="password" onChange={onChangeHandler} />
         </div>
         <button type="submit" className="btn center">
-        <Link to="/onSubmit" >    {/* Delete after demo Demonstration */}
           Login
-          </Link>
         </button>
       </form>
       <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
@@ -57,4 +64,12 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = dispatch => {
+  return {
+    loginProfile: (email,password) => dispatch(LoginProfile(email,password)),
+    googleProfile: () => dispatch(googleProfile())
+  }
+}
+
+
+export default connect(null,mapDispatchToProps)(SignIn)

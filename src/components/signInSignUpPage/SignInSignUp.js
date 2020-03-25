@@ -1,7 +1,7 @@
 import React from "react";
 
 // import AuthForms from "./AuthForms";
-import SignUp from "./SignUp";
+import AuthForms from "./AuthForms";
 import GameDescription from "./GameDescription";
 
 import "../../css/signInSignUp.css";
@@ -10,7 +10,7 @@ const SignInSignUp = (props) => {
   return (
     <div className="sign-in-sign-up-container">
        <div className="auth-form-container">
-      <SignUp props={props}/>
+      <AuthForms history={props.history} enter={props.match.params.enter}/>
       </div>
       <GameDescription />
     </div>

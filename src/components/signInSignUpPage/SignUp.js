@@ -1,19 +1,34 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {connect} from "react-redux"
-import {createOrLoginProfile,googleProfile} from "../../store/user"
-import { Redirect } from "react-router-dom"
+import {createProfile,googleProfile} from "../../store/user"
+import { useToasts } from "react-toast-notifications";
 
 const SignUp = (props) => {
+
 
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
   const [formName, setFormName] = useState("");
 
-  const submitHandler = evt => {
-    evt.preventDefault();
-    props.createProfile(formName,formEmail,formPassword)
-    props.props.history.push("/userProfile")
+  const {addToast} = useToasts()
+
+  const submitHandler = async evt => {
+    try {
+      evt.preventDefault();
+      const err = await props.createProfile(formName,formEmail,formPassword)
+      if(err === undefined) {
+        props.history.push("/userProfile")
+      }
+      else{
+        addToast(err, {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const onChangeHandler = evt => {
@@ -31,7 +46,7 @@ const SignUp = (props) => {
 
   const AuthWithGoogle = () =>{
     props.googleProfile()
-    props.props.history.push("/userProfile")
+    props.history.push("/userProfile")
   }
     return (
       <div className="signUp-wrapper">
@@ -49,27 +64,20 @@ const SignUp = (props) => {
             <input type="password" id="password" onChange={onChangeHandler} />
           </div>
           <button type="submit" className="btn center">
-            Login/Sign Up
+            Sign Up
           </button>
         </form>
-        <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
+        <button className="button" onClick={AuthWithGoogle}>Sign up with Google</button>
       </div>
     );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: !state.firebase.auth.isEmpty,
-    // isLoggedOut: state.firebase.auth.isEmpty
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
-    createProfile: (name,email,password) => dispatch(createOrLoginProfile(name,email,password)),
+    createProfile: (name,email,password) => dispatch(createProfile(name,email,password)),
     googleProfile: () => dispatch(googleProfile())
   }
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(SignUp)
+export default connect(null,mapDispatchToProps)(SignUp)

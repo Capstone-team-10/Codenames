@@ -2,13 +2,16 @@ import React from "react";
 import { Link,Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import {logout} from "../store/user"
+import { withRouter } from 'react-router'
 
 import "../css/navbar.css";
 
 const Navbar = (props) => {
+  console.log("NAVVV", props)
   const { isLoggedOut,isLoggedIn } = props;
   const LoggingOut = () =>{
     props.logout()
+    props.history.push("/")
   }
   // if(isLoggedOut){
   //   return <Redirect to="/"/>
@@ -36,9 +39,16 @@ const Navbar = (props) => {
 
           {isLoggedIn ? ( <button className="btn right waves-effect waves-dark teal darken-2" onClick={LoggingOut}>
             Log Out
-          </button>) : ( <button className="btn right waves-effect waves-dark teal darken-2">
-            <Link to="/auth">Register/Login</Link>
-          </button>)}
+          </button>) : (
+            <>
+            <button className="btn right waves-effect waves-dark teal darken-2">
+            <Link to="/auth/register">Register</Link>
+          </button>
+          <button className="btn right waves-effect waves-dark teal darken-2">
+          <Link to="/auth/login">Login</Link>
+        </button>
+        </>
+          )}
           {isLoggedIn && (
             <button className="btn right waves-effect waves-dark teal darken-2">
               <Link to="/userProfile">User Record</Link>
@@ -63,4 +73,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Navbar)
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Navbar))
