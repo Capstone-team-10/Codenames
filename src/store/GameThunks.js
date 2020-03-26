@@ -106,7 +106,15 @@ export const StartGame = (id) => async (dispatch, getState, {getFirebase,getFire
     const firestore = getFirestore()
     await firestore.collection("Games").doc(id).set({
       GameStarted: true,
-    })
+      BlueCardsLeft:9,
+      RedCardsLeft:9,
+      HintCount:0,
+      HintWord:"",
+      CurrentTurn: "",
+      CardPickedResult:"",
+      CardsOnTable: [],
+      Chat:[]
+    },{merge: true})
   }
   catch (error) {
     console.error(error)
