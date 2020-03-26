@@ -113,6 +113,7 @@ const GameLogic = (props) => {
       ) : (
         <PlayerGameBoard
           gameId = {Gameid}
+          history = {history}
           allPlayers={allPlayers}
           chatLog={chatLog}
           deck={spyDeck}
