@@ -24,7 +24,7 @@ export const joinGame = (id, game, user) => async (
         });
     }
   } catch (error) {
-    console.error(error);
+    return error.message
   }
 };
 
@@ -47,7 +47,7 @@ export const newGame = (history, user) => async (
     });
     history.push(`/play/${id}`);
   } catch (error) {
-    console.error(error);
+    return error.message
   }
 };
 
@@ -77,7 +77,7 @@ export const StartGame = id => async (
         { merge: true }
       );
   } catch (error) {
-    console.error(error);
+    return error.message
   }
 };
 
@@ -102,7 +102,7 @@ export const leaveGame = (id, game, user) => async (
       dispatch(deleteGame(id));
     }
   } catch (error) {
-    console.error(error);
+    return error
   }
 };
 
@@ -118,7 +118,7 @@ export const deleteGame = id => async (
       .doc(id)
       .delete();
   } catch (error) {
-    console.error(error);
+    return error.message
   }
 };
 
@@ -138,7 +138,7 @@ export const ReplayGame = (id, game, user) => async (
       });
     // dispatch(joinGame(id,game,user))
   } catch (error) {
-    console.error(error);
+    return error.message
   }
 };
 
@@ -157,6 +157,6 @@ export const GameOver = (id, result) => async (
         GameResult: result
       });
   } catch (error) {
-    console.error(error);
+    return error.message
   }
 };

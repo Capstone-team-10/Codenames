@@ -20,7 +20,6 @@ const GameLogic = (props) => {
     // teamColor
   } = dummyData;
   //End dummy data
-
   const isFetching = (Games === undefined || Games[Gameid] === undefined)
   const displayName = User.displayName
 
@@ -31,8 +30,8 @@ const GameLogic = (props) => {
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom)
 
   const gameStatus = isFetching ? null : game.GameStarted
-  const teamColor = isFetching ? null : game.UsersInRoom[User.uid].Team
-  const  spyMaster = isFetching ? null : game.UsersInRoom[User.uid].isSpyMaster
+  const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team
+  const  spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster
   ///////////////
 
 

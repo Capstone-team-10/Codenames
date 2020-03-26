@@ -28,9 +28,22 @@ const SideBar = ({
   const isFetching = Games !== undefined;
   const game = isFetching ? Games[gameId] : null;
 
-  const LeaveHandler = () => {
-    LeaveGame(gameId, game, User);
-    history.push("/userProfile");
+  const LeaveHandler = async () => {
+    try {
+     await LeaveGame(gameId, game, User);
+      history.push("/userProfile");
+      // if(err === undefined){
+      //   history.push("/userProfile");
+      // }
+      // else{
+      //   addToast("Sorry, we couldn't exit you from this game. Try again", {
+      //     appearance: "warning",
+      //     autoDismiss: true
+      //   });
+      // }
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const changeHandler = evt => {

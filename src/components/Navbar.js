@@ -3,14 +3,29 @@ import { Link} from "react-router-dom";
 import { connect } from 'react-redux';
 import {logout} from "../store/UserThunks"
 import { withRouter } from 'react-router'
+import { useToasts } from "react-toast-notifications";
 
 import "../css/navbar.css";
 
 const Navbar = (props) => {
   const { isLoggedOut,isLoggedIn } = props;
-  const LoggingOut = () =>{
-    props.logout()
-    props.history.push("/")
+  const {addToast} = useToasts()
+  const LoggingOut = async () =>{
+    try {
+      const err = await props.logout()
+      console.log("Logout", err)
+      if(err === undefined){
+        props.history.push("/")
+      }
+      else{
+        addToast("Sorry, failed at logging you out. Please try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
   // if(isLoggedOut){
   //   return <Redirect to="/"/>

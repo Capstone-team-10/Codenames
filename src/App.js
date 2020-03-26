@@ -13,13 +13,14 @@ import Title from "./components/Title";
 import JoinGameLobby from "./components/JoinGameLobby";
 import ChooseGameRoom from "./components/ChooseGameRoom"; // Delete route once form is working
 import EndGameScreen from "./components/EndGameScreen"; // Delete route once form is working
+import history from "./history"
 //style import
 import "./css/App.css";
 
 function App(props) {
   const { isLoggedIn, isLoggedOut } = props;
   return (
-    <Router>
+    <Router history={history}>
       <Navbar />
       <Switch>
       <Route exact path="/" component={Title} />

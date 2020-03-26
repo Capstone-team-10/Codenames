@@ -42,10 +42,20 @@ const GameLobby = props => {
   }, [allPlayers]);
 
   //Choosing SpyMaster
-  const spyMasterHandler = agency => {
+  const spyMasterHandler = async agency => {
     if (spyMasters[agency] === "") {
       selectAgencyHandler(agency);
-      selectMaster(agency, gameId, game, User);
+      try {
+        const err = await selectMaster(agency, gameId, game, User);
+        if(err !== undefined){
+          addToast("Sorry, we couldn't make you spymaster right now. Try again", {
+            appearance: "warning",
+            autoDismiss: true
+          });
+        }
+      } catch (error) {
+        console.error(error)
+      } ///
     } else {
       console.log(`${agency} Spy Master already chosen`);
       addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
@@ -56,15 +66,34 @@ const GameLobby = props => {
   };
 
   /// Choosing Sides
-  const selectAgencyHandler = selectedAgency => {
+  const selectAgencyHandler = async selectedAgency => {
     console.log(`Player chose the ${selectedAgency} agency`);
-    selectAgency(selectedAgency, gameId, game, User);
-  };
+    try {
+      const err = await selectAgency(selectedAgency, gameId, game, User);
+      if(err !== undefined){
+        addToast("Sorry, we couldn't select your side right now. Try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
-  const readyHandler = () => {
+  const readyHandler = async () => {
     console.log("ready to start clicked");
-
-    StartGame(gameId);
+    try {
+      const err = await StartGame(gameId);
+      if(err !== undefined){
+        addToast("Sorry, failed to start game. Please try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   return (
@@ -127,8 +156,8 @@ const GameLobby = props => {
         ready to start
       </button>
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => {
   return {
@@ -137,7 +166,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const  mapDispatchToProps = dispatch => {
   return {
     StartGame: id => dispatch(StartGame(id)),
     selectAgency: (color, gameId, game, User) =>

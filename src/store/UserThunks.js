@@ -47,7 +47,7 @@ export const googleProfile = () => async (dispatch, getState, {getFirebase,getFi
     })
     }
   catch (error) {
-    console.error(error)
+    return error.message
   }
 };
 /// Log Out User
@@ -57,7 +57,7 @@ export const logout = () => async (dispatch, getState, {getFirebase,getFirestore
     await firebase.auth().signOut()
   }
   catch (error) {
-    console.error(error);
+    return error.message
   }
 }
 
@@ -79,7 +79,7 @@ export const selectAgency = (color,gameId,game,User) => async (dispatch, getStat
     }
   }
   catch (error) {
-    console.error(error);
+    return error.message
   }
 }
 
@@ -97,6 +97,6 @@ export const selectMaster = (color,gameId,game,User) => async (dispatch, getStat
     })
     }
   catch (error) {
-    console.error(error);
+    return error.message
   }
 }
