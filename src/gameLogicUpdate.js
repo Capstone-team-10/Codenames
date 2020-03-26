@@ -92,3 +92,38 @@
 //   },
 //   { redFlipped: 0, blueFlipped: 0 }
 // );
+
+/*
+In game lobby:
+  -select team thunk
+  -set spyMaster thunk
+
+  On press start:
+    -Thunk sets currentTurn with turnTracker
+    -Thunk sets cards remaining for both teams to 9
+    -Finally thunk sets gameStatus to true
+
+In game play:
+  None play actions available at all times:
+    chat messages can be typed and submitted
+      -Thunk to update the chat message log
+
+  All play actions (select cards, submit hints) are blocked if it is not the players turn:
+  spyMaster gives hint and hintNumber
+    -thunk to set hint and hintNumber
+    -thunk to set next turn to with turnTracker
+  spys guess cards
+    -Thunk to update cards that have been flipped
+    -Thunk to decrement hint count
+    check if hint count is < 0 or player ends turn
+      -Thunk sets currentTurn to the next turn using turnTracker
+
+      If a teams cards remaining is zero game over that team wins
+      If assassin card is picked game over that team loses
+
+On game over
+  option to play again with same players
+    -Thunk sets game status to false
+  option to play with new players
+    -Thunk for player to leave game
+*/
