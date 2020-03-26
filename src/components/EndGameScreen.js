@@ -1,9 +1,16 @@
 import React from 'react'
-import {Link} from "react-router-dom"
-import "../css/EndGameScreen.css";
-const result = "redwin"
+import {connect} from "react-redux"
+import { withRouter } from 'react-router'
+import {deleteGame} from "../store/turns"
 
-export default function EndGameScreen(/*result*/) {
+import "../css/EndGameScreen.css";
+const result = "error"
+const gameId = "w6w9HDVm8PzGETWA8Mr4"
+
+const EndGameScreen =(props) => {
+  console.log("End Prop", props)
+  // const gameId = props.gameId
+
   let className, message
   switch(result){
     case "bluewin":
@@ -32,24 +39,32 @@ export default function EndGameScreen(/*result*/) {
     ///Initiate Same Game Room
   }
 
-  // const ReturntoChooseGame = (e) =>{
-  //   e.preventDefault()
-  //   ///Initiate New Game Room
-  // }
+  const DeleteGameRoom = (e) =>{
+    e.preventDefault()
+    props.deleteGame(gameId)
+    props.history.push("/onSubmit")
+  }
+
 
   return (
     <div className={`EndGameScreen ${className}`}>
       <div className="EndScreen-message">{message}</div>
       <div className="EndScreen-buttons">
       <button className="title-button" onClick={SameGameRoom}>
-        Replay with Same Teams
+        Replay with Same Players
       </button>
-      <button className="title-button">
-        <Link to="/onSubmit">
-        Replay with New Teams
-        </Link>
+      <button className="title-button" onClick={DeleteGameRoom}>
+        Replay with New Players
       </button>
       </div>
     </div>
   )
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteGame: (Gameid) => dispatch(deleteGame(Gameid))
+  }
+}
+
+export default connect(null,mapDispatchToProps)(withRouter(EndGameScreen))

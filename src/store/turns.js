@@ -1,5 +1,9 @@
 
 /// Thunk
+// Create a replay Thunk that just changes Game OVer status back to false
+// Redirect from title page to Userprofile if loggedin
+
+//Create Start Thunk Game
 export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     console.log("Users In room", game.UsersInRoom)
@@ -42,11 +46,10 @@ export const newGame = (history,user) => async (dispatch, getState, {getFirebase
 
 
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
-
+// Add conditional, if no users to dispatch EndGaame  Thnk or Delete Game thunk
 export const leaveGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     console.log("Users In room before", game.UsersInRoom)
-    console.log("Specific User", game.UsersInRoom[user.uid])
     const copy = Object.assign({},game.UsersInRoom);
     delete copy[user.uid]
 
@@ -55,6 +58,16 @@ export const leaveGame = (id,game,user) => async (dispatch, getState, {getFireba
       UsersInRoom: {...copy
         }
       })
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
+
+export const deleteGame = (id) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    const firestore = getFirestore()
+    await firestore.collection("Games").doc(id).delete()
   }
   catch (error) {
     console.error(error)

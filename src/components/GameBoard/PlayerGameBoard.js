@@ -34,7 +34,7 @@ const PlayerGameBoard = ({
       {spyMaster ? (
         <>
           {gameStatus ? (
-            <PlayArea deck={deck} spyMaster={spyMaster} />
+            <PlayArea deck={deck} spyMaster={spyMaster} gameId={gameId}/>
           ) : (
             <GameLobby allPlayers={allPlayers} gameId={gameId} history={history}/>
           )}
@@ -55,6 +55,7 @@ const PlayerGameBoard = ({
               playersPick={playersPick}
               setPickResult={setPickResult}
               spyMaster={spyMaster}
+              gameId={gameId}
             />
           ) : (
             <GameLobby allPlayers={allPlayers} />
