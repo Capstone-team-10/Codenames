@@ -6,21 +6,33 @@ import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-// import dummyData from "../utils/dummyData";
 
 const GameLogic = (props) => {
   //Dummy data start)
-  const history = props.history
-  const id = props.match.params.id
+  const {Games,User,history} = props
+  const Gameid = props.match.params.id
   const {
-    allPlayers,
+    // allPlayers,
     chatLog,
-    displayName,
-    gameStatus,
-    spyMaster,
-    teamColor
+    // displayName,
+    // gameStatus,
+    // spyMaster,
+    // teamColor
   } = dummyData;
   //End dummy data
+
+  const isFetching = Games === undefined
+
+  const game = isFetching ? null : Games[Gameid]
+
+  const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom)
+  const gameStatus = isFetching ? null : game.GameStarted
+  const teamColor = isFetching ? null : game.UsersInRoom[User.uid].Team
+  const spyMaster = isFetching ? null : game.UsersInRoom[User.uid].isSpyMaster
+
+  const displayName = User.displayName
+  ///////////////
+
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
@@ -86,7 +98,7 @@ const GameLogic = (props) => {
     <>
       {spyMaster ? (
         <PlayerGameBoard
-          gameId = {id}
+          gameId = {Gameid}
           history = {history}
           allPlayers={allPlayers}
           chatLog={chatLog}
@@ -98,6 +110,7 @@ const GameLogic = (props) => {
         />
       ) : (
         <PlayerGameBoard
+          gameId = {Gameid}
           allPlayers={allPlayers}
           chatLog={chatLog}
           deck={spyDeck}
@@ -115,8 +128,8 @@ const GameLogic = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    Game: state.firestore.data.Games,
-    User: state.firebase.auth,
+    Games: state.firestore.data.Games,
+    User: state.firebase.auth
   }
 }
 

@@ -26,7 +26,7 @@ const GameLobby = (props) => {
   },[agency]);
 
   useEffect(() => {
-    console.log("AllPlayers",allPlayers);
+    // console.log("AllPlayers",allPlayers);
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
         if (player.spyMaster) {
@@ -36,7 +36,7 @@ const GameLobby = (props) => {
       },
       { red: "", blue: "" }
     );
-    console.log("who are masters",spyMasterSelected);
+    // console.log("who are masters",spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
 //Choosing SpyMaster

@@ -19,6 +19,8 @@ const SideBar = ({
   User,
   LeaveGame,
 }) => {
+
+  console.log("All Players - Siderbar", allPlayers)
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
 
