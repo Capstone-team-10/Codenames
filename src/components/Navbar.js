@@ -7,7 +7,6 @@ import { withRouter } from 'react-router'
 import "../css/navbar.css";
 
 const Navbar = (props) => {
-  console.log("NAVVV", props)
   const { isLoggedOut,isLoggedIn } = props;
   const LoggingOut = () =>{
     props.logout()
