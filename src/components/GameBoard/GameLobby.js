@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
-import {leaveGame} from "../../store/turns"
-import {selectAgency, selectMaster} from "../../store/user"
+import {selectAgency, selectMaster} from "../../store/UserThunks"
+import {StartGame} from "../../store/GameThunks"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
 const GameLobby = (props) => {
-  const {allPlayers,history, gameId,leaveGame,selectAgency,User,Games,selectMaster} = props
+  const {allPlayers,gameId,StartGame,selectAgency,User,Games,selectMaster} = props
   const [agency, setAgency] = useState("");
   const [isSpyMaster, setIsSpyMaster] = useState(false);
 
   const isFetching = Games !== undefined
   const game = isFetching ? Games[gameId] : null
-
-  const LeaveGame = () =>{
-    leaveGame(gameId,game,User)
-    history.push("/userProfile")
-  }
 
   const [spyMasters, setSpyMasters] = useState({
     red: "",
@@ -66,6 +61,7 @@ const GameLobby = (props) => {
 
   const readyHandler = () => {
     console.log("ready to start clicked");
+    StartGame(gameId)
   };
 
   return (
@@ -127,12 +123,6 @@ const GameLobby = (props) => {
       >
         ready to start
       </button>
-      <button
-        onClick={LeaveGame}
-        className="ready-btn btn  waves-effect waves-dark teal darken-4"
-      >
-        Leave Game
-      </button>
     </div>
   );
 };
@@ -146,7 +136,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    leaveGame: (id,game,user) => dispatch(leaveGame(id,game,user)),
+    StartGame:(id) =>dispatch(StartGame(id)),
     selectAgency: (color,gameId,game,User) => dispatch(selectAgency(color,gameId,game,User)),
     selectMaster: (color,gameId,game,User) => dispatch(selectMaster(color,gameId,game,User))
   }

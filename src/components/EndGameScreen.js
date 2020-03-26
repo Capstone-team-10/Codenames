@@ -1,9 +1,21 @@
 import React from 'react'
-import {Link} from "react-router-dom"
-import "../css/EndGameScreen.css";
-const result = "redwin"
+import {connect} from "react-redux"
+import { withRouter } from 'react-router'
+import {leaveGame,ReplayGame} from "../store/GameThunks"
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
-export default function EndGameScreen(/*result*/) {
+import "../css/EndGameScreen.css";
+const result = "bluewin"
+const gameId = "8lIOQ9K5MpuBJYQB1mNuL"
+
+const EndGameScreen =(props) => {
+  console.log("End Prop", props)
+  // const gameId = props.gameId
+
+  const isFetching = props.Games !== undefined
+  const game = isFetching ? props.Games[gameId] : null
+
   let className, message
   switch(result){
     case "bluewin":
@@ -29,27 +41,50 @@ export default function EndGameScreen(/*result*/) {
 
   const SameGameRoom = (e) =>{
     e.preventDefault()
-    ///Initiate Same Game Room
+    props.ReplayGame(gameId,game,props.User)
+    props.history.push(`/play/${gameId}`)
   }
 
-  // const ReturntoChooseGame = (e) =>{
-  //   e.preventDefault()
-  //   ///Initiate New Game Room
-  // }
+  const NewGameRoom = (e) =>{
+    e.preventDefault()
+    props.LeaveGame(gameId,game,props.User)
+    props.history.push("/onSubmit")
+  }
+
 
   return (
     <div className={`EndGameScreen ${className}`}>
       <div className="EndScreen-message">{message}</div>
       <div className="EndScreen-buttons">
       <button className="title-button" onClick={SameGameRoom}>
-        Replay with Same Teams
+        Replay with Same Players
       </button>
-      <button className="title-button">
-        <Link to="/onSubmit">
-        Replay with New Teams
-        </Link>
+      <button className="title-button" onClick={NewGameRoom}>
+        Replay with New Players
       </button>
       </div>
     </div>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    Games: state.firestore.data.Games,
+    User: state.firebase.auth,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    LeaveGame: (Gameid,game,user) => dispatch(leaveGame(Gameid,game,user)),
+    ReplayGame: (Gameid,game,user) =>dispatch(ReplayGame(Gameid,game,user))
+  }
+}
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Games"
+    }
+  ]),
+  connect(mapStateToProps,mapDispatchToProps))(withRouter(EndGameScreen))

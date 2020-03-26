@@ -1,7 +1,7 @@
 import React from "react";
-import { Link,Redirect } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { connect } from 'react-redux';
-import {logout} from "../store/user"
+import {logout} from "../store/UserThunks"
 import { withRouter } from 'react-router'
 
 import "../css/navbar.css";
