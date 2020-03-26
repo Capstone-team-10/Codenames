@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {connect} from "react-redux"
-import {LoginProfile,googleProfile} from "../../store/user"
+import {LoginProfile,googleProfile} from "../../store/UserThunks"
 import { useToasts } from "react-toast-notifications";
 
 

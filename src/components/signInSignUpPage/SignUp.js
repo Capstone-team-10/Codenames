@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {connect} from "react-redux"
-import {createProfile,googleProfile} from "../../store/user"
+import {createProfile,googleProfile} from "../../store/UserThunks"
 import { useToasts } from "react-toast-notifications";
 
 const SignUp = (props) => {

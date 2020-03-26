@@ -1,13 +1,13 @@
 import React from 'react'
 import {connect} from "react-redux"
 import { withRouter } from 'react-router'
-import {leaveGame} from "../store/turns"
+import {leaveGame} from "../store/GameThunks"
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
 import "../css/EndGameScreen.css";
 const result = "error"
-const gameId = "allGIRXkSYuKeOaWNMqY"
+const gameId = "7ubJsrY9KPjY2DSdXPV4"
 
 const EndGameScreen =(props) => {
   console.log("End Prop", props)

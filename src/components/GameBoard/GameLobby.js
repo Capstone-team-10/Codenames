@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
-import {leaveGame} from "../../store/turns"
-import {selectAgency, selectMaster} from "../../store/user"
+import {leaveGame} from "../../store/GameThunks"
+import {selectAgency, selectMaster} from "../../store/UserThunks"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'

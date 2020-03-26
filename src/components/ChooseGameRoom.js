@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import "../css/ChooseGameRoom.css";
 import "../css/Title.css";
-import {newGame} from "../store/turns"
+import {newGame} from "../store/GameThunks"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
