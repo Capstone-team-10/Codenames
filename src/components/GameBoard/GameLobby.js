@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
-import {selectAgency, selectMaster} from "../../store/UserThunks"
-import {StartGame} from "../../store/GameThunks"
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
+import { selectAgency, selectMaster } from "../../store/UserThunks";
+import { StartGame } from "../../store/GameThunks";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
-const GameLobby = (props) => {
-  const {allPlayers,gameId,StartGame,selectAgency,User,Games,selectMaster} = props
-  const [agency, setAgency] = useState("");
-  const [isSpyMaster, setIsSpyMaster] = useState(false);
+const GameLobby = props => {
+  const {
+    allPlayers,
+    gameId,
+    StartGame,
+    selectAgency,
+    User,
+    Games,
+    selectMaster
+  } = props;
 
-  const isFetching = Games !== undefined
-  const game = isFetching ? Games[gameId] : null
+  const isFetching = Games !== undefined;
+  const game = isFetching ? Games[gameId] : null;
 
   const [spyMasters, setSpyMasters] = useState({
     red: "",
@@ -21,12 +27,8 @@ const GameLobby = (props) => {
 
   const { addToast } = useToasts();
 
+  console.log("allPlayers is: ", allPlayers);
   useEffect(() => {
-    selectAgency(agency,gameId,game,User)
-  },[agency]);
-
-  useEffect(() => {
-    // console.log("AllPlayers",allPlayers);
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
         if (player.spyMaster) {
@@ -36,15 +38,14 @@ const GameLobby = (props) => {
       },
       { red: "", blue: "" }
     );
-    // console.log("who are masters",spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
-//Choosing SpyMaster
+
+  //Choosing SpyMaster
   const spyMasterHandler = agency => {
     if (spyMasters[agency] === "") {
-      // setIsSpyMaster(true);
       selectAgencyHandler(agency);
-      selectMaster(agency,gameId,game,User)
+      selectMaster(agency, gameId, game, User);
     } else {
       console.log(`${agency} Spy Master already chosen`);
       addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
@@ -53,15 +54,17 @@ const GameLobby = (props) => {
       });
     }
   };
-/// Choosing Sides
+
+  /// Choosing Sides
   const selectAgencyHandler = selectedAgency => {
     console.log(`Player chose the ${selectedAgency} agency`);
-    setAgency(selectedAgency);
+    selectAgency(selectedAgency, gameId, game, User);
   };
 
   const readyHandler = () => {
     console.log("ready to start clicked");
-    StartGame(gameId)
+
+    StartGame(gameId);
   };
 
   return (
@@ -127,20 +130,22 @@ const GameLobby = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth,
-  }
-}
+    User: state.firebase.auth
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    StartGame:(id) =>dispatch(StartGame(id)),
-    selectAgency: (color,gameId,game,User) => dispatch(selectAgency(color,gameId,game,User)),
-    selectMaster: (color,gameId,game,User) => dispatch(selectMaster(color,gameId,game,User))
-  }
-}
+    StartGame: id => dispatch(StartGame(id)),
+    selectAgency: (color, gameId, game, User) =>
+      dispatch(selectAgency(color, gameId, game, User)),
+    selectMaster: (color, gameId, game, User) =>
+      dispatch(selectMaster(color, gameId, game, User))
+  };
+};
 
 export default compose(
   firestoreConnect([
@@ -148,5 +153,5 @@ export default compose(
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps,mapDispatchToProps)
-)(GameLobby)
+  connect(mapStateToProps, mapDispatchToProps)
+)(GameLobby);
