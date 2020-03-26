@@ -22,6 +22,24 @@ const GameLogic = (props) => {
   //End dummy data
 
   const isFetching = Games === undefined
+  const displayName = User.displayName
+  // let game,allPlayers,gameStatus,teamColor,spyMaster
+
+
+  // if(!isFetching){
+  // game =  Games[Gameid]
+  // allPlayers = Object.values(game.UsersInRoom)
+  // gameStatus = game.GameStarted
+  // teamColor = game.UsersInRoom[User.uid].Team
+  // spyMaster = game.UsersInRoom[User.uid].isSpyMaster
+  // }
+  // else{
+  //   game =  null
+  // allPlayers = []
+  // gameStatus = null
+  // teamColor = null
+  // spyMaster = null
+  // }
 
   const game = isFetching ? null : Games[Gameid]
 
@@ -29,8 +47,6 @@ const GameLogic = (props) => {
   const gameStatus = isFetching ? null : game.GameStarted
   const teamColor = isFetching ? null : game.UsersInRoom[User.uid].Team
   const spyMaster = isFetching ? null : game.UsersInRoom[User.uid].isSpyMaster
-
-  const displayName = User.displayName
   ///////////////
 
 
