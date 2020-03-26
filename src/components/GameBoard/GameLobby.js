@@ -42,7 +42,7 @@ const GameLobby = (props) => {
 //Choosing SpyMaster
   const spyMasterHandler = agency => {
     if (spyMasters[agency] === "") {
-      setIsSpyMaster(true);
+      // setIsSpyMaster(true);
       selectAgencyHandler(agency);
       selectMaster(agency,gameId,game,User)
     } else {

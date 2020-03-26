@@ -7,7 +7,7 @@ import { compose } from 'redux'
 
 import "../css/EndGameScreen.css";
 const result = "bluewin"
-const gameId = "8lIOQ9K5MpuBJYQB1mNuL"
+const gameId = "7fc3iTEmrbMg15ZqEPP6"
 
 const EndGameScreen =(props) => {
   console.log("End Prop", props)

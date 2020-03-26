@@ -1,15 +1,19 @@
 export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
+    const copy = Object.assign({},game.UsersInRoom);
     const firestore = getFirestore()
-    await firestore.collection("Games").doc(id).set({
-      UsersInRoom: {...game.UsersInRoom,
-        [user.uid]:{
-          DisplayName:user.displayName,
-          Team: "",
-          isSpyMaster: false
+    console.log("User In Game", copy[user.uid])
+    if(copy[user.uid] === undefined){
+      await firestore.collection("Games").doc(id).set({
+        UsersInRoom: {...game.UsersInRoom,
+          [user.uid]:{
+            DisplayName:user.displayName,
+            Team: "",
+            isSpyMaster: false
+          }
         }
-      }
-    },{merge: true})
+      })
+    }
   }
   catch (error) {
     console.error(error)
@@ -42,6 +46,7 @@ export const StartGame = (id) => async (dispatch, getState, {getFirebase,getFire
     const firestore = getFirestore()
     await firestore.collection("Games").doc(id).set({
       GameStarted: true,
+      GameOver: false,
       BlueCardsLeft:9,
       RedCardsLeft:9,
       HintCount:0,
@@ -91,10 +96,11 @@ export const deleteGame = (id) => async (dispatch, getState, {getFirebase,getFir
 export const ReplayGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     const firestore = getFirestore()
-    await firestore.collection("Games").doc(id).set({
-      GameOver: false
+    await firestore.collection("Games").doc(id).update({
+      GameOver: false,
+      GameStarted: false,
     })
-    dispatch(joinGame(id,game,user))
+    // dispatch(joinGame(id,game,user))
   }
   catch (error) {
     console.error(error)
