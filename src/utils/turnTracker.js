@@ -20,8 +20,8 @@ class TurnTracker {
     return this.currentTurn;
   }
 
-  nextTurn() {
-    switch (this.currentTurn) {
+  nextTurn(currentTurn = this.currentTurn) {
+    switch (currentTurn) {
       case "redHint":
         this.currentTurn = "redGuess";
         break;
