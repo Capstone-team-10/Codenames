@@ -61,7 +61,7 @@ const GameLobby = props => {
       } ///
     } else {
       console.log(`${agency} Spy Master already chosen`);
-      addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
+      addToast(`${spyMasters[agency]} is already ${agency}'s Spy Master`, {
         appearance: "warning",
         autoDismiss: true
       });
