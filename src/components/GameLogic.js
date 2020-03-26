@@ -21,7 +21,7 @@ const GameLogic = (props) => {
   } = dummyData;
   //End dummy data
 
-  const isFetching = Games?.Gameid === undefined
+  const isFetching = (Games === undefined || Games[Gameid] === undefined)
   const displayName = User.displayName
 
 
