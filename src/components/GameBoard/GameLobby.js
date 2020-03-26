@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
-import {selectAgency, selectMaster} from "../../store/UserThunks"
-import {StartGame} from "../../store/GameThunks"
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
+import { selectAgency, selectMaster } from "../../store/UserThunks";
+import { StartGame } from "../../store/GameThunks";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
-const GameLobby = (props) => {
-  const {allPlayers,gameId,StartGame,selectAgency,User,Games,selectMaster} = props
-  const [agency, setAgency] = useState("");
-  const [isSpyMaster, setIsSpyMaster] = useState(false);
+const GameLobby = props => {
+  const {
+    allPlayers,
+    gameId,
+    StartGame,
+    selectAgency,
+    User,
+    Games,
+    selectMaster
+  } = props;
 
-  const isFetching = Games !== undefined
-  const game = isFetching ? Games[gameId] : null
+  const isFetching = Games !== undefined;
+  const game = isFetching ? Games[gameId] : null;
 
   const [spyMasters, setSpyMasters] = useState({
     red: "",
@@ -22,46 +28,76 @@ const GameLobby = (props) => {
   const { addToast } = useToasts();
 
   useEffect(() => {
-    selectAgency(agency,gameId,game,User)
-  },[agency]);
-
-  useEffect(() => {
-    console.log("AllPlayers",allPlayers);
+    console.log("running hook______");
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
-        if (player.spyMaster) {
-          acc[player.team] = player.displayName;
+        if (player.isSpyMaster) {
+          acc[player.Team] = player.DisplayName;
         }
         return acc;
       },
       { red: "", blue: "" }
     );
-    console.log("who are masters",spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
-//Choosing SpyMaster
-  const spyMasterHandler = agency => {
+
+  //Choosing SpyMaster
+  const spyMasterHandler = async agency => {
     if (spyMasters[agency] === "") {
-      setIsSpyMaster(true);
       selectAgencyHandler(agency);
-      selectMaster(agency,gameId,game,User)
+      try {
+        const err = await selectMaster(agency, gameId, game, User);
+        if (err !== undefined) {
+          addToast(
+            "Sorry, we couldn't make you spymaster right now. Try again",
+            {
+              appearance: "warning",
+              autoDismiss: true
+            }
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      } ///
     } else {
       console.log(`${agency} Spy Master already chosen`);
-      addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
+      addToast(`${spyMasters[agency]} is already ${agency}'s Spy Master`, {
         appearance: "warning",
         autoDismiss: true
       });
     }
-  };
-/// Choosing Sides
-  const selectAgencyHandler = selectedAgency => {
-    console.log(`Player chose the ${selectedAgency} agency`);
-    setAgency(selectedAgency);
+    console.log("---------spyMasters is: ", spyMasters);
   };
 
-  const readyHandler = () => {
+  /// Choosing Sides
+  const selectAgencyHandler = async selectedAgency => {
+    console.log(`Player chose the ${selectedAgency} agency`);
+    try {
+      const err = await selectAgency(selectedAgency, gameId, game, User);
+      if (err !== undefined) {
+        addToast("Sorry, we couldn't select your side right now. Try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const readyHandler = async () => {
     console.log("ready to start clicked");
-    StartGame(gameId)
+    try {
+      const err = await StartGame(gameId);
+      if (err !== undefined) {
+        addToast("Sorry, failed to start game. Please try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -127,20 +163,22 @@ const GameLobby = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth,
-  }
-}
+    User: state.firebase.auth
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    StartGame:(id) =>dispatch(StartGame(id)),
-    selectAgency: (color,gameId,game,User) => dispatch(selectAgency(color,gameId,game,User)),
-    selectMaster: (color,gameId,game,User) => dispatch(selectMaster(color,gameId,game,User))
-  }
-}
+    StartGame: id => dispatch(StartGame(id)),
+    selectAgency: (color, gameId, game, User) =>
+      dispatch(selectAgency(color, gameId, game, User)),
+    selectMaster: (color, gameId, game, User) =>
+      dispatch(selectMaster(color, gameId, game, User))
+  };
+};
 
 export default compose(
   firestoreConnect([
@@ -148,5 +186,5 @@ export default compose(
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps,mapDispatchToProps)
-)(GameLobby)
+  connect(mapStateToProps, mapDispatchToProps)
+)(GameLobby);

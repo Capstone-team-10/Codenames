@@ -2,32 +2,27 @@
 import React from "react";
 
 //testing firestoreConnect
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
-const UserProfile = (props) => {
+const UserProfile = props => {
+  const isFetching = props.AllUser === undefined;
+  const authUser = isFetching ? null : props.SignInUser;
+  const currentUser = isFetching ? null : props.AllUser[props.uid];
 
-  const isFetching = !Array.isArray(props.AllUser)
-  const authUser = isFetching ? null : props.SignInUser
-  const realUser = isFetching ? null : props.AllUser.filter(user => (
-    (user.id === props.SignInUser.uid)
-  ))
-  const currentUser = isFetching ? null : realUser[0]
   // you need to be logged in for this to not error, which is okay.
   return (
     <div>
-      {isFetching ? (<div>Still Loading</div>) : (
+      {isFetching ? (
+        <div>Still Loading</div>
+      ) : (
         <div className="User">
           <div className="User-container">
-           <h1> Welcome, {authUser.displayName}</h1>
+            <h1> Welcome, {authUser.displayName}</h1>
             <h3> Below is your current information and record</h3>
-            <p>
-              Player Name: {authUser.displayName}
-            </p>
-            <p>
-              Player Email:{authUser.email}
-            </p>
+            <p>Player Name: {authUser.displayName}</p>
+            <p>Player Email:{authUser.email}</p>
             <p>
               Game Record: {currentUser.Win} wins : {currentUser.Loss} losses
             </p>
@@ -35,17 +30,19 @@ const UserProfile = (props) => {
           <Link to={`/profile/${authUser.displayName}`}>Edit Profile information</Link>
         </button> */}
           </div>
-        </div>)}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    AllUser: state.firestore.ordered.Users,
+    AllUser: state.firestore.data.Users,
     SignInUser: state.firebase.auth,
-  }
-}
+    uid: state.firebase.auth.uid
+  };
+};
 
 export default compose(
   firestoreConnect([
@@ -54,8 +51,7 @@ export default compose(
     }
   ]),
   connect(mapStateToProps)
-)(UserProfile)
-
+)(UserProfile);
 
 // export default compose(
 //   firestoreConnect([

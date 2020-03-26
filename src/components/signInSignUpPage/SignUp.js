@@ -44,9 +44,21 @@ const SignUp = (props) => {
     }
   };
 
-  const AuthWithGoogle = () =>{
-    props.googleProfile()
-    props.history.push("/userProfile")
+  const AuthWithGoogle = async () =>{
+    try {
+      const err = await props.googleProfile()
+      if(err === undefined) {
+        props.history.push("/userProfile")
+      }
+      else{
+        addToast(err, {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
     return (
       <div className="signUp-wrapper">

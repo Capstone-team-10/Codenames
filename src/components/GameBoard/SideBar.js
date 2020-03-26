@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
 import { useToasts } from "react-toast-notifications";
-import {leaveGame} from "../../store/GameThunks"
+import { leaveGame } from "../../store/GameThunks";
 
 const SideBar = ({
   allPlayers,
@@ -17,20 +17,40 @@ const SideBar = ({
   gameId,
   Games,
   User,
-  LeaveGame,
+  LeaveGame
 }) => {
+  console.log("All Players - Siderbar", allPlayers);
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
 
   const { addToast } = useToasts();
 
-  const isFetching = Games !== undefined
-  const game = isFetching ? Games[gameId] : null
+  useEffect(() => {
+    return () => {
+      LeaveHandler();
+    };
+  }, []);
 
-  const LeaveHandler = () =>{
-    LeaveGame(gameId,game,User)
-    history.push("/userProfile")
-  }
+  const isFetching = Games !== undefined;
+  const game = isFetching ? Games[gameId] : null;
+
+  const LeaveHandler = async () => {
+    try {
+      await LeaveGame(gameId, game, User);
+      history.push("/userProfile");
+      // if(err === undefined){
+      //   history.push("/userProfile");
+      // }
+      // else{
+      //   addToast("Sorry, we couldn't exit you from this game. Try again", {
+      //     appearance: "warning",
+      //     autoDismiss: true
+      //   });
+      // }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const changeHandler = evt => {
     console.log(evt.target.value);
@@ -91,11 +111,11 @@ const SideBar = ({
         <p className="players-text">{`With the ${teamColor} spy agency`}</p>
       </div>
       <div className="allPlayersInfo-container">
-        {allPlayers.map(({ displayName, team, spyMaster }, index) => {
+        {allPlayers.map(({ DisplayName, Team, isSpyMaster }, index) => {
           return (
-            <p className="players-text" key={`${index}`}>{`${team} ${
-              spyMaster ? "spy master: " : "spy: "
-            }${displayName}`}</p>
+            <p className="players-text" key={`${index}`}>{`${Team} ${
+              isSpyMaster ? "spy master: " : "spy: "
+            }${DisplayName}`}</p>
           );
         })}
       </div>
@@ -184,18 +204,18 @@ const SideBar = ({
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth,
-  }
-}
+    User: state.firebase.auth
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (id,game,user) => dispatch(leaveGame(id,game,user))
-  }
-}
+    LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user))
+  };
+};
 
 export default compose(
   firestoreConnect([
@@ -203,5 +223,5 @@ export default compose(
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps,mapDispatchToProps)
-)(SideBar)
+  connect(mapStateToProps, mapDispatchToProps)
+)(SideBar);

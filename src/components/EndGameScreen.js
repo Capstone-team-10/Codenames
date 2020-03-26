@@ -4,13 +4,15 @@ import { withRouter } from 'react-router'
 import {leaveGame,ReplayGame} from "../store/GameThunks"
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { useToasts } from "react-toast-notifications";
 
 import "../css/EndGameScreen.css";
 const result = "bluewin"
-const gameId = "8lIOQ9K5MpuBJYQB1mNuL"
+const gameId = "7fc3iTEmrbMg15ZqEPP6"
 
 const EndGameScreen =(props) => {
   console.log("End Prop", props)
+  const {addToast} = useToasts()
   // const gameId = props.gameId
 
   const isFetching = props.Games !== undefined
@@ -39,16 +41,38 @@ const EndGameScreen =(props) => {
       message = "There was an error, Win-loss records will not be recorded"
   }
 
-  const SameGameRoom = (e) =>{
-    e.preventDefault()
-    props.ReplayGame(gameId,game,props.User)
-    props.history.push(`/play/${gameId}`)
+  const SameGameRoom = async(e) =>{
+    try {
+    const err= await props.ReplayGame(gameId,game,props.User)
+    if(err === undefined){
+      props.history.push(`/play/${gameId}`)
+    }
+    else{
+      addToast("Sorry, we can't reload the Room", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+    }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  const NewGameRoom = (e) =>{
-    e.preventDefault()
-    props.LeaveGame(gameId,game,props.User)
-    props.history.push("/onSubmit")
+  const NewGameRoom = async (e) =>{
+    try {
+      const err = await props.LeaveGame(gameId,game,props.User)
+      if(err === undefined){
+        props.history.push("/onSubmit")
+      }
+      else{
+        addToast("Sorry, we having network errors", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
 

@@ -17,7 +17,7 @@ const allPlayers = [
   {
     displayName: "Alan",
     team: "blue",
-    spyMaster: true
+    spyMaster: false
   },
   {
     displayName: "Charles",
