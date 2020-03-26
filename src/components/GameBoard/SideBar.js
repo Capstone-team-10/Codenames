@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 import { useToasts } from "react-toast-notifications";
+import {leaveGame} from "../../store/GameThunks"
 
 const SideBar = ({
   allPlayers,
@@ -8,12 +12,25 @@ const SideBar = ({
   chatLog,
   displayName,
   spyMaster,
-  teamColor
+  teamColor,
+  history,
+  gameId,
+  Games,
+  User,
+  LeaveGame,
 }) => {
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
 
   const { addToast } = useToasts();
+
+  const isFetching = Games !== undefined
+  const game = isFetching ? Games[gameId] : null
+
+  const LeaveHandler = () =>{
+    LeaveGame(gameId,game,User)
+    history.push("/userProfile")
+  }
 
   const changeHandler = evt => {
     console.log(evt.target.value);
@@ -65,10 +82,6 @@ const SideBar = ({
       console.log("Submit chat message");
     }
     document.getElementById("chatMsg").value = "";
-  };
-
-  const leaveHandler = evt => {
-    console.log(evt);
   };
 
   return (
@@ -163,7 +176,7 @@ const SideBar = ({
       </div>
       <button
         className="leave-game-btn btn center waves-effect waves-dark red darken-4"
-        onClick={leaveHandler}
+        onClick={LeaveHandler}
       >
         Leave Game
       </button>
@@ -171,4 +184,24 @@ const SideBar = ({
   );
 };
 
-export default SideBar;
+const mapStateToProps = (state) => {
+  return {
+    Games: state.firestore.data.Games,
+    User: state.firebase.auth,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    LeaveGame: (id,game,user) => dispatch(leaveGame(id,game,user))
+  }
+}
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Games"
+    }
+  ]),
+  connect(mapStateToProps,mapDispatchToProps)
+)(SideBar)

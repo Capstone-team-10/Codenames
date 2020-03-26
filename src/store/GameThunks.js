@@ -1,9 +1,3 @@
-
-/// Thunk
-// Create a replay Thunk that just changes Game OVer status back to false
-// Redirect from title page to Userprofile if loggedin
-
-//Create Start Thunk Game
 export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     const firestore = getFirestore()
@@ -43,11 +37,30 @@ export const newGame = (history,user) => async (dispatch, getState, {getFirebase
   }
 };
 
+export const StartGame = (id) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    const firestore = getFirestore()
+    await firestore.collection("Games").doc(id).set({
+      GameStarted: true,
+      BlueCardsLeft:9,
+      RedCardsLeft:9,
+      HintCount:0,
+      HintWord:"",
+      CurrentTurn: "",
+      CardPickedResult:"",
+      CardsOnTable: [],
+      Chat:[]
+    },{merge: true})
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
+
 
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
 export const leaveGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("Users In room before", game.UsersInRoom)
     const copy = Object.assign({},game.UsersInRoom);
     delete copy[user.uid]
 
@@ -100,24 +113,3 @@ export const GameOver = (id,result) => async (dispatch, getState, {getFirebase,g
     console.error(error)
   }
 };
-
-export const StartGame = (id) => async (dispatch, getState, {getFirebase,getFirestore}) => {
-  try {
-    const firestore = getFirestore()
-    await firestore.collection("Games").doc(id).set({
-      GameStarted: true,
-      BlueCardsLeft:9,
-      RedCardsLeft:9,
-      HintCount:0,
-      HintWord:"",
-      CurrentTurn: "",
-      CardPickedResult:"",
-      CardsOnTable: [],
-      Chat:[]
-    },{merge: true})
-  }
-  catch (error) {
-    console.error(error)
-  }
-};
-

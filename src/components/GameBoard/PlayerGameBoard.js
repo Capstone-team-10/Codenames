@@ -36,7 +36,7 @@ const PlayerGameBoard = ({
           {gameStatus ? (
             <PlayArea deck={deck} spyMaster={spyMaster} gameId={gameId}/>
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId} history={history}/>
+            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
           )}
           <SideBar
             allPlayers={allPlayers}
@@ -45,6 +45,8 @@ const PlayerGameBoard = ({
             chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
+            gameId={gameId}
+            history={history}
           />
         </>
       ) : (
@@ -58,7 +60,7 @@ const PlayerGameBoard = ({
               gameId={gameId}
             />
           ) : (
-            <GameLobby allPlayers={allPlayers} />
+            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
           )}
           <SideBar
             allPlayers={allPlayers}
@@ -66,6 +68,8 @@ const PlayerGameBoard = ({
             chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
+            gameId={gameId}
+            history={history}
           />
         </>
       )}
