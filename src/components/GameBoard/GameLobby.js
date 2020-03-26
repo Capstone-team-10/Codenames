@@ -27,12 +27,12 @@ const GameLobby = props => {
 
   const { addToast } = useToasts();
 
-  console.log("allPlayers is: ", allPlayers);
   useEffect(() => {
+    console.log("running hook______");
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
-        if (player.spyMaster) {
-          acc[player.team] = player.displayName;
+        if (player.isSpyMaster) {
+          acc[player.Team] = player.DisplayName;
         }
         return acc;
       },
@@ -47,14 +47,17 @@ const GameLobby = props => {
       selectAgencyHandler(agency);
       try {
         const err = await selectMaster(agency, gameId, game, User);
-        if(err !== undefined){
-          addToast("Sorry, we couldn't make you spymaster right now. Try again", {
-            appearance: "warning",
-            autoDismiss: true
-          });
+        if (err !== undefined) {
+          addToast(
+            "Sorry, we couldn't make you spymaster right now. Try again",
+            {
+              appearance: "warning",
+              autoDismiss: true
+            }
+          );
         }
       } catch (error) {
-        console.error(error)
+        console.error(error);
       } ///
     } else {
       console.log(`${agency} Spy Master already chosen`);
@@ -63,6 +66,7 @@ const GameLobby = props => {
         autoDismiss: true
       });
     }
+    console.log("---------spyMasters is: ", spyMasters);
   };
 
   /// Choosing Sides
@@ -70,29 +74,29 @@ const GameLobby = props => {
     console.log(`Player chose the ${selectedAgency} agency`);
     try {
       const err = await selectAgency(selectedAgency, gameId, game, User);
-      if(err !== undefined){
+      if (err !== undefined) {
         addToast("Sorry, we couldn't select your side right now. Try again", {
           appearance: "warning",
           autoDismiss: true
         });
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const readyHandler = async () => {
     console.log("ready to start clicked");
     try {
       const err = await StartGame(gameId);
-      if(err !== undefined){
+      if (err !== undefined) {
         addToast("Sorry, failed to start game. Please try again", {
           appearance: "warning",
           autoDismiss: true
         });
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -156,8 +160,8 @@ const GameLobby = props => {
         ready to start
       </button>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => {
   return {
@@ -166,7 +170,7 @@ const mapStateToProps = state => {
   };
 };
 
-const  mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     StartGame: id => dispatch(StartGame(id)),
     selectAgency: (color, gameId, game, User) =>
