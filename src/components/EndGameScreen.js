@@ -1,13 +1,13 @@
 import React from 'react'
 import {connect} from "react-redux"
 import { withRouter } from 'react-router'
-import {leaveGame} from "../store/GameThunks"
+import {leaveGame,ReplayGame} from "../store/GameThunks"
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
 import "../css/EndGameScreen.css";
-const result = "error"
-const gameId = "7ubJsrY9KPjY2DSdXPV4"
+const result = "bluewin"
+const gameId = "8lIOQ9K5MpuBJYQB1mNuL"
 
 const EndGameScreen =(props) => {
   console.log("End Prop", props)
@@ -41,7 +41,8 @@ const EndGameScreen =(props) => {
 
   const SameGameRoom = (e) =>{
     e.preventDefault()
-    ///Initiate Same Game Room
+    props.ReplayGame(gameId,game,props.User)
+    props.history.push(`/play/${gameId}`)
   }
 
   const NewGameRoom = (e) =>{
@@ -75,7 +76,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (Gameid,game,user) => dispatch(leaveGame(Gameid,game,user))
+    LeaveGame: (Gameid,game,user) => dispatch(leaveGame(Gameid,game,user)),
+    ReplayGame: (Gameid,game,user) =>dispatch(ReplayGame(Gameid,game,user))
   }
 }
 

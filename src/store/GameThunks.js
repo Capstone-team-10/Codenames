@@ -6,7 +6,6 @@
 //Create Start Thunk Game
 export const joinGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("Users In room", game.UsersInRoom)
     const firestore = getFirestore()
     await firestore.collection("Games").doc(id).set({
       UsersInRoom: {...game.UsersInRoom,
@@ -46,7 +45,6 @@ export const newGame = (history,user) => async (dispatch, getState, {getFirebase
 
 
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
-// Add conditional, if no users to dispatch EndGaame  Thnk or Delete Game thunk
 export const leaveGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     console.log("Users In room before", game.UsersInRoom)
@@ -76,3 +74,42 @@ export const deleteGame = (id) => async (dispatch, getState, {getFirebase,getFir
     console.error(error)
   }
 };
+
+export const ReplayGame = (id,game,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    const firestore = getFirestore()
+    await firestore.collection("Games").doc(id).set({
+      GameOver: false
+    })
+    dispatch(joinGame(id,game,user))
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
+
+export const GameOver = (id,result) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    const firestore = getFirestore()
+    await firestore.collection("Games").doc(id).set({
+      GameOver: true,
+      GameResult: result
+    })
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
+
+export const StartGame = (id) => async (dispatch, getState, {getFirebase,getFirestore}) => {
+  try {
+    const firestore = getFirestore()
+    await firestore.collection("Games").doc(id).set({
+      GameStarted: true,
+    })
+  }
+  catch (error) {
+    console.error(error)
+  }
+};
+
