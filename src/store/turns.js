@@ -58,6 +58,9 @@ export const leaveGame = (id,game,user) => async (dispatch, getState, {getFireba
       UsersInRoom: {...copy
         }
       })
+      if (Object.keys(copy).length === 0){
+        dispatch(deleteGame(id))
+      }
   }
   catch (error) {
     console.error(error)
