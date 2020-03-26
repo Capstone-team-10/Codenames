@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -25,12 +25,18 @@ const SideBar = ({
 
   const { addToast } = useToasts();
 
+  useEffect(() => {
+    return () => {
+      LeaveHandler();
+    };
+  }, []);
+
   const isFetching = Games !== undefined;
   const game = isFetching ? Games[gameId] : null;
 
   const LeaveHandler = async () => {
     try {
-     await LeaveGame(gameId, game, User);
+      await LeaveGame(gameId, game, User);
       history.push("/userProfile");
       // if(err === undefined){
       //   history.push("/userProfile");
@@ -42,7 +48,7 @@ const SideBar = ({
       //   });
       // }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
