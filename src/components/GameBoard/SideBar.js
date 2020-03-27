@@ -6,6 +6,7 @@ import { compose } from "redux";
 import { useToasts } from "react-toast-notifications";
 import { leaveGame } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
+import {SetHintWordAndCount} from "../../store/HintThunk"
 
 import { displayCurrentPlayersTurn, isItYourTurn } from "../../utils";
 
@@ -22,7 +23,8 @@ const SideBar = ({
   SendMessage,
   LeaveGame,
   currentTurn,
-  gameStatus
+  gameStatus,
+  Sendhint
 }) => {
   console.log("All Players - Siderbar", allPlayers);
   console.log("The Current Turn - Siderbar", currentTurn);
@@ -69,6 +71,9 @@ const SideBar = ({
           autoDismiss: true
         }
       );
+      document.getElementById("hint").value = "";
+      document.getElementById("hintNumber").value = "1";
+      return;
     }
     const hintElem = document.getElementById("hint");
     const hintNumberElem = document.getElementById("hintNumber");
@@ -103,7 +108,7 @@ const SideBar = ({
     } else {
       setHint(hintElem.value);
       setHintNumber(hintNumberElem.value);
-      //Thunk call goes here
+      Sendhint(gameId,hintElem.value,hintNumberElem.value)
     }
     document.getElementById("hint").value = "";
     document.getElementById("hintNumber").value = "1";
@@ -285,7 +290,8 @@ const mapDispatchToProps = dispatch => {
   return {
     LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
     SendMessage: (id, game, user, message) =>
-      dispatch(SendMessage(id, game, user, message))
+      dispatch(SendMessage(id, game, user, message)),
+    Sendhint: (id,word,count) => dispatch(SetHintWordAndCount(id,word,count))
   };
 };
 
