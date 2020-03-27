@@ -9,7 +9,9 @@ const PlayArea = ({
   setPickResult,
   spyMaster,
   gameId,
-  dealSpyAndSpymasterDecks
+  teamColor,
+  dealSpyAndSpymasterDecks,
+  currentTurn
 }) => {
   // console.log("In PlayArea deck is: ", deck);
   console.log("Play Area ID", gameId);
@@ -51,12 +53,14 @@ const PlayArea = ({
           <div className="cards-wrapper">
             {deck.map((card, index) => (
               <PlayerCard
+                teamColor={teamColor}
                 card={card}
                 index={index}
                 key={card.word}
                 playersPick={playersPick}
                 setPickResult={setPickResult}
                 spyMaster={spyMaster}
+                currentTurn={currentTurn}
               />
             ))}
           </div>

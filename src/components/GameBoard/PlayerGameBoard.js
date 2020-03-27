@@ -81,6 +81,7 @@ const PlayerGameBoard = ({
               setPickResult={setPickResult}
               spyMaster={spyMaster}
               gameId={gameId}
+              teamColor={teamColor}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
