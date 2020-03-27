@@ -3,37 +3,27 @@ import PlayerGameBoard from "./GameBoard";
 
 import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
-const GameLogic = (props) => {
+const GameLogic = props => {
   //Dummy data start)
-  const {Games,User,history} = props
-  const Gameid = props.match.params.id
-  const {
-    // allPlayers,
-    chatLog,
-    // displayName,
-    // gameStatus,
-    // spyMaster,
-    // teamColor
-  } = dummyData;
+  const { Games, User, history } = props;
+  const Gameid = props.match.params.id;
+  const { chatLog } = dummyData;
   //End dummy data
-  const isFetching = (Games === undefined || Games[Gameid] === undefined)
-  const displayName = User.displayName
 
+  const isFetching = Games === undefined || Games[Gameid] === undefined;
+  const displayName = User.displayName;
 
+  const game = isFetching ? null : Games[Gameid];
 
-  const game = isFetching ? null : Games[Gameid]
+  const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
 
-  const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom)
-
-  const gameStatus = isFetching ? null : game.GameStarted
-  const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team
-  const  spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster
-  ///////////////
-
+  const gameStatus = isFetching ? null : game.GameStarted;
+  const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
+  const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
@@ -79,6 +69,10 @@ const GameLogic = (props) => {
     };
   };
 
+  const syncDeck = deck => {
+    return () => {};
+  };
+
   const makeSpyAndSpyMasterDecks = deck => {
     const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
 
@@ -99,8 +93,8 @@ const GameLogic = (props) => {
     <>
       {spyMaster ? (
         <PlayerGameBoard
-          gameId = {Gameid}
-          history = {history}
+          gameId={Gameid}
+          history={history}
           allPlayers={allPlayers}
           chatLog={chatLog}
           deck={spyMasterDeck}
@@ -111,8 +105,8 @@ const GameLogic = (props) => {
         />
       ) : (
         <PlayerGameBoard
-          gameId = {Gameid}
-          history = {history}
+          gameId={Gameid}
+          history={history}
           allPlayers={allPlayers}
           chatLog={chatLog}
           deck={spyDeck}
@@ -128,12 +122,12 @@ const GameLogic = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
     User: state.firebase.auth
-  }
-}
+  };
+};
 
 export default compose(
   firestoreConnect([
@@ -142,4 +136,4 @@ export default compose(
     }
   ]),
   connect(mapStateToProps)
-)(GameLogic)
+)(GameLogic);
