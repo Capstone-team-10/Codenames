@@ -21,7 +21,9 @@ export const joinGame = (id, game, user) => async (
               isSpyMaster: false
             }
           }
-        });
+        }
+          ,
+          { merge: true });
     }
   } catch (error) {
     return error.message
@@ -73,7 +75,6 @@ export const StartGame = id => async (
           CurrentTurn: "",
           CardPickedResult: "",
           CardsOnTable: [],
-          Chat: []
         },
         { merge: true }
       );

@@ -97,6 +97,18 @@ const SideBar = ({
     return false;
   };
 
+  const onEnterPress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      if (e.target.id === "chatMsg") {
+        submitChat();
+      } else {
+        submitHint();
+      }
+    }
+
+  }
+
   const submitChat = async () => {
     let chatMsg = document.getElementById("chatMsg").value;
     if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
@@ -137,6 +149,7 @@ const SideBar = ({
               <div className="word-hint-wrapper">
                 <label htmlFor="hint">One Word Hint</label>
                 <input
+                  onKeyDown={onEnterPress}
                   onChange={changeHandler}
                   type="text"
                   className="input"
@@ -192,7 +205,7 @@ const SideBar = ({
           })}
         </div>
         <div className="input-wrapper">
-          <input className="input" type="text" id="chatMsg" />
+          <input className="input" type="text" id="chatMsg" onKeyDown={onEnterPress} />
         </div>
         <button
           className="submit-chat btn waves-effect waves-dark teal darken-4"
