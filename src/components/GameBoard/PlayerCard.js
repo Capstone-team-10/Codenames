@@ -13,7 +13,7 @@ const PlayerCard = ({ card, index, playersPick, setPickResult, spyMaster, teamCo
         {
           appearance: "warning",
           autoDismiss: true
-        }
+        })
         return;
     }
     const pick = evt.currentTarget.id;
