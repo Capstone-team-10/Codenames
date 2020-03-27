@@ -37,9 +37,6 @@ const SideBar = ({
   const isFetchingChat = (isFetching) || (game.Chat === undefined)
   const chatLog = isFetchingChat ? [] : game.Chat;
 
-  // const isFetching = Games !== undefined;
-  // const game = isFetching ? Games[gameId] : null;
-
   const LeaveHandler = async () => {
     try {
       await LeaveGame(gameId, game, User);
