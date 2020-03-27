@@ -49,33 +49,33 @@ export const changeBluesCardsLeft = (id,outcome,game,thunkString) => async (
 ) => {
   try {
     console.log("In change Blues Cards Left Thunk ---> ", )
-    const firestore = getFirestore();
-    switch(outcome){
-      case "good":
-        await firestore
-      .collection("Games")
-      .doc(id)
-      .update({
-        BlueCardsLeft: game.BlueCardsLeft--
-      });
-           ///dispatch(ChangeHint(id,game))
-      break;
-      case "bad":
-        await firestore
-      .collection("Games")
-      .doc(id)
-      .update({
-        RedCardsLeft: game.RedsCardsLeft--
-      });
-        ///dispatch(End Turn Thunk(id,thunkString))
-      break;
-    case "neutral":
-       ///dispatch(End Turn Thunk(id,thunkString))
-      break;
-    default:
-      console.log("Default Change Blue Thunk")
-        ///dispatch(Game Over Thunk(id,thunkString))
-    }
+    // const firestore = getFirestore();
+    // switch(outcome){
+    //   case "good":
+    //     await firestore
+    //   .collection("Games")
+    //   .doc(id)
+    //   .update({
+    //     BlueCardsLeft: game.BlueCardsLeft--
+    //   });
+    //        ///dispatch(ChangeHint(id,game))
+    //   break;
+    //   case "bad":
+    //     await firestore
+    //   .collection("Games")
+    //   .doc(id)
+    //   .update({
+    //     RedCardsLeft: game.RedsCardsLeft--
+    //   });
+    //     ///dispatch(End Turn Thunk(id,thunkString))
+    //   break;
+    // case "neutral":
+    //    ///dispatch(End Turn Thunk(id,thunkString))
+    //   break;
+    // default:
+    //   console.log("Default Change Blue Thunk")
+    //     ///dispatch(Game Over Thunk(id,thunkString))
+    // }
   }
     catch (error) {
     return error.message

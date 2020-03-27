@@ -19,7 +19,7 @@ const PlayerCard = ({ card, index, playersPick, setPickResult, spyMaster, teamCo
     const pick = evt.currentTarget.id;
     console.log("The current card picked is: ", pick);
     if (!spyMaster && !flipped) {
-      const result = playersPick(pick, "red");
+      const result = playersPick(pick, teamColor);
       const cardImgElem = document.getElementById(`${pick}img`);
       cardImgElem.src = `${process.env.PUBLIC_URL}${result.image}`;
       // setPickResult(result.outcome);
