@@ -8,7 +8,7 @@ const PlayerCard = ({ card, index, playersPick, setPickResult, spyMaster }) => {
       const result = playersPick(pick, "red");
       const cardImgElem = document.getElementById(`${pick}img`);
       cardImgElem.src = `${process.env.PUBLIC_URL}${result.image}`;
-      setPickResult(result.outcome);
+      // setPickResult(result.outcome);
       evt.currentTarget.classList.toggle("flip-card");
       //add for production
       // evt.currentTarget.classList.add("flip-card");
