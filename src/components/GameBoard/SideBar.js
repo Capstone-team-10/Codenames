@@ -4,12 +4,11 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 import { useToasts } from "react-toast-notifications";
-import { leaveGame } from "../../store/GameThunks";
+import { leaveGame, SendMessage } from "../../store/GameThunks";
 
 const SideBar = ({
   allPlayers,
   bannedWords,
-  chatLog,
   displayName,
   spyMaster,
   teamColor,
@@ -17,6 +16,7 @@ const SideBar = ({
   gameId,
   Games,
   User,
+  SendMessage,
   LeaveGame
 }) => {
   console.log("All Players - Siderbar", allPlayers);
@@ -31,8 +31,11 @@ const SideBar = ({
     };
   }, []);
 
-  const isFetching = Games !== undefined;
-  const game = isFetching ? Games[gameId] : null;
+
+  const isFetching = (Games === undefined || Games[gameId] === undefined)
+  const game = isFetching ? null : Games[gameId] // individual game
+  const isFetchingChat = (isFetching) || (game.Chat === undefined)
+  const chatLog = isFetchingChat ? [] : game.Chat;
 
   const LeaveHandler = async () => {
     try {
@@ -94,12 +97,16 @@ const SideBar = ({
     return false;
   };
 
-  const submitChat = () => {
+  const submitChat = async () => {
     let chatMsg = document.getElementById("chatMsg").value;
     if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
       console.log("Banned word used");
     } else {
-      console.log("Submit chat message");
+      try {
+        await SendMessage(gameId, game, User, chatMsg)
+      } catch (error) {
+        return error.message
+      }
     }
     document.getElementById("chatMsg").value = "";
   };
@@ -115,7 +122,7 @@ const SideBar = ({
           return (
             <p className="players-text" key={`${index}`}>{`${Team} ${
               isSpyMaster ? "spy master: " : "spy: "
-            }${DisplayName}`}</p>
+              }${DisplayName}`}</p>
           );
         })}
       </div>
@@ -165,11 +172,11 @@ const SideBar = ({
             </button>
           </React.Fragment>
         ) : (
-          <React.Fragment>
-            <h6>{`Hint: ${hint}`}</h6>
-            <h6>{`For: ${hintNumber} cards `}</h6>
-          </React.Fragment>
-        )}
+            <React.Fragment>
+              <h6>{`Hint: ${hint}`}</h6>
+              <h6>{`For: ${hintNumber} cards `}</h6>
+            </React.Fragment>
+          )}
       </div>
       <div className="chat-container">
         <div className="log-wrapper">
@@ -213,7 +220,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user))
+    LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
+    SendMessage: (id, game, user, message) => dispatch(SendMessage(id, game, user, message))
   };
 };
 
