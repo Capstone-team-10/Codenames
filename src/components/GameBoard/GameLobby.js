@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
-import { canStartGame } from "../../utils";
+import { canStartGame, turnTracker } from "../../utils";
 
 const GameLobby = props => {
   const {
@@ -91,8 +91,8 @@ const GameLobby = props => {
   const readyHandler = async () => {
     console.log("ready to start clicked");
     try {
-      const err = await StartGame(gameId);
-      dealCards()
+      const err = await StartGame(gameId, turnTracker.startWithTeam());
+      dealCards();
       if (err !== undefined) {
         addToast("Sorry, failed to start game. Please try again", {
           appearance: "warning",
@@ -177,7 +177,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    StartGame: id => dispatch(StartGame(id)),
+    StartGame: (id, startTeam) => dispatch(StartGame(id, startTeam)),
     selectAgency: (color, gameId, game, User) =>
       dispatch(selectAgency(color, gameId, game, User)),
     selectMaster: (color, gameId, game, User) =>

@@ -12,21 +12,22 @@ export const joinGame = (id, game, user) => async (
       await firestore
         .collection("Games")
         .doc(id)
-        .set({
-          UsersInRoom: {
-            ...game.UsersInRoom,
-            [user.uid]: {
-              DisplayName: user.displayName,
-              Team: "",
-              isSpyMaster: false
+        .set(
+          {
+            UsersInRoom: {
+              ...game.UsersInRoom,
+              [user.uid]: {
+                DisplayName: user.displayName,
+                Team: "",
+                isSpyMaster: false
+              }
             }
-          }
-        }
-          ,
-          { merge: true });
+          },
+          { merge: true }
+        );
     }
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
@@ -50,11 +51,11 @@ export const newGame = (history, user) => async (
     });
     history.push(`/play/${id}`);
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
-export const StartGame = id => async (
+export const StartGame = (id, CurrentTurn) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -72,14 +73,14 @@ export const StartGame = id => async (
           RedCardsLeft: 9,
           HintCount: 0,
           HintWord: "",
-          CurrentTurn: "",
+          CurrentTurn: CurrentTurn,
           CardPickedResult: "",
-          CardsOnTable: [],
+          CardsOnTable: []
         },
         { merge: true }
       );
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
@@ -89,7 +90,7 @@ export const Endturn = (id, turnString) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In EndTurn Thunk")
+    console.log("In EndTurn Thunk");
     // const firestore = getFirestore();
     // await firestore
     //   .collection("Games")
@@ -98,7 +99,7 @@ export const Endturn = (id, turnString) => async (
     //     CurrentTurn: turnString
     //   });
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
@@ -123,7 +124,7 @@ export const leaveGame = (id, game, user) => async (
       dispatch(deleteGame(id));
     }
   } catch (error) {
-    return error
+    return error;
   }
 };
 
@@ -139,7 +140,7 @@ export const deleteGame = id => async (
       .doc(id)
       .delete();
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
@@ -159,7 +160,7 @@ export const ReplayGame = (id, game, user) => async (
       });
     // dispatch(joinGame(id,game,user))
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
@@ -178,6 +179,6 @@ export const GameOver = (id, result) => async (
         GameResult: result
       });
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
