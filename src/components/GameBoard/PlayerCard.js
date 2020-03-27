@@ -1,7 +1,21 @@
 import React from "react";
+import { useToasts } from "react-toast-notifications";
+import { isItYourTurn } from "../../utils";
 
-const PlayerCard = ({ card, index, playersPick, setPickResult, spyMaster }) => {
+const PlayerCard = ({ card, index, playersPick, setPickResult, spyMaster, teamColor,currentTurn }) => {
+
+  const { addToast } = useToasts();
+
   const handleClick = evt => {
+    if(!isItYourTurn(currentTurn, teamColor, spyMaster)){
+      addToast(
+        `Wait for your turn!`,
+        {
+          appearance: "warning",
+          autoDismiss: true
+        })
+        return;
+    }
     const pick = evt.currentTarget.id;
     console.log("The current card picked is: ", pick);
     if (!spyMaster && !flipped) {

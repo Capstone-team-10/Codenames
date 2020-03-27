@@ -4,8 +4,11 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 import { useToasts } from "react-toast-notifications";
-import { leaveGame} from "../../store/GameThunks";
+import { leaveGame,Endturn } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
+import {SetHintWordAndCount} from "../../store/HintThunk"
+
+import { displayCurrentPlayersTurn, isItYourTurn, turnTracker } from "../../utils";
 
 const SideBar = ({
   allPlayers,
@@ -18,9 +21,14 @@ const SideBar = ({
   Games,
   User,
   SendMessage,
-  LeaveGame
+  LeaveGame,
+  currentTurn,
+  gameStatus,
+  Sendhint,
+  EndTurn
 }) => {
   console.log("All Players - Siderbar", allPlayers);
+  console.log("The Current Turn - Siderbar", currentTurn);
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
 
@@ -36,6 +44,8 @@ const SideBar = ({
   const game = isFetching ? null : Games[gameId]; // individual game
   const isFetchingChat = isFetching || game.Chat === undefined;
   const chatLog = isFetchingChat ? [] : game.Chat;
+  const getHint = isFetching ?  "" : game.HintWord
+  const getHintCount = isFetching ? 0 : game.HintCount
 
   const LeaveHandler = async () => {
     try {
@@ -56,6 +66,18 @@ const SideBar = ({
   };
 
   const submitHint = () => {
+    if(!isItYourTurn(currentTurn, teamColor, spyMaster)){
+      addToast(
+        `Wait for your turn!`,
+        {
+          appearance: "warning",
+          autoDismiss: true
+        }
+      );
+      document.getElementById("hint").value = "";
+      document.getElementById("hintNumber").value = "1";
+      return;
+    }
     const hintElem = document.getElementById("hint");
     const hintNumberElem = document.getElementById("hintNumber");
     const bannedWord = bannedWords.indexOf(hintElem.value.toUpperCase()) > 0;
@@ -89,7 +111,9 @@ const SideBar = ({
     } else {
       setHint(hintElem.value);
       setHintNumber(hintNumberElem.value);
-      //Thunk call goes here
+      Sendhint(gameId,hintElem.value,hintNumberElem.value)
+      let turnString = turnTracker.nextTurn(currentTurn)
+      EndTurn(gameId,turnString)
     }
     document.getElementById("hint").value = "";
     document.getElementById("hintNumber").value = "1";
@@ -143,6 +167,13 @@ const SideBar = ({
 
   return (
     <div className="sideBar-wrapper wrapper right">
+      {gameStatus ? (
+        <div className="current-turn-info-container">
+          <p className="current-turn-text">{`It is ${displayCurrentPlayersTurn(
+            currentTurn
+          )}'s turn`}</p>
+        </div>
+      ) : null}
       <div className="playerInfo-container container">
         <p className="players-text">{`You are agent: ${displayName}`}</p>
         <p className="players-text">{`With the ${teamColor} spy agency`}</p>
@@ -202,8 +233,8 @@ const SideBar = ({
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <h6>{`Hint: ${hint}`}</h6>
-            <h6>{`For: ${hintNumber} cards `}</h6>
+            <h6>{`Hint: ${getHint}`}</h6>
+            <h6>{`For: ${getHintCount} cards `}</h6>
           </React.Fragment>
         )}
       </div>
@@ -264,7 +295,9 @@ const mapDispatchToProps = dispatch => {
   return {
     LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
     SendMessage: (id, game, user, message) =>
-      dispatch(SendMessage(id, game, user, message))
+      dispatch(SendMessage(id, game, user, message)),
+    Sendhint: (id,word,count) => dispatch(SetHintWordAndCount(id,word,count)),
+    EndTurn: (id,turnString) => dispatch(Endturn(id,turnString))
   };
 };
 

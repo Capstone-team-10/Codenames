@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { SideBar, PlayArea, GameLobby } from "./index";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
 import "../../css/playerGameBoard.css";
 
 const PlayerGameBoard = ({
   allPlayers,
-  chatLog,
   deck,
   displayName,
   gameStatus,
@@ -16,9 +18,16 @@ const PlayerGameBoard = ({
   gameId,
   history,
   dealCards,
-  dealSpyAndSpymasterDecks
+  dealSpyAndSpymasterDecks,
+  Games
 }) => {
   const [bannedWords, setBannedWords] = useState([]);
+
+  const isFetching = Games === undefined || Games[gameId] === undefined;
+
+  const game = isFetching ? null : Games[gameId];
+  const currentTurn = isFetching ? "" : game.CurrentTurn;
+  console.log("currentTurn is: ", currentTurn);
 
   useEffect(() => {
     const banned = [];
@@ -37,6 +46,7 @@ const PlayerGameBoard = ({
         <>
           {gameStatus ? (
             <PlayArea
+              currentTurn={currentTurn}
               deck={deck}
               spyMaster={spyMaster}
               gameId={gameId}
@@ -50,13 +60,14 @@ const PlayerGameBoard = ({
             />
           )}
           <SideBar
+            currentTurn={currentTurn}
             allPlayers={allPlayers}
             bannedWords={bannedWords}
             displayName={displayName}
-            chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
+            gameStatus={gameStatus}
             history={history}
           />
         </>
@@ -64,11 +75,13 @@ const PlayerGameBoard = ({
         <>
           {gameStatus ? (
             <PlayArea
+              currentTurn={currentTurn}
               deck={deck}
               playersPick={playersPick}
               setPickResult={setPickResult}
               spyMaster={spyMaster}
               gameId={gameId}
+              teamColor={teamColor}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
@@ -79,12 +92,13 @@ const PlayerGameBoard = ({
             />
           )}
           <SideBar
+            currentTurn={currentTurn}
             allPlayers={allPlayers}
             displayName={displayName}
-            chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
+            gameStatus={gameStatus}
             history={history}
           />
         </>
@@ -93,4 +107,18 @@ const PlayerGameBoard = ({
   );
 };
 
-export default PlayerGameBoard;
+const mapStateToProps = state => {
+  return {
+    Games: state.firestore.data.Games,
+    User: state.firebase.auth
+  };
+};
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Games"
+    }
+  ]),
+  connect(mapStateToProps)
+)(PlayerGameBoard);

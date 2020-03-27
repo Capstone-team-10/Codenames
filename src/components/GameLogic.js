@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
 
-import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
+import { dealCards, getResultImage, turnTracker } from "../utils";
 
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -9,11 +9,8 @@ import { compose } from "redux";
 import { syncPlayerDecks } from "../store/DeckThunk";
 
 const GameLogic = props => {
-  //Dummy data start)
   const { Games, User, history, decksync } = props;
   const Gameid = props.match.params.id;
-  const { chatLog } = dummyData;
-  //End dummy data
 
   const isFetching = Games === undefined || Games[Gameid] === undefined;
   const displayName = User.displayName;
@@ -108,7 +105,6 @@ const GameLogic = props => {
           gameId={Gameid}
           history={history}
           allPlayers={allPlayers}
-          chatLog={chatLog}
           deck={spyMasterDeck}
           displayName={displayName}
           gameStatus={gameStatus}
@@ -122,7 +118,6 @@ const GameLogic = props => {
           gameId={Gameid}
           history={history}
           allPlayers={allPlayers}
-          chatLog={chatLog}
           deck={spyDeck}
           displayName={displayName}
           gameStatus={gameStatus}
