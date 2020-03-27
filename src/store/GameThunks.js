@@ -36,6 +36,7 @@ export const newGame = (history, user) => async (
   try {
     const firestore = getFirestore();
     const { id } = await firestore.collection("Games").add({
+      Chat: [],
       GameStarted: false,
       UsersInRoom: {
         [user.uid]: {
