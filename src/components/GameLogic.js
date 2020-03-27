@@ -80,16 +80,17 @@ const GameLogic = props => {
   };
 
   const dealSpyAndSpymasterDecks = () => {
-    makeSpyAndSpyMasterDecks(FirestoreDeck);
+    // makeSpyAndSpyMasterDecks(FirestoreDeck);
+    const spy = FirestoreDeck.map(({ word, flipped }) => ({ word, flipped }));
+
+    setSpyMasterDeck(FirestoreDeck);
+    setSpyDeck(spy);
   };
 
   //consider moving functionality into dealSpyAndSpyMasterDecks
-  const makeSpyAndSpyMasterDecks = deck => {
-    const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
+  // const makeSpyAndSpyMasterDecks = deck => {
 
-    setSpyMasterDeck(deck);
-    setSpyDeck(spy);
-  };
+  // };
 
   // useEffect(() => {
   //   setDealFunction(dealDeck(spyMasterDeck))
