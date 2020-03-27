@@ -27,6 +27,8 @@ const GameLogic = props => {
   const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
   const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
 
+  const FirestoreDeck =  isFetching ? [] : game.CardsOnTable
+
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
   // const [pickResult, setPickResult] = useState();
@@ -75,6 +77,7 @@ const GameLogic = props => {
   const dealDeck = (deck,Gameid) => {
     return () => {
       decksync(deck,Gameid)
+      makeSpyAndSpyMasterDecks(deck);
     };
   };
 
@@ -89,10 +92,10 @@ const GameLogic = props => {
   //   setDealFunction(dealDeck(spyMasterDeck))
   // }, []);
 
-  useEffect(() => {
-    let cardsFromDealer = dealCards();
-    makeSpyAndSpyMasterDecks(cardsFromDealer);
-  }, []);
+  // useEffect(() => {
+  //   let cardsFromDealer = dealCards();
+  //   makeSpyAndSpyMasterDecks(cardsFromDealer);
+  // }, []);
 
   return (
     <>
@@ -107,7 +110,7 @@ const GameLogic = props => {
           gameStatus={gameStatus}
           spyMaster={spyMaster}
           teamColor={teamColor}
-          dealCards={dealDeck(spyMasterDeck,Gameid)}
+          dealCards={dealDeck(dealCards(),Gameid)}
         />
       ) : (
         <PlayerGameBoard
@@ -122,7 +125,7 @@ const GameLogic = props => {
           playersPick={cardPick(spyMasterDeck)}
           spyMaster={spyMaster}
           teamColor={teamColor}
-          dealCards={dealDeck(spyMasterDeck,Gameid)}
+          dealCards={dealDeck(dealCards(),Gameid)}
         />
       )}
     </>
