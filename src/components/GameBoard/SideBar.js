@@ -54,26 +54,41 @@ const SideBar = ({
     }
   };
 
-  const changeHandler = evt => {
-    console.log(evt.target.value);
-    if (evt.target.id === "hint") {
-      setHint(evt.target.value.split(/(\W|\d)/)[0].toUpperCase());
-    } else {
-      setHintNumber(evt.target.value);
-    }
-  };
-
   const submitHint = () => {
-    if (bannedWords.indexOf(hint) > 0) {
+    const hintElem = document.getElementById("hint");
+    const hintNumberElem = document.getElementById("hintNumber");
+    const bannedWord = bannedWords.indexOf(hintElem.value.toUpperCase()) > 0;
+    const invalidChars = hintElem.value.split(/(\W|\d)/).length > 1;
+    const tooLong = hintElem.value.length > 15;
+    if (bannedWord || invalidChars || tooLong) {
       addToast(
-        `The word ${hint} is on the board and cannot be used as a hint!`,
+        <>
+          <p className="hint-error-toast-text">The hint entered:</p>
+          {bannedWord ? (
+            <p className="hint-error-toast-text hint-error">
+              -{hintElem.value} is a word on the board
+            </p>
+          ) : null}
+          {invalidChars ? (
+            <p className="hint-error-toast-text hint-error">
+              -Contains invalid chars, only letters without spaces are allowed
+            </p>
+          ) : null}
+          {tooLong ? (
+            <p className="hint-error-toast-text hint-error">
+              -Is too long. Hints must be less than 15 chars
+            </p>
+          ) : null}
+        </>,
         {
           appearance: "warning",
           autoDismiss: true
         }
       );
-      setHint("");
     } else {
+      setHint(hintElem.value);
+      setHintNumber(hintNumberElem.value);
+      //Thunk call goes here
     }
     document.getElementById("hint").value = "";
     document.getElementById("hintNumber").value = "1";
@@ -152,7 +167,6 @@ const SideBar = ({
                 <label htmlFor="hint">One Word Hint</label>
                 <input
                   onKeyDown={onEnterPress}
-                  onChange={changeHandler}
                   type="text"
                   className="input"
                   name="hint"
@@ -162,7 +176,6 @@ const SideBar = ({
               <div className="number-hint-wrapper">
                 <label htmlFor="hintNumber">Number</label>
                 <select
-                  onChange={changeHandler}
                   name="hintNumber"
                   className="hintNumber"
                   id="hintNumber"

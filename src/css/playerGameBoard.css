@@ -56,6 +56,15 @@
   flex-basis: 75%;
 }
 
+.hint-error-toast-text {
+  display: block;
+  margin: 4px;
+}
+
+.hint-error {
+  margin-left: 14px;
+}
+
 .hintNumber {
   display: block;
   height: 2rem;
