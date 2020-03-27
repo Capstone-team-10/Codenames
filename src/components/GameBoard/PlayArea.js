@@ -14,20 +14,33 @@ const PlayArea = ({
   // console.log("In PlayArea deck is: ", deck);
   console.log("Play Area ID", gameId);
 
-  const [firstCard, setFirstCard] = useState("");
-
-  useEffect(() => {
-    if (!deck) {
-      setFirstCard("empty");
-    } else {
-      setFirstCard(deck[0].word);
-    }
-  }, [deck]);
+  const [firstCard, setFirstCard] = useState(1);
 
   useEffect(() => {
     console.log("In PlayArea the deck is: ", deck);
     dealSpyAndSpymasterDecks();
+    if (!deck.length) {
+      setFirstCard(firstCard + 1);
+    } else if (typeof firstCard === "number") {
+      setFirstCard(deck[0].word);
+    } else if (firstCard !== deck[0].word) {
+      setFirstCard(deck[0].word);
+    }
   }, [firstCard]);
+
+  // useEffect(() => {
+  //   console.log("In PlayArea the deck is: ", deck);
+  //   dealSpyAndSpymasterDecks();
+  // }, [firstCard]);
+
+  // useEffect(() => {
+  //   console.log("In playarea useeffect the deck is: ", deck);
+  //   if (!deck.length) {
+  //     setFirstCard("empty");
+  //   } else {
+  //     setFirstCard(deck[0].word);
+  //   }
+  // }, [deck]);
 
   return (
     <>
