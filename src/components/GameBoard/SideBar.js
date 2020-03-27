@@ -39,7 +39,6 @@ const SideBar = ({
   const isFetchingChat = isFetching || game.Chat === undefined;
   const chatLog = isFetchingChat ? [] : game.Chat;
 
-
   const LeaveHandler = async () => {
     try {
       await LeaveGame(gameId, game, User);
@@ -146,6 +145,9 @@ const SideBar = ({
 
   return (
     <div className="sideBar-wrapper wrapper right">
+      <div className="current-turn-info-container">
+        <p className="current-turn-text">{`It is ${currentTurn}'s turn`}</p>
+      </div>
       <div className="playerInfo-container container">
         <p className="players-text">{`You are agent: ${displayName}`}</p>
         <p className="players-text">{`With the ${teamColor} spy agency`}</p>
