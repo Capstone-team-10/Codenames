@@ -17,7 +17,7 @@ const PlayArea = ({
   const [firstCard, setFirstCard] = useState("");
 
   useEffect(() => {
-    if (!deck[0].word) {
+    if (!deck) {
       setFirstCard("empty");
     } else {
       setFirstCard(deck[0].word);
