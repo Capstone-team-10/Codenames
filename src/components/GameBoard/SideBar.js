@@ -43,6 +43,8 @@ const SideBar = ({
   const game = isFetching ? null : Games[gameId]; // individual game
   const isFetchingChat = isFetching || game.Chat === undefined;
   const chatLog = isFetchingChat ? [] : game.Chat;
+  const getHint = isFetching ?  "" : game.HintWord
+  const getHintCount = isFetching ? 0 : game.HintCount
 
   const LeaveHandler = async () => {
     try {
@@ -228,8 +230,8 @@ const SideBar = ({
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <h6>{`Hint: ${hint}`}</h6>
-            <h6>{`For: ${hintNumber} cards `}</h6>
+            <h6>{`Hint: ${getHint}`}</h6>
+            <h6>{`For: ${getHintCount} cards `}</h6>
           </React.Fragment>
         )}
       </div>
