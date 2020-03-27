@@ -4,7 +4,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 import { useToasts } from "react-toast-notifications";
-import { leaveGame} from "../../store/GameThunks";
+import { leaveGame } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
 
 const SideBar = ({
@@ -36,6 +36,9 @@ const SideBar = ({
   const game = isFetching ? null : Games[gameId]; // individual game
   const isFetchingChat = isFetching || game.Chat === undefined;
   const chatLog = isFetchingChat ? [] : game.Chat;
+  const currentTurn = isFetching ? "" : game.CurrentTurn;
+
+  console.log("currentTurn is: ", currentTurn);
 
   const LeaveHandler = async () => {
     try {
