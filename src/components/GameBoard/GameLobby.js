@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
+import { canStartGame } from "../../utils";
+
 const GameLobby = props => {
   const {
     allPlayers,
@@ -154,6 +156,7 @@ const GameLobby = props => {
         </div>
       </div>
       <button
+        disabled={canStartGame(allPlayers)}
         onClick={readyHandler}
         className="ready-btn btn  waves-effect waves-dark teal darken-4"
       >
