@@ -15,6 +15,8 @@ const PlayerGameBoard = ({
   teamColor,
   gameId,
   history,
+  dealCards,
+  dealSpyAndSpymasterDecks
 }) => {
   const [bannedWords, setBannedWords] = useState([]);
 
@@ -34,9 +36,18 @@ const PlayerGameBoard = ({
       {spyMaster ? (
         <>
           {gameStatus ? (
-            <PlayArea deck={deck} spyMaster={spyMaster} gameId={gameId}/>
+            <PlayArea
+              deck={deck}
+              spyMaster={spyMaster}
+              gameId={gameId}
+              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+            />
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
+            <GameLobby
+              allPlayers={allPlayers}
+              gameId={gameId}
+              dealCards={dealCards}
+            />
           )}
           <SideBar
             allPlayers={allPlayers}
@@ -58,9 +69,14 @@ const PlayerGameBoard = ({
               setPickResult={setPickResult}
               spyMaster={spyMaster}
               gameId={gameId}
+              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
+            <GameLobby
+              allPlayers={allPlayers}
+              gameId={gameId}
+              dealCards={dealCards}
+            />
           )}
           <SideBar
             allPlayers={allPlayers}
