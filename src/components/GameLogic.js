@@ -75,15 +75,15 @@ const GameLogic = props => {
 
   const dealDeck = (deck, Gameid) => {
     return () => {
-      makeSpyAndSpyMasterDecks(deck);
       decksync(deck, Gameid);
     };
   };
 
-  const dealSpyAndSpymasterDecks = deck => {
-    makeSpyAndSpyMasterDecks(deck);
+  const dealSpyAndSpymasterDecks = () => {
+    makeSpyAndSpyMasterDecks(FirestoreDeck);
   };
 
+  //consider moving functionality into dealSpyAndSpyMasterDecks
   const makeSpyAndSpyMasterDecks = deck => {
     const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
 
