@@ -7,7 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import { leaveGame } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
 
-import { displayCurrentPlayersTurn } from "../../utils";
+import { displayCurrentPlayersTurn, isItYourTurn } from "../../utils";
 
 const SideBar = ({
   allPlayers,
@@ -61,6 +61,15 @@ const SideBar = ({
   };
 
   const submitHint = () => {
+    if(!isItYourTurn(currentTurn, teamColor, spyMaster)){
+      addToast(
+        `Wait for your turn!`,
+        {
+          appearance: "warning",
+          autoDismiss: true
+        }
+      );
+    }
     const hintElem = document.getElementById("hint");
     const hintNumberElem = document.getElementById("hintNumber");
     const bannedWord = bannedWords.indexOf(hintElem.value.toUpperCase()) > 0;
