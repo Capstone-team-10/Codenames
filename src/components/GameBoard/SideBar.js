@@ -18,9 +18,11 @@ const SideBar = ({
   Games,
   User,
   SendMessage,
-  LeaveGame
+  LeaveGame,
+  currentTurn
 }) => {
   console.log("All Players - Siderbar", allPlayers);
+  console.log("The Current Turn - Siderbar", currentTurn);
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
 
@@ -36,9 +38,7 @@ const SideBar = ({
   const game = isFetching ? null : Games[gameId]; // individual game
   const isFetchingChat = isFetching || game.Chat === undefined;
   const chatLog = isFetchingChat ? [] : game.Chat;
-  const currentTurn = isFetching ? "" : game.CurrentTurn;
 
-  console.log("currentTurn is: ", currentTurn);
 
   const LeaveHandler = async () => {
     try {
