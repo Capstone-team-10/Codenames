@@ -4,11 +4,11 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 import { useToasts } from "react-toast-notifications";
-import { leaveGame } from "../../store/GameThunks";
+import { leaveGame,Endturn } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
 import {SetHintWordAndCount} from "../../store/HintThunk"
 
-import { displayCurrentPlayersTurn, isItYourTurn } from "../../utils";
+import { displayCurrentPlayersTurn, isItYourTurn, turnTracker } from "../../utils";
 
 const SideBar = ({
   allPlayers,
@@ -24,7 +24,8 @@ const SideBar = ({
   LeaveGame,
   currentTurn,
   gameStatus,
-  Sendhint
+  Sendhint,
+  EndTurn
 }) => {
   console.log("All Players - Siderbar", allPlayers);
   console.log("The Current Turn - Siderbar", currentTurn);
@@ -111,6 +112,8 @@ const SideBar = ({
       setHint(hintElem.value);
       setHintNumber(hintNumberElem.value);
       Sendhint(gameId,hintElem.value,hintNumberElem.value)
+      let turnString = turnTracker.nextTurn(currentTurn)
+      EndTurn(gameId,turnString)
     }
     document.getElementById("hint").value = "";
     document.getElementById("hintNumber").value = "1";
@@ -293,7 +296,8 @@ const mapDispatchToProps = dispatch => {
     LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
     SendMessage: (id, game, user, message) =>
       dispatch(SendMessage(id, game, user, message)),
-    Sendhint: (id,word,count) => dispatch(SetHintWordAndCount(id,word,count))
+    Sendhint: (id,word,count) => dispatch(SetHintWordAndCount(id,word,count)),
+    EndTurn: (id,turnString) => dispatch(Endturn(id,turnString))
   };
 };
 

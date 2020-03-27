@@ -90,14 +90,14 @@ export const Endturn = (id, turnString) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In EndTurn Thunk");
-    // const firestore = getFirestore();
-    // await firestore
-    //   .collection("Games")
-    //   .doc(id)
-    //   .update({
-    //     CurrentTurn: turnString
-    //   });
+    console.log("In EndTurn Thunk Next Turn---.", turnString);
+    const firestore = getFirestore();
+    await firestore
+      .collection("Games")
+      .doc(id)
+      .update({
+        CurrentTurn: turnString
+      });
   } catch (error) {
     return error.message;
   }
