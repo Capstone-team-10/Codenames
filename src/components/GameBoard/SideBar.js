@@ -7,6 +7,8 @@ import { useToasts } from "react-toast-notifications";
 import { leaveGame } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
 
+import { displayCurrentPlayersTurn } from "../../utils";
+
 const SideBar = ({
   allPlayers,
   bannedWords,
@@ -19,7 +21,8 @@ const SideBar = ({
   User,
   SendMessage,
   LeaveGame,
-  currentTurn
+  currentTurn,
+  gameStatus
 }) => {
   console.log("All Players - Siderbar", allPlayers);
   console.log("The Current Turn - Siderbar", currentTurn);
@@ -145,9 +148,13 @@ const SideBar = ({
 
   return (
     <div className="sideBar-wrapper wrapper right">
-      <div className="current-turn-info-container">
-        <p className="current-turn-text">{`It is ${currentTurn}'s turn`}</p>
-      </div>
+      {gameStatus ? (
+        <div className="current-turn-info-container">
+          <p className="current-turn-text">{`It is ${displayCurrentPlayersTurn(
+            currentTurn
+          )}'s turn`}</p>
+        </div>
+      ) : null}
       <div className="playerInfo-container container">
         <p className="players-text">{`You are agent: ${displayName}`}</p>
         <p className="players-text">{`With the ${teamColor} spy agency`}</p>

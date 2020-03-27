@@ -69,6 +69,7 @@ const PlayerGameBoard = ({
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
+            gameStatus={gameStatus}
             history={history}
           />
         </>
@@ -99,6 +100,7 @@ const PlayerGameBoard = ({
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
+            gameStatus={gameStatus}
             history={history}
           />
         </>
