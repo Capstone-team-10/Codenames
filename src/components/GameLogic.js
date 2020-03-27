@@ -6,12 +6,11 @@ import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import {syncPlayerDecks} from "../store/deckThunk"
+import { syncPlayerDecks } from "../store/deckThunk";
 
 const GameLogic = props => {
-
   //Dummy data start)
-  const { Games, User, history,decksync } = props;
+  const { Games, User, history, decksync } = props;
   const Gameid = props.match.params.id;
   const { chatLog } = dummyData;
   //End dummy data
@@ -27,7 +26,7 @@ const GameLogic = props => {
   const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
   const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
 
-  const FirestoreDeck =  isFetching ? [] : game.CardsOnTable
+  const FirestoreDeck = isFetching ? [] : game.CardsOnTable;
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
@@ -74,11 +73,15 @@ const GameLogic = props => {
     };
   };
 
-  const dealDeck = (deck,Gameid) => {
+  const dealDeck = (deck, Gameid) => {
     return () => {
-      decksync(deck,Gameid)
       makeSpyAndSpyMasterDecks(deck);
+      decksync(deck, Gameid);
     };
+  };
+
+  const dealSpyAndSpymasterDecks = deck => {
+    makeSpyAndSpyMasterDecks(deck);
   };
 
   const makeSpyAndSpyMasterDecks = deck => {
@@ -110,7 +113,8 @@ const GameLogic = props => {
           gameStatus={gameStatus}
           spyMaster={spyMaster}
           teamColor={teamColor}
-          dealCards={dealDeck(dealCards(),Gameid)}
+          dealCards={dealDeck(dealCards(), Gameid)}
+          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       ) : (
         <PlayerGameBoard
@@ -125,7 +129,8 @@ const GameLogic = props => {
           playersPick={cardPick(spyMasterDeck)}
           spyMaster={spyMaster}
           teamColor={teamColor}
-          dealCards={dealDeck(dealCards(),Gameid)}
+          dealCards={dealDeck(dealCards(), Gameid)}
+          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       )}
     </>
@@ -141,7 +146,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    decksync: (deck,Gameid) => dispatch((syncPlayerDecks(deck,Gameid))),
+    decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid))
   };
 };
 
@@ -151,5 +156,5 @@ export default compose(
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps,mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(GameLogic);
