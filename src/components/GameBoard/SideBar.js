@@ -9,7 +9,6 @@ import { leaveGame, SendMessage } from "../../store/GameThunks";
 const SideBar = ({
   allPlayers,
   bannedWords,
-  // chatLog,
   displayName,
   spyMaster,
   teamColor,
@@ -37,9 +36,6 @@ const SideBar = ({
   const game = isFetching ? null : Games[gameId] // individual game
   const isFetchingChat = (isFetching) || (game.Chat === undefined)
   const chatLog = isFetchingChat ? [] : game.Chat;
-
-  // const isFetching = Games !== undefined;
-  // const game = isFetching ? Games[gameId] : null;
 
   const LeaveHandler = async () => {
     try {
@@ -100,16 +96,6 @@ const SideBar = ({
     }
     return false;
   };
-
-  // const submitChat = () => {
-  //   let chatMsg = document.getElementById("chatMsg").value;
-  //   if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
-  //     console.log("Banned word used");
-  //   } else {
-  //     console.log("Submit chat message");
-  //   }
-  //   document.getElementById("chatMsg").value = "";
-  // };
 
   const submitChat = async () => {
     let chatMsg = document.getElementById("chatMsg").value;
