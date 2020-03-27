@@ -105,10 +105,11 @@ const SideBar = ({
     if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
       console.log("Banned word used");
     } else {
-      await SendMessage(gameId, game, User, chatMsg)
-      console.log("Submit chat message");
-      console.log('gameId---', gameId, 'game---', game, 'User----', User, 'chatMsg----', chatMsg)
-      console.log('user display name', User.displayName)
+      try {
+        await SendMessage(gameId, game, User, chatMsg)
+      } catch (error) {
+        return error.message
+      }
     }
     document.getElementById("chatMsg").value = "";
   };
