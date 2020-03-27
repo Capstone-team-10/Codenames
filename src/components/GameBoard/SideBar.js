@@ -31,10 +31,9 @@ const SideBar = ({
     };
   }, []);
 
-
-  const isFetching = (Games === undefined || Games[gameId] === undefined)
-  const game = isFetching ? null : Games[gameId] // individual game
-  const isFetchingChat = (isFetching) || (game.Chat === undefined)
+  const isFetching = Games === undefined || Games[gameId] === undefined;
+  const game = isFetching ? null : Games[gameId]; // individual game
+  const isFetchingChat = isFetching || game.Chat === undefined;
   const chatLog = isFetchingChat ? [] : game.Chat;
 
   const LeaveHandler = async () => {
@@ -97,7 +96,7 @@ const SideBar = ({
     return false;
   };
 
-  const onEnterPress = (e) => {
+  const onEnterPress = e => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       if (e.target.id === "chatMsg") {
@@ -106,8 +105,7 @@ const SideBar = ({
         submitHint();
       }
     }
-
-  }
+  };
 
   const submitChat = async () => {
     let chatMsg = document.getElementById("chatMsg").value;
@@ -115,12 +113,16 @@ const SideBar = ({
       console.log("Banned word used");
     } else {
       try {
-        await SendMessage(gameId, game, User, chatMsg)
+        await SendMessage(gameId, game, User, chatMsg);
       } catch (error) {
-        return error.message
+        return error.message;
       }
     }
     document.getElementById("chatMsg").value = "";
+  };
+
+  const endTurnHandler = () => {
+    console.log("In side bar end turn button clicked!");
   };
 
   return (
@@ -134,7 +136,7 @@ const SideBar = ({
           return (
             <p className="players-text" key={`${index}`}>{`${Team} ${
               isSpyMaster ? "spy master: " : "spy: "
-              }${DisplayName}`}</p>
+            }${DisplayName}`}</p>
           );
         })}
       </div>
@@ -185,11 +187,11 @@ const SideBar = ({
             </button>
           </React.Fragment>
         ) : (
-            <React.Fragment>
-              <h6>{`Hint: ${hint}`}</h6>
-              <h6>{`For: ${hintNumber} cards `}</h6>
-            </React.Fragment>
-          )}
+          <React.Fragment>
+            <h6>{`Hint: ${hint}`}</h6>
+            <h6>{`For: ${hintNumber} cards `}</h6>
+          </React.Fragment>
+        )}
       </div>
       <div className="chat-container">
         <div className="log-wrapper">
@@ -205,7 +207,12 @@ const SideBar = ({
           })}
         </div>
         <div className="input-wrapper">
-          <input className="input" type="text" id="chatMsg" onKeyDown={onEnterPress} />
+          <input
+            className="input"
+            type="text"
+            id="chatMsg"
+            onKeyDown={onEnterPress}
+          />
         </div>
         <button
           className="submit-chat btn waves-effect waves-dark teal darken-4"
@@ -214,6 +221,14 @@ const SideBar = ({
           Send Message
         </button>
       </div>
+      {!spyMaster ? (
+        <button
+          className="end-turn-btn btn center waves-effect waves-dard yellow darken-3"
+          onClick={endTurnHandler}
+        >
+          End Turn
+        </button>
+      ) : null}
       <button
         className="leave-game-btn btn center waves-effect waves-dark red darken-4"
         onClick={LeaveHandler}
@@ -234,7 +249,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
-    SendMessage: (id, game, user, message) => dispatch(SendMessage(id, game, user, message))
+    SendMessage: (id, game, user, message) =>
+      dispatch(SendMessage(id, game, user, message))
   };
 };
 
