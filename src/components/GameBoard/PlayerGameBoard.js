@@ -8,7 +8,6 @@ import "../../css/playerGameBoard.css";
 
 const PlayerGameBoard = ({
   allPlayers,
-  chatLog,
   deck,
   displayName,
   gameStatus,
@@ -65,7 +64,6 @@ const PlayerGameBoard = ({
             allPlayers={allPlayers}
             bannedWords={bannedWords}
             displayName={displayName}
-            chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
@@ -96,7 +94,6 @@ const PlayerGameBoard = ({
             currentTurn={currentTurn}
             allPlayers={allPlayers}
             displayName={displayName}
-            chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
