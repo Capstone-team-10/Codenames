@@ -83,6 +83,25 @@ export const StartGame = id => async (
   }
 };
 
+export const Endturn = (id, turnString) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  try {
+    console.log("In EndTurn Thunk")
+    // const firestore = getFirestore();
+    // await firestore
+    //   .collection("Games")
+    //   .doc(id)
+    //   .update({
+    //     CurrentTurn: turnString
+    //   });
+  } catch (error) {
+    return error.message
+  }
+};
+
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
 export const leaveGame = (id, game, user) => async (
   dispatch,
@@ -158,25 +177,6 @@ export const GameOver = (id, result) => async (
         GameOver: true,
         GameResult: result
       });
-  } catch (error) {
-    return error.message
-  }
-};
-
-export const SendMessage = (id, game, user, message) => async (dispatch, getState, { getFirebase, getFirestore }) => {
-  try {
-    const firestore = getFirestore()
-    await firestore.collection("Games").doc(id).set({
-      Chat: [
-        ...game.Chat,
-        {
-          'sender': [user.displayName],
-          'message': message
-        }
-      ]
-    },
-      { merge: true }
-    )
   } catch (error) {
     return error.message
   }
