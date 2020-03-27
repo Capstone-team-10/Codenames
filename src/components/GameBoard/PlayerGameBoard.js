@@ -15,6 +15,7 @@ const PlayerGameBoard = ({
   teamColor,
   gameId,
   history,
+  dealCards,
 }) => {
   const [bannedWords, setBannedWords] = useState([]);
 
@@ -36,7 +37,7 @@ const PlayerGameBoard = ({
           {gameStatus ? (
             <PlayArea deck={deck} spyMaster={spyMaster} gameId={gameId}/>
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
+            <GameLobby allPlayers={allPlayers} gameId={gameId} dealCards={dealCards}/>
           )}
           <SideBar
             allPlayers={allPlayers}
@@ -60,7 +61,7 @@ const PlayerGameBoard = ({
               gameId={gameId}
             />
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
+            <GameLobby allPlayers={allPlayers} gameId={gameId} dealCards={dealCards}/>
           )}
           <SideBar
             allPlayers={allPlayers}

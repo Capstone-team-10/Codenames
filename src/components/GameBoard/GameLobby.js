@@ -16,7 +16,8 @@ const GameLobby = props => {
     selectAgency,
     User,
     Games,
-    selectMaster
+    selectMaster,
+    dealCards
   } = props;
 
   const isFetching = Games !== undefined;
@@ -91,6 +92,7 @@ const GameLobby = props => {
     console.log("ready to start clicked");
     try {
       const err = await StartGame(gameId);
+      dealCards()
       if (err !== undefined) {
         addToast("Sorry, failed to start game. Please try again", {
           appearance: "warning",
@@ -156,7 +158,7 @@ const GameLobby = props => {
         </div>
       </div>
       <button
-        disabled={canStartGame(allPlayers)}
+        // disabled={canStartGame(allPlayers)}
         onClick={readyHandler}
         className="ready-btn btn  waves-effect waves-dark teal darken-4"
       >

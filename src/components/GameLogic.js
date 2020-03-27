@@ -6,10 +6,12 @@ import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import {syncPlayerDecks} from "../store/deckThunk"
 
 const GameLogic = props => {
+
   //Dummy data start)
-  const { Games, User, history } = props;
+  const { Games, User, history,decksync } = props;
   const Gameid = props.match.params.id;
   const { chatLog } = dummyData;
   //End dummy data
@@ -27,7 +29,8 @@ const GameLogic = props => {
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
-  const [pickResult, setPickResult] = useState();
+  // const [pickResult, setPickResult] = useState();
+  // const [dealFunction, setDealFunction] = useState();
 
   const cardPick = deck => {
     return (cardPicked, currentTeam) => {
@@ -37,25 +40,25 @@ const GameLogic = props => {
       const fatalCard = "black";
       switch (deck[cardPicked].color) {
         case rightCard:
-          setPickResult("good");
+          // setPickResult("good");
           return {
             outcome: "good",
             image: getResultImage(rightCard)
           };
         case neutralCard:
-          setPickResult("neutral");
+          // setPickResult("neutral");
           return {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
         case wrongCard:
-          setPickResult("bad");
+          // setPickResult("bad");
           return {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
         case fatalCard:
-          setPickResult("fatal");
+          // setPickResult("fatal");
           return {
             outcome: "fatal",
             image: getResultImage(fatalCard)
@@ -69,8 +72,10 @@ const GameLogic = props => {
     };
   };
 
-  const syncDeck = deck => {
-    return () => {};
+  const dealDeck = (deck,Gameid) => {
+    return () => {
+      decksync(deck,Gameid)
+    };
   };
 
   const makeSpyAndSpyMasterDecks = deck => {
@@ -80,9 +85,9 @@ const GameLogic = props => {
     setSpyDeck(spy);
   };
 
-  useEffect(() => {
-    console.log("pickResult is: ", pickResult);
-  }, [pickResult]);
+  // useEffect(() => {
+  //   setDealFunction(dealDeck(spyMasterDeck))
+  // }, []);
 
   useEffect(() => {
     let cardsFromDealer = dealCards();
@@ -102,6 +107,7 @@ const GameLogic = props => {
           gameStatus={gameStatus}
           spyMaster={spyMaster}
           teamColor={teamColor}
+          dealCards={dealDeck(spyMasterDeck,Gameid)}
         />
       ) : (
         <PlayerGameBoard
@@ -112,10 +118,11 @@ const GameLogic = props => {
           deck={spyDeck}
           displayName={displayName}
           gameStatus={gameStatus}
-          setPickResult={setPickResult}
+          // setPickResult={setPickResult}
           playersPick={cardPick(spyMasterDeck)}
           spyMaster={spyMaster}
           teamColor={teamColor}
+          dealCards={dealDeck(spyMasterDeck,Gameid)}
         />
       )}
     </>
@@ -129,11 +136,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    decksync: (deck,Gameid) => dispatch((syncPlayerDecks(deck,Gameid))),
+  };
+};
+
 export default compose(
   firestoreConnect([
     {
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps)
+  connect(mapStateToProps,mapDispatchToProps)
 )(GameLogic);
