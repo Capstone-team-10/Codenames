@@ -56,6 +56,15 @@
   flex-basis: 75%;
 }
 
+.hint-error-toast-text {
+  display: block;
+  margin: 4px;
+}
+
+.hint-error {
+  margin-left: 14px;
+}
+
 .hintNumber {
   display: block;
   height: 2rem;
@@ -76,6 +85,11 @@
 .submit-chat {
   width: 100%;
   margin-top: 3px;
+  height: 30px;
+}
+
+.end-turn-btn {
+  width: 100%;
   height: 30px;
 }
 
