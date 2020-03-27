@@ -17,7 +17,7 @@ const PlayArea = ({
   useEffect(() => {
     console.log("In PlayArea the deck is: ", deck);
     dealSpyAndSpymasterDecks();
-  });
+  }, []);
   return (
     <>
       {GameOver ? (
