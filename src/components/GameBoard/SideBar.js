@@ -4,7 +4,8 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 import { useToasts } from "react-toast-notifications";
-import { leaveGame, SendMessage } from "../../store/GameThunks";
+import { leaveGame} from "../../store/GameThunks";
+import { SendMessage } from "../../store/ChatThunk";
 
 const SideBar = ({
   allPlayers,

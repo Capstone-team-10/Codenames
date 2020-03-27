@@ -6,7 +6,7 @@ import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import { syncPlayerDecks } from "../store/deckThunk";
+import { syncPlayerDecks } from "../store/DeckThunk";
 
 const GameLogic = props => {
   //Dummy data start)
