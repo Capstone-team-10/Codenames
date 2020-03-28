@@ -18,6 +18,8 @@ const PlayerGameBoard = ({
   gameId,
   history,
   dealCards,
+  blueScore,
+  redScore,
   dealSpyAndSpymasterDecks,
   Games
 }) => {
@@ -50,15 +52,17 @@ const PlayerGameBoard = ({
               deck={deck}
               spyMaster={spyMaster}
               gameId={gameId}
+              blueScore={blueScore}
+              redScore={redScore}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
-            <GameLobby
-              allPlayers={allPlayers}
-              gameId={gameId}
-              dealCards={dealCards}
-            />
-          )}
+              <GameLobby
+                allPlayers={allPlayers}
+                gameId={gameId}
+                dealCards={dealCards}
+              />
+            )}
           <SideBar
             currentTurn={currentTurn}
             allPlayers={allPlayers}
@@ -72,37 +76,39 @@ const PlayerGameBoard = ({
           />
         </>
       ) : (
-        <>
-          {gameStatus ? (
-            <PlayArea
+          <>
+            {gameStatus ? (
+              <PlayArea
+                currentTurn={currentTurn}
+                deck={deck}
+                playersPick={playersPick}
+                setPickResult={setPickResult}
+                spyMaster={spyMaster}
+                gameId={gameId}
+                teamColor={teamColor}
+                blueScore={blueScore}
+                redScore={redScore}
+                dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              />
+            ) : (
+                <GameLobby
+                  allPlayers={allPlayers}
+                  gameId={gameId}
+                  dealCards={dealCards}
+                />
+              )}
+            <SideBar
               currentTurn={currentTurn}
-              deck={deck}
-              playersPick={playersPick}
-              setPickResult={setPickResult}
-              spyMaster={spyMaster}
-              gameId={gameId}
-              teamColor={teamColor}
-              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-            />
-          ) : (
-            <GameLobby
               allPlayers={allPlayers}
+              displayName={displayName}
+              spyMaster={spyMaster}
+              teamColor={teamColor}
               gameId={gameId}
-              dealCards={dealCards}
+              gameStatus={gameStatus}
+              history={history}
             />
-          )}
-          <SideBar
-            currentTurn={currentTurn}
-            allPlayers={allPlayers}
-            displayName={displayName}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            gameId={gameId}
-            gameStatus={gameStatus}
-            history={history}
-          />
-        </>
-      )}
+          </>
+        )}
     </div>
   );
 };
