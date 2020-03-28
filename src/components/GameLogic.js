@@ -6,10 +6,10 @@ import { dealCards, getResultImage, turnTracker } from "../utils";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import { syncPlayerDecks } from "../store/DeckThunk";
+import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
 
 const GameLogic = props => {
-  const { Games, User, history, decksync } = props;
+  const { Games, User, history, decksync, changeCardsLeft } = props;
   const Gameid = props.match.params.id;
 
   const isFetching = Games === undefined || Games[Gameid] === undefined;
@@ -43,6 +43,7 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
+          changeCardsLeft(rightCard, Gameid, game)
           break;
         case neutralCard:
           outcome = {
@@ -55,6 +56,7 @@ const GameLogic = props => {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
+          changeCardsLeft(wrongCard, Gameid, game)
           break;
         case fatalCard:
           outcome = {
@@ -137,20 +139,20 @@ const GameLogic = props => {
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       ) : (
-        <PlayerGameBoard
-          gameId={Gameid}
-          history={history}
-          allPlayers={allPlayers}
-          deck={spyDeck}
-          displayName={displayName}
-          gameStatus={gameStatus}
-          playersPick={cardPick(spyMasterDeck)}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
-          dealCards={dealDeck(dealCards(), Gameid)}
-          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-        />
-      )}
+          <PlayerGameBoard
+            gameId={Gameid}
+            history={history}
+            allPlayers={allPlayers}
+            deck={spyDeck}
+            displayName={displayName}
+            gameStatus={gameStatus}
+            playersPick={cardPick(spyMasterDeck)}
+            spyMaster={spyMaster}
+            teamColor={teamColor}
+            dealCards={dealDeck(dealCards(), Gameid)}
+            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+          />
+        )}
     </>
   );
 };
@@ -164,7 +166,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid))
+    decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid)),
+    changeCardsLeft: (currentTeam, id, game) => dispatch(changeCardsLeft(currentTeam, id, game))
   };
 };
 
