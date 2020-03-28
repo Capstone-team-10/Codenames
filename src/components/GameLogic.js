@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
-import { Endturn, Assassin } from "../store/GameThunks";
+import { Endturn, Assassin, victory } from "../store/GameThunks";
 import { ChangeHintCount } from "../store/HintThunk";
 
 const GameLogic = props => {
@@ -19,7 +19,8 @@ const GameLogic = props => {
     changeCardsLeft,
     ChangeHintCount,
     Endturn,
-    Assassin
+    Assassin,
+    victory
   } = props;
   const Gameid = props.match.params.id;
 
@@ -59,11 +60,16 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
+          if (blueScore === 1 || redScore === 1) {
+            setTimeout(() => {
+              victory(Gameid, rightCard);
+            }, 3000);
+            flipCard(deck, cardPicked, outcome);
+            return;
+          }
           changeCardsLeft(rightCard, Gameid, game);
-          console.log("hint before is: ", hintCount);
           ChangeHintCount(Gameid, game);
-          // hintCount--;
-          console.log("hint after is: ", hintCount);
+          flipCard(deck, cardPicked, outcome);
           if (hintCount === 0) {
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           }
@@ -74,15 +80,23 @@ const GameLogic = props => {
             image: getResultImage(neutralCard)
           };
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          flipCard(deck, cardPicked, outcome);
           break;
-
         case wrongCard:
           outcome = {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
+          if (blueScore === 1 || redScore === 1) {
+            setTimeout(() => {
+              victory(Gameid, wrongCard);
+            }, 3000);
+            flipCard(deck, cardPicked, outcome);
+            return;
+          }
           changeCardsLeft(wrongCard, Gameid, game);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          flipCard(deck, cardPicked, outcome);
           break;
         case fatalCard:
           outcome = {
@@ -92,6 +106,7 @@ const GameLogic = props => {
           setTimeout(() => {
             Assassin(Gameid, currentTeam);
           }, 3000);
+          flipCard(deck, cardPicked, outcome);
           break;
         default:
           console.error(
@@ -99,14 +114,17 @@ const GameLogic = props => {
             deck
           );
       }
-      const deckCopy = [...deck];
-      const cardCopy = Object.assign({}, deckCopy[cardPicked]);
-      cardCopy.flipped = true;
-      cardCopy.image = outcome.image;
-      deckCopy[cardPicked] = cardCopy;
-      decksync(deckCopy, Gameid);
       return outcome;
     };
+  };
+
+  const flipCard = (deck, cardPicked, outcome) => {
+    const deckCopy = [...deck];
+    const cardCopy = Object.assign({}, deckCopy[cardPicked]);
+    cardCopy.flipped = true;
+    cardCopy.image = outcome.image;
+    deckCopy[cardPicked] = cardCopy;
+    decksync(deckCopy, Gameid);
   };
 
   const dealDeck = (deck, Gameid) => {
@@ -208,7 +226,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(changeCardsLeft(currentTeam, id, game)),
     Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
     Assassin: (id, result) => dispatch(Assassin(id, result)),
-    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game))
+    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
+    victory: (id, team) => dispatch(victory(id, team))
   };
 };
 

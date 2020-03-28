@@ -6,15 +6,18 @@ const canStartGame = allPlayers => {
         if (isSpyMaster) {
           acc.redSpyMaster = 1;
         }
-      } else {
+      } else if (Team === "blue") {
         acc.blue += 1;
         if (isSpyMaster) {
           acc.blueSpyMaster = 1;
         }
+      } else {
+        acc.freeAgent += 1;
       }
       return acc;
     },
     {
+      freeAgent: 0,
       red: 0,
       redSpyMaster: 0,
       blue: 0,
@@ -26,7 +29,8 @@ const canStartGame = allPlayers => {
     playerCheck.red >= 2 &&
     playerCheck.redSpyMaster > 0 &&
     playerCheck.blue >= 2 &&
-    playerCheck.blueSpyMaster > 0
+    playerCheck.blueSpyMaster > 0 &&
+    playerCheck.freeAgent === 0
   ) {
     return false;
   } else {
