@@ -94,7 +94,9 @@ const GameLogic = props => {
 
   const dealSpyAndSpymasterDecks = (gameDeck = FirestoreDeck) => {
     // makeSpyAndSpyMasterDecks(FirestoreDeck);
-    const deck = gameDeck ? [] : gameDeck;
+    console.log("the gameDeck is: ", gameDeck);
+    const deck = gameDeck ? gameDeck : [];
+    console.log("the after is: ", deck);
     const spy = deck.map(({ word, flipped, image }) => ({
       word,
       flipped,
