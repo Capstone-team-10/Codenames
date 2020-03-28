@@ -179,7 +179,8 @@ export const Assassin = (id, team) => async (
       .set({
         GameOver: true,
         GameResult: result
-      });
+      },
+        { merge: true });
   } catch (error) {
     return error.message;
   }
