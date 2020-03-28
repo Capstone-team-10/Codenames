@@ -38,19 +38,47 @@ const SideBar = ({
   console.log("The Current Turn - Siderbar", currentTurn);
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
+  // const [windowResized, setWindowResized] = useState(false);
+  const [fixedHeight, setFixedHeight] = useState(45.7 + 71.3 + 33);
 
   const { addToast } = useToasts();
 
-  // const handleResize = (evt, data) => {
-  //   // console.log("In handleResize evt is: ", evt.target.id);
-  //   // console.log("In handleResize data is: ", data.size.height);
-  // };
+  useEffect(() => {
+    const navbarHeight = document.getElementById("navbar").offsetHeight;
+    const sideBarHeight = document.getElementById("sideBar").offsetHeight;
+    const calculateFixedHeight = () => {
+      const currentTurn = gameStatus ? 45.7 : 0;
+      const hintHeight = spyMaster ? 141 : 92;
+      const endTurnBtn = spyMaster ? 0 : 33;
+      return Math.ceil(hintHeight + endTurnBtn + currentTurn + 71.3 + 33);
+    };
+
+    //fixed height
+    setFixedHeight(calculateFixedHeight);
+    console.log("On load window height is: ", window.innerHeight);
+    console.log(
+      `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight}. total height: ${navbarHeight +
+        sideBarHeight}`
+    );
+    window.onresize = resize;
+  }, [gameStatus, spyMaster]);
 
   useEffect(() => {
     return () => {
       LeaveHandler();
     };
   }, []);
+
+  const resize = () => {
+    const navbarHeight = document.getElementById("navbar").offsetHeight;
+    const sideBarHeight = document.getElementById("sideBar").offsetHeight;
+    console.log("On resize window height is: ", window.innerHeight);
+    console.log(
+      `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight} total height: ${navbarHeight +
+        sideBarHeight}`
+    );
+    console.log("fixed Height is: ", fixedHeight);
+  };
 
   const isFetching = Games === undefined || Games[gameId] === undefined;
   const game = isFetching ? null : Games[gameId]; // individual game
@@ -175,15 +203,15 @@ const SideBar = ({
   };
 
   return (
-    <div className="sideBar-wrapper wrapper right">
+    <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
-        <div className="current-turn-info-container">
+        <div id="turnInfo" className="current-turn-info-container">
           <p className="current-turn-text">{`${displayCurrentPlayersTurn(
             currentTurn
           )}'s turn`}</p>
         </div>
       ) : null}
-      <div className="playerInfo-container container">
+      <div id="playerInfo" className="playerInfo-container container">
         <p className="players-text-header">Your info:</p>
         <p className={`players-text add-color-${teamColor}`}>
           {`Agent ${displayName}`}
@@ -200,8 +228,9 @@ const SideBar = ({
         handleSize={[8, 8]}
         resizeHandles={["s"]}
         height={80}
-        minConstraints={[187, 50]}
-        maxConstraints={[187, 750]}
+        width={225}
+        minConstraints={[225, 50]}
+        maxConstraints={[225, 750]}
         axis={"y"}
         className="allPlayersInfo-container"
       >
@@ -216,7 +245,7 @@ const SideBar = ({
       </ResizableBox>
       <div className="hint-container">
         {spyMaster ? (
-          <React.Fragment>
+          <>
             <div className="spyMaster-hint-text-wrapper">
               <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
               <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
@@ -257,20 +286,21 @@ const SideBar = ({
             >
               Submit Hint
             </button>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             <h6>{`Hint: ${getHint}`}</h6>
             <h6>{`For: ${getHintCount} cards `}</h6>
-          </React.Fragment>
+          </>
         )}
       </div>
       <ResizableBox
         handleSize={[8, 8]}
         resizeHandles={["s"]}
         height={175}
-        minConstraints={[187, 130]}
-        maxConstraints={[187, 750]}
+        width={225}
+        minConstraints={[225, 130]}
+        maxConstraints={[225, 750]}
         axis={"y"}
         className="chat-container"
       >
@@ -310,6 +340,7 @@ const SideBar = ({
         </button>
       ) : null}
       <button
+        id="leaveGameBtn"
         className="leave-game-btn btn center waves-effect waves-dark red darken-4"
         onClick={LeaveHandler}
       >
