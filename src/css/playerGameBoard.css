@@ -159,7 +159,8 @@
 
 .message-text {
   margin: 0px;
-  text-shadow: 0px 0px 3px white;
+  text-shadow: 0px 0px 4px white;
+  font-size: 15px;
 }
 
 /*                    */
@@ -233,6 +234,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: outset;
+  border-right-color: #fbfbfb;
+  border-bottom-color: #fbfbfb;
+  border-top-color: #e1dbdb;
+  border-left-color: #e1dbdb;
 }
 
 .card-back {
