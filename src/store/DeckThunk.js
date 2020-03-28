@@ -1,15 +1,14 @@
-import {Endturn,GameOver} from "./GameThunks"
-import {ChangeHintCount} from "./HintThunk"
-
+import { Endturn, GameOver } from "./GameThunks";
+import { ChangeHintCount } from "./HintThunk";
 
 /// Thunk
-export const syncPlayerDecks = (deck,id) => async (
+export const syncPlayerDecks = (deck, id) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In Sync Deck Thunk ---> Deck", deck)
+    console.log("In Sync Deck Thunk ---> Deck", deck);
     const firestore = getFirestore();
     await firestore
       .collection("Games")
@@ -18,37 +17,37 @@ export const syncPlayerDecks = (deck,id) => async (
         CardsOnTable: deck
       });
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 /// Maybe switch to set
 
-export const updateDeck = (cardid,id,outcome) => async (
-  dispatch,
-  getState,
-  { getFirebase, getFirestore }
-) => {
-  try {
-    console.log("In Update Deck Thunk ---> card id", cardid)
-    // const firestore = getFirestore();
-    // await firestore
-    //   .collection("Games")
-    //   .doc(id)
-    //   .update({
-    //     CardsOnTable[id].flipped: true
-    //   });
-  } catch (error) {
-    return error.message
-  }
-};
+// export const updateDeck = (cardid,id,outcome) => async (
+//   dispatch,
+//   getState,
+//   { getFirebase, getFirestore }
+// ) => {
+//   try {
+//     console.log("In Update Deck Thunk ---> card id", cardid)
+//     // const firestore = getFirestore();
+//     // await firestore
+//     //   .collection("Games")
+//     //   .doc(id)
+//     //   .update({
+//     //     CardsOnTable[id].flipped: true
+//     //   });
+//   } catch (error) {
+//     return error.message
+//   }
+// };
 
-export const changeBluesCardsLeft = (id,outcome,game,thunkString) => async (
+export const changeBluesCardsLeft = (id, outcome, game, thunkString) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In change Blues Cards Left Thunk ---> ", )
+    console.log("In change Blues Cards Left Thunk ---> ");
     // const firestore = getFirestore();
     // switch(outcome){
     //   case "good":
@@ -76,19 +75,18 @@ export const changeBluesCardsLeft = (id,outcome,game,thunkString) => async (
     //   console.log("Default Change Blue Thunk")
     //     ///dispatch(Game Over Thunk(id,thunkString))
     // }
-  }
-    catch (error) {
-    return error.message
+  } catch (error) {
+    return error.message;
   }
 };
 
-export const changeRedCardsLeft = (id,outcome,game,thunkString) => async (
+export const changeRedCardsLeft = (id, outcome, game, thunkString) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In change Red Cards Left Thunk ---> ", )
+    console.log("In change Red Cards Left Thunk ---> ");
     // const firestore = getFirestore();
     // switch(outcome){
     //   case "good":
@@ -97,7 +95,7 @@ export const changeRedCardsLeft = (id,outcome,game,thunkString) => async (
     //   .doc(id)
     //   .update({
     //     RedCardsLeft: game.RedCardsLeft--
-          ///dispatch(ChangeHint(id,game))
+    ///dispatch(ChangeHint(id,game))
     //   });
     //   break;
     //   case "bad":
@@ -116,8 +114,7 @@ export const changeRedCardsLeft = (id,outcome,game,thunkString) => async (
     //   console.log("Default Change Blue Thunk")
     //        ///dispatch(Game Over Thunk(id,thunkString))
     // }
-  }
-    catch (error) {
-    return error.message
+  } catch (error) {
+    return error.message;
   }
 };

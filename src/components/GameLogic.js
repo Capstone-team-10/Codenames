@@ -3,7 +3,6 @@ import PlayerGameBoard from "./GameBoard";
 
 import { dealCards, getResultImage, turnTracker } from "../utils";
 
-
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -37,9 +36,12 @@ const GameLogic = props => {
       const wrongCard = currentTeam === "red" ? "blue" : "red";
       const neutralCard = "white";
       const fatalCard = "black";
+      deck[cardPicked].flipped = true;
+      decksync(deck, Gameid);
       switch (deck[cardPicked].color) {
         case rightCard:
           // setPickResult("good");
+
           return {
             outcome: "good",
             image: getResultImage(rightCard)
