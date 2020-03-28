@@ -115,6 +115,7 @@ export const leaveGame = (id, game, user) => async (
     console.log("Users in the Game Before Update", game.UsersInRoom)
     const copy = Object.assign({}, game.UsersInRoom);
     delete copy[user.uid];
+    console.log("Users in the Game After Update", game.UsersInRoom)
 
     const firestore = getFirestore();
     await firestore
