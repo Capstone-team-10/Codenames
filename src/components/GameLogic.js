@@ -7,10 +7,10 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
-import { Endturn } from "../store/GameThunks"
+import { Endturn, Assassin } from "../store/GameThunks"
 
 const GameLogic = props => {
-  const { Games, User, history, decksync, changeCardsLeft, Endturn } = props;
+  const { Games, User, history, decksync, changeCardsLeft, Endturn, Assassin } = props;
   const Gameid = props.match.params.id;
 
   const isFetching = Games === undefined || Games[Gameid] === undefined;
@@ -70,6 +70,7 @@ const GameLogic = props => {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
+          Assassin(Gameid, currentTeam)
           break;
         default:
           console.error(
@@ -179,7 +180,8 @@ const mapDispatchToProps = dispatch => {
   return {
     decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid)),
     changeCardsLeft: (currentTeam, id, game) => dispatch(changeCardsLeft(currentTeam, id, game)),
-    Endturn: (id, turnString) => dispatch(Endturn(id, turnString))
+    Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
+    Assassin: (id, result) => dispatch(Assassin(id, result))
   };
 };
 
