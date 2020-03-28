@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
-import { Endturn, Assassin } from "../store/GameThunks";
+import { Endturn, Assassin, victory } from "../store/GameThunks";
 import { ChangeHintCount } from "../store/HintThunk";
 
 const GameLogic = props => {
@@ -19,7 +19,8 @@ const GameLogic = props => {
     changeCardsLeft,
     ChangeHintCount,
     Endturn,
-    Assassin
+    Assassin,
+    victory
   } = props;
   const Gameid = props.match.params.id;
 
@@ -59,11 +60,11 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
+          if (blueScore === 1 || redScore === 1) {
+            victory(Gameid, rightCard);
+          }
           changeCardsLeft(rightCard, Gameid, game);
-          console.log("hint before is: ", hintCount);
           ChangeHintCount(Gameid, game);
-          // hintCount--;
-          console.log("hint after is: ", hintCount);
           if (hintCount === 0) {
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           }
@@ -81,6 +82,9 @@ const GameLogic = props => {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
+          if (blueScore === 1 || redScore === 1) {
+            victory(Gameid, wrongCard);
+          }
           changeCardsLeft(wrongCard, Gameid, game);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           break;
@@ -208,7 +212,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(changeCardsLeft(currentTeam, id, game)),
     Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
     Assassin: (id, result) => dispatch(Assassin(id, result)),
-    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game))
+    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
+    victory: (id, team) => dispatch(victory(id, team))
   };
 };
 

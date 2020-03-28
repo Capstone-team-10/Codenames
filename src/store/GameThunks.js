@@ -112,10 +112,10 @@ export const leaveGame = (id, game, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("Users in the Game Before Update", game.UsersInRoom)
+    console.log("Users in the Game Before Update", game.UsersInRoom);
     const copy = Object.assign({}, game.UsersInRoom);
     delete copy[user.uid];
-    console.log("Users in the Game After Update", game.UsersInRoom)
+    console.log("Users in the Game After Update", game.UsersInRoom);
 
     const firestore = getFirestore();
     await firestore
@@ -179,32 +179,34 @@ export const Assassin = (id, team) => async (
     await firestore
       .collection("Games")
       .doc(id)
-      .set({
-        GameOver: true,
-        GameResult: result
-      },
-        { merge: true });
+      .set(
+        {
+          GameOver: true,
+          GameResult: result
+        },
+        { merge: true }
+      );
   } catch (error) {
     return error.message;
   }
 };
 
-// export const GameOver = (id, team) => async (
-//   dispatch,
-//   getState,
-//   { getFirebase, getFirestore }
-// ) => {
-//   team === "red" ? "bluewin" : "redwin"
-//   try {
-//     const firestore = getFirestore();
-//     await firestore
-//       .collection("Games")
-//       .doc(id)
-//       .set({
-//         GameOver: true,
-//         GameResult: result
-//       });
-//   } catch (error) {
-//     return error.message;
-//   }
-// };
+export const victory = (id, team) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const result = team === "red" ? "redwin" : "bluewin";
+  try {
+    const firestore = getFirestore();
+    await firestore
+      .collection("Games")
+      .doc(id)
+      .set({
+        GameOver: true,
+        GameResult: result
+      });
+  } catch (error) {
+    return error.message;
+  }
+};
