@@ -58,7 +58,7 @@ const SideBar = ({
     console.log("On load window height is: ", window.innerHeight);
     console.log(
       `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight}. total height: ${navbarHeight +
-      sideBarHeight}`
+        sideBarHeight}`
     );
     window.onresize = resize;
   }, [gameStatus, spyMaster]);
@@ -75,7 +75,7 @@ const SideBar = ({
     console.log("On resize window height is: ", window.innerHeight);
     console.log(
       `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight} total height: ${navbarHeight +
-      sideBarHeight}`
+        sideBarHeight}`
     );
     console.log("fixed Height is: ", fixedHeight);
   };
@@ -89,7 +89,7 @@ const SideBar = ({
 
   const LeaveHandler = async () => {
     try {
-      await LeaveGame(gameId, game, User);
+      await LeaveGame(gameId, Games[gameId], User);
       history.push("/userProfile");
       // if(err === undefined){
       //   history.push("/userProfile");
@@ -200,7 +200,7 @@ const SideBar = ({
 
   const endTurnHandler = () => {
     let turnString = turnTracker.nextTurn(currentTurn);
-    EndTurn(gameId, turnString)
+    EndTurn(gameId, turnString);
   };
 
   return (
@@ -220,8 +220,8 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-              1
-            )} Spy Master`
+                1
+              )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
@@ -289,11 +289,11 @@ const SideBar = ({
             </button>
           </>
         ) : (
-            <>
-              <h6>{`Hint: ${getHint}`}</h6>
-              <h6>{`For: ${getHintCount} cards `}</h6>
-            </>
-          )}
+          <>
+            <h6>{`Hint: ${getHint}`}</h6>
+            <h6>{`For: ${getHintCount} cards `}</h6>
+          </>
+        )}
       </div>
       <ResizableBox
         handleSize={[8, 8]}
