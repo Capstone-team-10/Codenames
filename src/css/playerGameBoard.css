@@ -1,20 +1,44 @@
-/* PlayerGameBoard */
+/*                    */
+/*   PlayerGameBoard  */
+/*                    */
+
 .gameBoard-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0px;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
-/*  SideBar */
+/*                    */
+/*      SideBar       */
+/*                    */
 
 .sideBar-wrapper {
   background-color: lightgrey;
   padding: 0px 5px;
-  height: calc(100% - 64px);
+  height: 100%;
   max-width: 235px;
 }
 
 .players-text {
-  margin: 3px 0px;
+  margin: -1px 0px;
+}
+
+.players-text-header {
+  margin: 0px 0px -3px;
+  font-size: x-small;
+}
+
+.add-color-red {
+  color: red;
+  text-shadow: 0px 0px 2px black;
+}
+
+.add-color-blue {
+  color: blue;
+  text-shadow: 0px 0px 2px black;
 }
 
 .current-turn-info-container,
@@ -24,9 +48,18 @@
 .chat-container {
   background-color: slategray;
   width: 100%;
-  padding: 5px 10px;
+  padding: 2px 5px;
   margin: 5px 3px;
   border-radius: 5px;
+  border: inset;
+}
+
+.allPlayersInfo-container {
+  overflow-y: scroll;
+}
+
+.current-turn-text {
+  margin: 0px;
 }
 
 .spyMaster-hint-text-wrapper {
@@ -99,7 +132,39 @@
   height: 30px;
 }
 
-/* PlayArea */
+.log-wrapper {
+  height: calc(100% - 83px);
+  overflow-y: scroll;
+  margin: 3px 0px;
+}
+
+.messageSender {
+  font-size: small;
+  margin: 0px;
+  margin-bottom: -8px;
+  margin-left: 6px;
+  text-shadow: 0px 0px 5px black;
+  color: white;
+}
+
+.message-wrapper {
+  background-color: #00796b;
+  border: 1px solid;
+  width: 97%;
+  color: black;
+  padding: 2px 4px;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+
+.message-text {
+  margin: 0px;
+  text-shadow: 0px 0px 3px white;
+}
+
+/*                    */
+/*      PlayArea      */
+/*                    */
 
 .playArea-container {
   width: 100%;
@@ -123,7 +188,9 @@
   padding: 10px;
 }
 
-/* GameCard */
+/*                    */
+/*      GameCard      */
+/*                    */
 
 .cardContainer {
   position: relative;
@@ -180,7 +247,10 @@
   color: white;
 }
 
-/* GameLobby */
+/*                    */
+/*     GameLobby      */
+/*                    */
+
 .gameLobby-container {
   display: flex;
   flex-direction: column;
@@ -288,5 +358,11 @@
   .agent-image-red {
     width: 150px;
     margin: 7px;
+  }
+}
+
+@media (max-width: 540px) {
+  .gameBoard-container {
+    top: 56px;
   }
 }
