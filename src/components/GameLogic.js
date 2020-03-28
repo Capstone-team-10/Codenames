@@ -7,20 +7,31 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
-import { Endturn, Assassin } from "../store/GameThunks"
+import { Endturn, Assassin } from "../store/GameThunks";
+import { ChangeHintCount } from "../store/HintThunk";
 
 const GameLogic = props => {
-  const { Games, User, history, decksync, changeCardsLeft, Endturn, Assassin } = props;
+  const {
+    Games,
+    User,
+    history,
+    decksync,
+    changeCardsLeft,
+    ChangeHintCount,
+    Endturn,
+    Assassin
+  } = props;
   const Gameid = props.match.params.id;
 
   const isFetching = Games === undefined || Games[Gameid] === undefined;
   const displayName = User.displayName;
 
   const game = isFetching ? null : Games[Gameid];
-  const blueScore = isFetching ? 0 : game.BlueCardsLeft
-  const redScore = isFetching ? 0 : game.RedCardsLeft
-  const GameOver = isFetching ? false : game.GameOver
-  const GameResult = isFetching ? "" : game.GameResult
+  const blueScore = isFetching ? 0 : game.BlueCardsLeft;
+  const redScore = isFetching ? 0 : game.RedCardsLeft;
+  const GameOver = isFetching ? false : game.GameOver;
+  const GameResult = isFetching ? "" : game.GameResult;
+  let hintCount = isFetching ? 0 : game.HintCount;
 
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
 
@@ -48,14 +59,21 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
-          changeCardsLeft(rightCard, Gameid, game)
+          changeCardsLeft(rightCard, Gameid, game);
+          console.log("hint before is: ", hintCount);
+          ChangeHintCount(Gameid, game);
+          // hintCount--;
+          console.log("hint after is: ", hintCount);
+          if (hintCount === 0) {
+            Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          }
           break;
         case neutralCard:
           outcome = {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
-          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn))
+          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           break;
 
         case wrongCard:
@@ -63,8 +81,8 @@ const GameLogic = props => {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
-          changeCardsLeft(wrongCard, Gameid, game)
-          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn))
+          changeCardsLeft(wrongCard, Gameid, game);
+          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           break;
         case fatalCard:
           outcome = {
@@ -72,7 +90,7 @@ const GameLogic = props => {
             image: getResultImage(fatalCard)
           };
           setTimeout(() => {
-            Assassin(Gameid, currentTeam)
+            Assassin(Gameid, currentTeam);
           }, 3000);
           break;
         default:
@@ -154,24 +172,24 @@ const GameLogic = props => {
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       ) : (
-          <PlayerGameBoard
-            gameId={Gameid}
-            history={history}
-            allPlayers={allPlayers}
-            deck={spyDeck}
-            displayName={displayName}
-            gameStatus={gameStatus}
-            playersPick={cardPick(spyMasterDeck)}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            blueScore={blueScore}
-            redScore={redScore}
-            GameOver={GameOver}
-            GameResult={GameResult}
-            dealCards={dealDeck(dealCards(), Gameid)}
-            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-          />
-        )}
+        <PlayerGameBoard
+          gameId={Gameid}
+          history={history}
+          allPlayers={allPlayers}
+          deck={spyDeck}
+          displayName={displayName}
+          gameStatus={gameStatus}
+          playersPick={cardPick(spyMasterDeck)}
+          spyMaster={spyMaster}
+          teamColor={teamColor}
+          blueScore={blueScore}
+          redScore={redScore}
+          GameOver={GameOver}
+          GameResult={GameResult}
+          dealCards={dealDeck(dealCards(), Gameid)}
+          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+        />
+      )}
     </>
   );
 };
@@ -186,9 +204,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid)),
-    changeCardsLeft: (currentTeam, id, game) => dispatch(changeCardsLeft(currentTeam, id, game)),
+    changeCardsLeft: (currentTeam, id, game) =>
+      dispatch(changeCardsLeft(currentTeam, id, game)),
     Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
-    Assassin: (id, result) => dispatch(Assassin(id, result))
+    Assassin: (id, result) => dispatch(Assassin(id, result)),
+    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game))
   };
 };
 

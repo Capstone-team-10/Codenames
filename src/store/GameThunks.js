@@ -73,6 +73,7 @@ export const StartGame = (id, CurrentTurn) => async (
           RedCardsLeft: 9,
           HintCount: 0,
           HintWord: "",
+          GameResult: "",
           CurrentTurn: CurrentTurn,
           CardPickedResult: "",
           CardsOnTable: []
@@ -111,8 +112,10 @@ export const leaveGame = (id, game, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
+    console.log("Users in the Game Before Update", game.UsersInRoom)
     const copy = Object.assign({}, game.UsersInRoom);
     delete copy[user.uid];
+    console.log("Users in the Game After Update", game.UsersInRoom)
 
     const firestore = getFirestore();
     await firestore

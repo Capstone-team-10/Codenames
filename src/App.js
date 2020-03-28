@@ -12,7 +12,6 @@ import UserProfile from "./components/signInSignUpPage/UserProfile";
 import Title from "./components/Title";
 import JoinGameLobby from "./components/JoinGameLobby";
 import ChooseGameRoom from "./components/ChooseGameRoom"; // Delete route once form is working
-import EndGameScreen from "./components/EndGameScreen"; // Delete route once form is working
 import history from "./history"
 //style import
 import "./css/App.css";
@@ -29,8 +28,6 @@ function App(props) {
         <Route path="/userProfile" component={UserProfile} />
         <Route path="/onSubmit" component={ChooseGameRoom} />
         <Route path="/JoinGame" component={JoinGameLobby} />
-        <Route path="/GameOver" component={EndGameScreen} />
-        {/* <Route path="/play" component={GameLogic}></Route> */}
         <Route path="/play/:id" component={GameLogic}></Route>
       </Switch>)}
       {isLoggedOut && (
