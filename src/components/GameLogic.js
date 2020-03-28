@@ -54,7 +54,7 @@ const GameLogic = props => {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
-          Endturn(Gameid, turnTracker.nextTurn(game.currentTurn))
+          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn))
           break;
 
         case wrongCard:
@@ -63,7 +63,7 @@ const GameLogic = props => {
             image: getResultImage(wrongCard)
           };
           changeCardsLeft(wrongCard, Gameid, game)
-          Endturn(Gameid, turnTracker.nextTurn(game.currentTurn))
+          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn))
           break;
         case fatalCard:
           outcome = {
