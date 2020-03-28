@@ -202,10 +202,13 @@ export const victory = (id, team) => async (
     await firestore
       .collection("Games")
       .doc(id)
-      .set({
-        GameOver: true,
-        GameResult: result
-      });
+      .set(
+        {
+          GameOver: true,
+          GameResult: result
+        },
+        { merge: true }
+      );
   } catch (error) {
     return error.message;
   }
