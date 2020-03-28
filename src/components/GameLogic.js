@@ -36,6 +36,7 @@ const GameLogic = props => {
       const wrongCard = currentTeam === "red" ? "blue" : "red";
       const neutralCard = "white";
       const fatalCard = "black";
+      console.log("the deck is: ", deck);
       deck[cardPicked].flipped = true;
       decksync(deck, Gameid);
       switch (deck[cardPicked].color) {
