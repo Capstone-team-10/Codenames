@@ -20,6 +20,8 @@ const PlayerGameBoard = ({
   dealCards,
   blueScore,
   redScore,
+  GameOver,
+  GameResult,
   dealSpyAndSpymasterDecks,
   Games
 }) => {
@@ -54,6 +56,8 @@ const PlayerGameBoard = ({
               gameId={gameId}
               blueScore={blueScore}
               redScore={redScore}
+              GameOver={GameOver}
+              GameResult={GameResult}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
@@ -88,6 +92,8 @@ const PlayerGameBoard = ({
                 teamColor={teamColor}
                 blueScore={blueScore}
                 redScore={redScore}
+                GameOver={GameOver}
+                GameResult={GameResult}
                 dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
               />
             ) : (
