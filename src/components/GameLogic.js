@@ -89,6 +89,7 @@ const GameLogic = props => {
       "----Is this running after the deck is updated?",
       FirestoreDeck
     );
+    dealSpyAndSpymasterDecks();
   }, [FirestoreDeck]);
 
   const dealSpyAndSpymasterDecks = (gameDeck = FirestoreDeck) => {
