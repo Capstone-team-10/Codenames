@@ -58,7 +58,9 @@ const GameLogic = props => {
             image: getResultImage(rightCard)
           };
           changeCardsLeft(rightCard, Gameid, game);
+          console.log("hint before is: ", hintCount);
           hintCount--;
+          console.log("hint after is: ", hintCount);
           if (hintCount === -1) {
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           }
