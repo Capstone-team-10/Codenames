@@ -7,10 +7,10 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
-import { Endturn } from "../store/GameThunks"
+import { Endturn, Assassin } from "../store/GameThunks"
 
 const GameLogic = props => {
-  const { Games, User, history, decksync, changeCardsLeft, Endturn } = props;
+  const { Games, User, history, decksync, changeCardsLeft, Endturn, Assassin } = props;
   const Gameid = props.match.params.id;
 
   const isFetching = Games === undefined || Games[Gameid] === undefined;
@@ -19,7 +19,8 @@ const GameLogic = props => {
   const game = isFetching ? null : Games[Gameid];
   const blueScore = isFetching ? 0 : game.BlueCardsLeft
   const redScore = isFetching ? 0 : game.RedCardsLeft
-
+  const GameOver = isFetching ? false : game.GameOver
+  const GameResult = isFetching ? "" : game.GameResult
 
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
 
@@ -70,6 +71,9 @@ const GameLogic = props => {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
+          setTimeout(() => {
+            Assassin(Gameid, currentTeam)
+          }, 3000);
           break;
         default:
           console.error(
@@ -144,6 +148,8 @@ const GameLogic = props => {
           teamColor={teamColor}
           blueScore={blueScore}
           redScore={redScore}
+          GameOver={GameOver}
+          GameResult={GameResult}
           dealCards={dealDeck(dealCards(), Gameid)}
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
@@ -160,6 +166,8 @@ const GameLogic = props => {
             teamColor={teamColor}
             blueScore={blueScore}
             redScore={redScore}
+            GameOver={GameOver}
+            GameResult={GameResult}
             dealCards={dealDeck(dealCards(), Gameid)}
             dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
           />
@@ -179,7 +187,8 @@ const mapDispatchToProps = dispatch => {
   return {
     decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid)),
     changeCardsLeft: (currentTeam, id, game) => dispatch(changeCardsLeft(currentTeam, id, game)),
-    Endturn: (id, turnString) => dispatch(Endturn(id, turnString))
+    Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
+    Assassin: (id, result) => dispatch(Assassin(id, result))
   };
 };
 

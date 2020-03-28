@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
-let GameOver = false;
 
 const PlayArea = ({
   deck,
@@ -12,11 +11,14 @@ const PlayArea = ({
   teamColor,
   dealSpyAndSpymasterDecks,
   blueScore,
+  GameResult,
   redScore,
+  GameOver,
   currentTurn
 }) => {
   // console.log("In PlayArea deck is: ", deck);
   console.log("Play Area ID", gameId);
+
 
   const [firstCard, setFirstCard] = useState(1);
 
@@ -49,7 +51,9 @@ const PlayArea = ({
   return (
     <>
       {GameOver ? (
-        <EndGameScreen gameId={gameId} />
+        <EndGameScreen gameId={gameId}
+          GameResult={GameResult}
+        />
       ) : (
           <div className="playArea-container">
             <p> Blue Score: {blueScore}

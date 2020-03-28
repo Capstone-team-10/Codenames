@@ -165,11 +165,12 @@ export const ReplayGame = (id, game, user) => async (
   }
 };
 
-export const GameOver = (id, result) => async (
+export const Assassin = (id, team) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
+  const result = team === "red" ? "redkilled" : "bluekilled";
   try {
     const firestore = getFirestore();
     await firestore
@@ -178,8 +179,29 @@ export const GameOver = (id, result) => async (
       .set({
         GameOver: true,
         GameResult: result
-      });
+      },
+        { merge: true });
   } catch (error) {
     return error.message;
   }
 };
+
+// export const GameOver = (id, team) => async (
+//   dispatch,
+//   getState,
+//   { getFirebase, getFirestore }
+// ) => {
+//   team === "red" ? "bluewin" : "redwin"
+//   try {
+//     const firestore = getFirestore();
+//     await firestore
+//       .collection("Games")
+//       .doc(id)
+//       .set({
+//         GameOver: true,
+//         GameResult: result
+//       });
+//   } catch (error) {
+//     return error.message;
+//   }
+// };
