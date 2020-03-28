@@ -8,6 +8,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
 import { Endturn, Assassin } from "../store/GameThunks";
+import { ChangeHintCount } from "../store/HintThunk";
 
 const GameLogic = props => {
   const {
@@ -16,6 +17,7 @@ const GameLogic = props => {
     history,
     decksync,
     changeCardsLeft,
+    ChangeHintCount,
     Endturn,
     Assassin
   } = props;
@@ -59,9 +61,10 @@ const GameLogic = props => {
           };
           changeCardsLeft(rightCard, Gameid, game);
           console.log("hint before is: ", hintCount);
-          hintCount--;
+          ChangeHintCount(Gameid, game);
+          // hintCount--;
           console.log("hint after is: ", hintCount);
-          if (hintCount === -1) {
+          if (hintCount === 0) {
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           }
           break;
@@ -204,7 +207,8 @@ const mapDispatchToProps = dispatch => {
     changeCardsLeft: (currentTeam, id, game) =>
       dispatch(changeCardsLeft(currentTeam, id, game)),
     Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
-    Assassin: (id, result) => dispatch(Assassin(id, result))
+    Assassin: (id, result) => dispatch(Assassin(id, result)),
+    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game))
   };
 };
 
