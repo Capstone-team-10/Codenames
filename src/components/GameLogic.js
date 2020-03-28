@@ -71,7 +71,9 @@ const GameLogic = props => {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
-          Assassin(Gameid, currentTeam)
+          setTimeout(() => {
+            Assassin(Gameid, currentTeam)
+          }, 3000);
           break;
         default:
           console.error(
