@@ -6,7 +6,7 @@ const PlayerCard = ({
   card,
   index,
   playersPick,
-  setPickResult,
+  image,
   spyMaster,
   teamColor,
   currentTurn
@@ -37,13 +37,15 @@ const PlayerCard = ({
   };
 
   useEffect(() => {
+    console.log("----card image is: ", image);
     if (card.flipped === true) {
+      console.log("in useEffect updating card img and class");
       const cardImgElem = document.getElementById(`${index}img`);
       const cardToFlipElem = document.getElementById(`${index}`);
       cardImgElem.src = `${process.env.PUBLIC_URL}${card.image}`;
       cardToFlipElem.classList.add("flip-card");
     }
-  }, [card]);
+  }, [image]);
 
   const { word, flipped } = card;
   return (
