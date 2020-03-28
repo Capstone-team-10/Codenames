@@ -112,6 +112,7 @@ export const leaveGame = (id, game, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
+    console.log("Users in the Game Before Update", game.UsersInRoom)
     const copy = Object.assign({}, game.UsersInRoom);
     delete copy[user.uid];
 
@@ -119,9 +120,9 @@ export const leaveGame = (id, game, user) => async (
     await firestore
       .collection("Games")
       .doc(id)
-      .set({
+      .update({
         UsersInRoom: { ...copy }
-      },{merge:true});
+      });
     if (Object.keys(copy).length === 0) {
       dispatch(deleteGame(id));
     }
