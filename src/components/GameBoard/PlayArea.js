@@ -11,6 +11,8 @@ const PlayArea = ({
   gameId,
   teamColor,
   dealSpyAndSpymasterDecks,
+  blueScore,
+  redScore,
   currentTurn
 }) => {
   // console.log("In PlayArea deck is: ", deck);
@@ -49,24 +51,27 @@ const PlayArea = ({
       {GameOver ? (
         <EndGameScreen gameId={gameId} />
       ) : (
-        <div className="playArea-container">
-          <div className="cards-wrapper">
-            {deck.map((card, index) => (
-              <PlayerCard
-                teamColor={teamColor}
-                card={card}
-                image={card.image}
-                index={index}
-                key={card.word}
-                playersPick={playersPick}
-                setPickResult={setPickResult}
-                spyMaster={spyMaster}
-                currentTurn={currentTurn}
-              />
-            ))}
+          <div className="playArea-container">
+            <p> Blue Score: {blueScore}
+            Red Score: {redScore}   </p>
+
+            <div className="cards-wrapper">
+              {deck.map((card, index) => (
+                <PlayerCard
+                  teamColor={teamColor}
+                  card={card}
+                  image={card.image}
+                  index={index}
+                  key={card.word}
+                  playersPick={playersPick}
+                  setPickResult={setPickResult}
+                  spyMaster={spyMaster}
+                  currentTurn={currentTurn}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </>
   );
 };

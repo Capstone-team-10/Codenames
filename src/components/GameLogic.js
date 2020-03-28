@@ -16,6 +16,9 @@ const GameLogic = props => {
   const displayName = User.displayName;
 
   const game = isFetching ? null : Games[Gameid];
+  const blueScore = isFetching ? 0 : game.BlueCardsLeft
+  const redScore = isFetching ? 0 : game.RedCardsLeft
+
 
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
 
@@ -135,6 +138,8 @@ const GameLogic = props => {
           gameStatus={gameStatus}
           spyMaster={spyMaster}
           teamColor={teamColor}
+          blueScore={blueScore}
+          redScore={redScore}
           dealCards={dealDeck(dealCards(), Gameid)}
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
@@ -149,6 +154,8 @@ const GameLogic = props => {
             playersPick={cardPick(spyMasterDeck)}
             spyMaster={spyMaster}
             teamColor={teamColor}
+            blueScore={blueScore}
+            redScore={redScore}
             dealCards={dealDeck(dealCards(), Gameid)}
             dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
           />
