@@ -64,6 +64,7 @@ const GameLogic = props => {
             setTimeout(() => {
               victory(Gameid, rightCard);
             }, 3000);
+            return;
           }
           changeCardsLeft(rightCard, Gameid, game);
           ChangeHintCount(Gameid, game);
@@ -88,6 +89,7 @@ const GameLogic = props => {
             setTimeout(() => {
               victory(Gameid, wrongCard);
             }, 3000);
+            return;
           }
           changeCardsLeft(wrongCard, Gameid, game);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
