@@ -64,10 +64,12 @@ const GameLogic = props => {
             setTimeout(() => {
               victory(Gameid, rightCard);
             }, 3000);
+            flipCard(deck, cardPicked, outcome);
             return;
           }
           changeCardsLeft(rightCard, Gameid, game);
           ChangeHintCount(Gameid, game);
+          flipCard(deck, cardPicked, outcome);
           if (hintCount === 0) {
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           }
@@ -78,8 +80,8 @@ const GameLogic = props => {
             image: getResultImage(neutralCard)
           };
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          flipCard(deck, cardPicked, outcome);
           break;
-
         case wrongCard:
           outcome = {
             outcome: "bad",
@@ -89,10 +91,12 @@ const GameLogic = props => {
             setTimeout(() => {
               victory(Gameid, wrongCard);
             }, 3000);
+            flipCard(deck, cardPicked, outcome);
             return;
           }
           changeCardsLeft(wrongCard, Gameid, game);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          flipCard(deck, cardPicked, outcome);
           break;
         case fatalCard:
           outcome = {
@@ -102,6 +106,7 @@ const GameLogic = props => {
           setTimeout(() => {
             Assassin(Gameid, currentTeam);
           }, 3000);
+          flipCard(deck, cardPicked, outcome);
           break;
         default:
           console.error(
@@ -109,14 +114,17 @@ const GameLogic = props => {
             deck
           );
       }
-      const deckCopy = [...deck];
-      const cardCopy = Object.assign({}, deckCopy[cardPicked]);
-      cardCopy.flipped = true;
-      cardCopy.image = outcome.image;
-      deckCopy[cardPicked] = cardCopy;
-      decksync(deckCopy, Gameid);
       return outcome;
     };
+  };
+
+  const flipCard = (deck, cardPicked, outcome) => {
+    const deckCopy = [...deck];
+    const cardCopy = Object.assign({}, deckCopy[cardPicked]);
+    cardCopy.flipped = true;
+    cardCopy.image = outcome.image;
+    deckCopy[cardPicked] = cardCopy;
+    decksync(deckCopy, Gameid);
   };
 
   const dealDeck = (deck, Gameid) => {
