@@ -47,23 +47,29 @@ export const changeCardsLeft = (card, id, game) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log('----card', card, 'id', id, 'game', game);
-    console.log("In change Blues Cards Left Thunk ---> ");
+    // console.log('----card', card, 'id', id, 'game', game);
+    // console.log("In change Blues Cards Left Thunk ---> ");
     const firestore = getFirestore();
     if (card === "red") {
+      // console.log('Card is red')
+      // console.log('before', game.RedCardsLeft)
+      // game.RedCardsLeft
+      // console.log('after', game.RedCardsLeft - 1)
+
       await firestore
         .collection("Games")
         .doc(id)
         .update({
-          RedCardsLeft: game.RedCardsLeft--
+          RedCardsLeft: game.RedCardsLeft - 1
         });
     } else {
       await firestore
         .collection("Games")
         .doc(id)
         .update({
-          BlueCardsLeft: game.BlueCardsLeft--
+          BlueCardsLeft: game.BlueCardsLeft - 1
         });
+      console.log('Card is blue')
     }
     // switch(outcome){
     // //   case "good":
@@ -92,6 +98,7 @@ export const changeCardsLeft = (card, id, game) => async (
     ///dispatch(Game Over Thunk(id,thunkString))
     // }
   } catch (error) {
+    console.error(error)
     return error.message;
   }
 };
