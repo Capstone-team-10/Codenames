@@ -61,7 +61,9 @@ const GameLogic = props => {
             image: getResultImage(rightCard)
           };
           if (blueScore === 1 || redScore === 1) {
-            victory(Gameid, rightCard);
+            setTimeout(() => {
+              victory(Gameid, rightCard);
+            }, 3000);
           }
           changeCardsLeft(rightCard, Gameid, game);
           ChangeHintCount(Gameid, game);
@@ -83,7 +85,9 @@ const GameLogic = props => {
             image: getResultImage(wrongCard)
           };
           if (blueScore === 1 || redScore === 1) {
-            victory(Gameid, wrongCard);
+            setTimeout(() => {
+              victory(Gameid, wrongCard);
+            }, 3000);
           }
           changeCardsLeft(wrongCard, Gameid, game);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
