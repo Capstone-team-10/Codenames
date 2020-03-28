@@ -27,7 +27,6 @@ const GameLogic = props => {
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
-  // const [pickResult, setPickResult] = useState();
   // const [dealFunction, setDealFunction] = useState();
 
   const cardPick = deck => {
@@ -37,43 +36,45 @@ const GameLogic = props => {
       const neutralCard = "white";
       const fatalCard = "black";
       console.log("the deck is: ", deck);
-      const deckCopy = [...deck];
-      const cardCopy = Object.assign({}, deckCopy[cardPicked]);
-      cardCopy.flipped = true;
-      deckCopy[cardPicked] = cardCopy;
-      decksync(deckCopy, Gameid);
+      let outcome;
       switch (deck[cardPicked].color) {
         case rightCard:
-          // setPickResult("good");
-
-          return {
+          outcome = {
             outcome: "good",
             image: getResultImage(rightCard)
           };
+          break;
         case neutralCard:
-          // setPickResult("neutral");
-          return {
+          outcome = {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
+          break;
         case wrongCard:
-          // setPickResult("bad");
-          return {
+          outcome = {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
+          break;
         case fatalCard:
-          // setPickResult("fatal");
-          return {
+          outcome = {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
+          break;
         default:
           console.error(
             `Invalid input cardPicked: ${cardPicked}, currentTeam: ${currentTeam}, deck: `,
             deck
           );
       }
+      const deckCopy = [...deck];
+      const cardCopy = Object.assign({}, deckCopy[cardPicked]);
+      cardCopy.flipped = true;
+      cardCopy.image = outcome.image;
+      deckCopy[cardPicked] = cardCopy;
+      decksync(deckCopy, Gameid);
+      return outcome;
     };
   };
 
@@ -128,7 +129,6 @@ const GameLogic = props => {
           deck={spyDeck}
           displayName={displayName}
           gameStatus={gameStatus}
-          // setPickResult={setPickResult}
           playersPick={cardPick(spyMasterDeck)}
           spyMaster={spyMaster}
           teamColor={teamColor}
