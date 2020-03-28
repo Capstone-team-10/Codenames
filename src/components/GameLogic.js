@@ -92,16 +92,16 @@ const GameLogic = props => {
     dealSpyAndSpymasterDecks();
   }, [FirestoreDeck]);
 
-  const dealSpyAndSpymasterDecks = () => {
+  const dealSpyAndSpymasterDecks = (gameDeck = FirestoreDeck) => {
     // makeSpyAndSpyMasterDecks(FirestoreDeck);
-    // const deck = gameDeck ? [] : gameDeck;
-    const spy = FirestoreDeck.map(({ word, flipped, image }) => ({
+    const deck = gameDeck ? [] : gameDeck;
+    const spy = deck.map(({ word, flipped, image }) => ({
       word,
       flipped,
       image
     }));
 
-    setSpyMasterDeck(FirestoreDeck);
+    setSpyMasterDeck(deck);
     setSpyDeck(spy);
   };
 
