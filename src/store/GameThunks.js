@@ -73,6 +73,7 @@ export const StartGame = (id, CurrentTurn) => async (
           RedCardsLeft: 9,
           HintCount: 0,
           HintWord: "",
+          GameResult: "",
           CurrentTurn: CurrentTurn,
           CardPickedResult: "",
           CardsOnTable: []
@@ -118,9 +119,9 @@ export const leaveGame = (id, game, user) => async (
     await firestore
       .collection("Games")
       .doc(id)
-      .update({
+      .set({
         UsersInRoom: { ...copy }
-      });
+      },{merge:true});
     if (Object.keys(copy).length === 0) {
       dispatch(deleteGame(id));
     }
