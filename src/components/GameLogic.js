@@ -37,8 +37,11 @@ const GameLogic = props => {
       const neutralCard = "white";
       const fatalCard = "black";
       console.log("the deck is: ", deck);
-      deck[cardPicked].flipped = true;
-      decksync(deck, Gameid);
+      const deckCopy = [...deck];
+      const cardCopy = Object.assign({}, deckCopy[cardPicked]);
+      cardCopy.flipped = true;
+      deckCopy[cardPicked] = cardCopy;
+      decksync(deckCopy, Gameid);
       switch (deck[cardPicked].color) {
         case rightCard:
           // setPickResult("good");
