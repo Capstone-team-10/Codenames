@@ -51,11 +51,6 @@ export const changeCardsLeft = (card, id, game) => async (
     // console.log("In change Blues Cards Left Thunk ---> ");
     const firestore = getFirestore();
     if (card === "red") {
-      // console.log('Card is red')
-      // console.log('before', game.RedCardsLeft)
-      // game.RedCardsLeft
-      // console.log('after', game.RedCardsLeft - 1)
-
       await firestore
         .collection("Games")
         .doc(id)
