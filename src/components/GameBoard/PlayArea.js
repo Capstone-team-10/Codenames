@@ -55,6 +55,7 @@ const PlayArea = ({
               <PlayerCard
                 teamColor={teamColor}
                 card={card}
+                image={card.image}
                 index={index}
                 key={card.word}
                 playersPick={playersPick}
