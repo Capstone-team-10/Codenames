@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom"; /* Delete after demo Demonstration */
 import "../css/JoinGameLobby.css";
 
 //adding firestoreConnect
@@ -50,10 +49,6 @@ const JoinGameLobby = (props) => {
                 <h2> There are currently no open games to join</h2>
               )}
           </div>
-          <button className="title-button">
-            {/* Delete after demo Demonstration */}
-            <Link to="/GameOver">Fake Room - Link to End Game screen</Link>
-          </button>
         </div>
       )}
     </div>
