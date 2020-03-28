@@ -91,6 +91,7 @@ export const Endturn = (id, turnString) => async (
 ) => {
   try {
     console.log("In EndTurn Thunk Next Turn---.", turnString);
+    // console.log('in Endturn thunk---turnString', )
     const firestore = getFirestore();
     await firestore
       .collection("Games")
