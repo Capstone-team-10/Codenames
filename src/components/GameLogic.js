@@ -130,7 +130,7 @@ const GameLogic = props => {
     console.log("the players ID Array are: ", allPlayersIds);
     for (let i = 0; i < allPlayersIds.length; i++) {
       console.log("allPlayers[allPlayersIds[i]]: ", allPlayers[allPlayersIds[i]]);
-      if (allPlayers[allPlayersIds[i]].Team === winner) {
+      if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
         console.log("Winning Players ID: ", allPlayersIds[i]);
         UpdateWin(allPlayersIds[i], Users);
       } else {
