@@ -43,49 +43,53 @@ const EndGameScreen = props => {
   );
 
   useEffect(() => {
-    console.log("Running the switch case");
-    switch (GameResult) {
-      case "bluewin":
-        setClassName("bluewin");
-        setMessage("Blue team has won the game");
-        if (game.UsersInRoom[User.uid].Team === "blue") {
-          UpdateWin(User.uid, Users);
-        } else {
-          UpdateLoss(User.uid, Users);
-        }
-        break;
-      case "redwin":
-        setClassName("redwin");
-        setMessage("Red team has won the game");
-        if (game.UsersInRoom[User.uid].Team === "red") {
-          UpdateWin(User.uid, Users);
-        } else {
-          UpdateLoss(User.uid, Users);
-        }
-        break;
-      case "bluekilled":
-        setClassName("bluekilled");
-        setMessage("Blue team has been assassinated");
-        if (game.UsersInRoom[User.uid].Team === "red") {
-          UpdateWin(User.uid, Users);
-        } else {
-          UpdateLoss(User.uid, Users);
-        }
-        break;
-      case "redkilled":
-        setClassName("redkilled");
-        setMessage("Red team has been assassinated");
-        if (game.UsersInRoom[User.uid].Team === "blue") {
-          UpdateWin(User.uid);
-        } else {
-          UpdateLoss(User.uid);
-        }
-        break;
-      default:
-        setClassName("");
-        setMessage("There was an error, Win-loss records will not be recorded");
-    }
-  });
+    return () => {
+      console.log("Running the switch case");
+      switch (GameResult) {
+        case "bluewin":
+          setClassName("bluewin");
+          setMessage("Blue team has won the game");
+          if (game.UsersInRoom[User.uid].Team === "blue") {
+            UpdateWin(User.uid, Users);
+          } else {
+            UpdateLoss(User.uid, Users);
+          }
+          break;
+        case "redwin":
+          setClassName("redwin");
+          setMessage("Red team has won the game");
+          if (game.UsersInRoom[User.uid].Team === "red") {
+            UpdateWin(User.uid, Users);
+          } else {
+            UpdateLoss(User.uid, Users);
+          }
+          break;
+        case "bluekilled":
+          setClassName("bluekilled");
+          setMessage("Blue team has been assassinated");
+          if (game.UsersInRoom[User.uid].Team === "red") {
+            UpdateWin(User.uid, Users);
+          } else {
+            UpdateLoss(User.uid, Users);
+          }
+          break;
+        case "redkilled":
+          setClassName("redkilled");
+          setMessage("Red team has been assassinated");
+          if (game.UsersInRoom[User.uid].Team === "blue") {
+            UpdateWin(User.uid);
+          } else {
+            UpdateLoss(User.uid);
+          }
+          break;
+        default:
+          setClassName("");
+          setMessage(
+            "There was an error, Win-loss records will not be recorded"
+          );
+      }
+    };
+  }, []);
 
   const SameGameRoom = async e => {
     try {
