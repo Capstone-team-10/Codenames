@@ -49,14 +49,12 @@ const GameLogic = props => {
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
   // const [dealFunction, setDealFunction] = useState();
-  console.log("Game logic the props are: ", props);
   const cardPick = deck => {
     return (cardPicked, currentTeam) => {
       const rightCard = currentTeam;
       const wrongCard = currentTeam === "red" ? "blue" : "red";
       const neutralCard = "white";
       const fatalCard = "black";
-      console.log("the deck is: ", deck);
       let outcome;
       switch (deck[cardPicked].color) {
         case rightCard:
@@ -125,8 +123,12 @@ const GameLogic = props => {
   };
 
   const updateWinLossRecord = winner => {
+    console.log("Updating the win loss records winners were", winner);
+
     const players = Object.keys(allPlayers);
+    console.log("the players are: ", players);
     for (let i = 0; i < players.length; i++) {
+      console.log("allPlayers[players[i]]: ", allPlayers[players[i]]);
       if (allPlayers[players[i]].Team === winner) {
         UpdateWin(players[i], Users);
       } else {
@@ -151,18 +153,11 @@ const GameLogic = props => {
   };
 
   useEffect(() => {
-    console.log(
-      "----Is this running after the deck is updated?",
-      FirestoreDeck
-    );
     dealSpyAndSpymasterDecks();
   }, [FirestoreDeck]);
 
   const dealSpyAndSpymasterDecks = (gameDeck = FirestoreDeck) => {
-    // makeSpyAndSpyMasterDecks(FirestoreDeck);
-    console.log("the gameDeck is: ", gameDeck);
     const deck = gameDeck ? gameDeck : [];
-    console.log("the after is: ", deck);
     const spy = deck.map(({ word, flipped, image }) => ({
       word,
       flipped,
@@ -172,20 +167,6 @@ const GameLogic = props => {
     setSpyMasterDeck(deck);
     setSpyDeck(spy);
   };
-
-  //consider moving functionality into dealSpyAndSpyMasterDecks
-  // const makeSpyAndSpyMasterDecks = deck => {
-
-  // };
-
-  // useEffect(() => {
-  //   setDealFunction(dealDeck(spyMasterDeck))
-  // }, []);
-
-  // useEffect(() => {
-  //   let cardsFromDealer = dealCards();
-  //   makeSpyAndSpyMasterDecks(cardsFromDealer);
-  // }, []);
 
   return (
     <>
