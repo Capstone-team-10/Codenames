@@ -108,12 +108,15 @@ export const leaveGame = (id, game, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("Users in the Game Before Update", game.UsersInRoom);
-    const copy = Object.assign({}, game.UsersInRoom);
-    delete copy[user.uid];
-    console.log("Users in the Game After Update", game.UsersInRoom);
-
     const firestore = getFirestore();
+
+    let updatedGameRoom = await firestore.collection('Games').doc(id).get();
+    console.log("Before object assign Copy", updatedGameRoom.UsersInRoom);
+    const copy = Object.assign({}, updatedGameRoom.UsersInRoom);
+    console.log("Users in the Game Before Delete", copy);
+    delete copy[user.uid];
+    console.log("Users in the Game After Delete", copy);
+
     await firestore
       .collection("Games")
       .doc(id)
