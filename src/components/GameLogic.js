@@ -48,7 +48,22 @@ const GameLogic = props => {
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
-  // const [dealFunction, setDealFunction] = useState();
+
+  const updateWinLossRecord = winner => {
+    console.log("Updating the win loss records winners were", winner);
+
+    const players = Object.keys(allPlayers);
+    console.log("the players are: ", players);
+    for (let i = 0; i < players.length; i++) {
+      console.log("allPlayers[players[i]]: ", allPlayers[players[i]]);
+      if (allPlayers[players[i]].Team === winner) {
+        UpdateWin(players[i], Users);
+      } else {
+        UpdateLoss(players[i], Users);
+      }
+    }
+  };
+
   const cardPick = deck => {
     return (cardPicked, currentTeam) => {
       const rightCard = currentTeam;
@@ -107,6 +122,7 @@ const GameLogic = props => {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
+          updateWinLossRecord(wrongCard);
           setTimeout(() => {
             Assassin(Gameid, currentTeam);
           }, 3000);
@@ -120,21 +136,6 @@ const GameLogic = props => {
       }
       return outcome;
     };
-  };
-
-  const updateWinLossRecord = winner => {
-    console.log("Updating the win loss records winners were", winner);
-
-    const players = Object.keys(allPlayers);
-    console.log("the players are: ", players);
-    for (let i = 0; i < players.length; i++) {
-      console.log("allPlayers[players[i]]: ", allPlayers[players[i]]);
-      if (allPlayers[players[i]].Team === winner) {
-        UpdateWin(players[i], Users);
-      } else {
-        UpdateLoss(players[i], Users);
-      }
-    }
   };
 
   const flipCard = (deck, cardPicked, outcome) => {
