@@ -39,7 +39,7 @@ const GameLogic = props => {
   let hintCount = isFetching ? 0 : game.HintCount;
 
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
-
+  const allPlayersIds = isFetching ? [] : Object.keys(game.UsersInRoom);
   const gameStatus = isFetching ? null : game.GameStarted;
   const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
   const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
@@ -127,14 +127,15 @@ const GameLogic = props => {
   const updateWinLossRecord = winner => {
     console.log("Updating the win loss records winners were", winner);
 
-    const players = Object.keys(allPlayers);
-    console.log("the players are: ", players);
-    for (let i = 0; i < players.length; i++) {
-      console.log("allPlayers[players[i]]: ", allPlayers[players[i]]);
-      if (allPlayers[players[i]].Team === winner) {
-        UpdateWin(players[i], Users);
+    console.log("the players ID Array are: ", allPlayersIds);
+    for (let i = 0; i < allPlayersIds.length; i++) {
+      console.log("allPlayers[allPlayersIds[i]]: ", allPlayers[allPlayersIds[i]]);
+      if (allPlayers[allPlayersIds[i]].Team === winner) {
+        console.log("Winning Players ID: ", allPlayersIds[i]);
+        UpdateWin(allPlayersIds[i], Users);
       } else {
-        UpdateLoss(players[i], Users);
+        console.log("Losing Players ID: ", allPlayersIds[i]);
+        UpdateLoss(allPlayersIds[i], Users);
       }
     }
   };
