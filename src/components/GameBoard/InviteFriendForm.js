@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useImperativeHandle } from "react";
 
-const InviteFriendForm = () => {
+const InviteFriendForm = ({ setInviteFriend }) => {
   const [friendEmail, setFriendEmail] = useState("");
   const [friendName, setFriendName] = useState("");
 
@@ -21,16 +20,29 @@ const InviteFriendForm = () => {
 
   return (
     <div className="inviteFriend-wrapper">
-      <form id="inviteFriend" onSubmit={handleSubmit}>
-        <div className="input-field">
-          <label htmlFor="email">Friend's Email</label>
-          <input type="email" id="email" onChange={onChangeHandler} />
-        </div>
-        <div className="input-field">
-          <label htmlFor="friendName">Friend's Name</label>
-          <input type="text" id="friendName" onChange={onChangeHandler} />
-        </div>
-      </form>
+      <div className="formWrapper">
+        <form
+          id="inviteFriend"
+          className="inviteFriendForm"
+          onSubmit={handleSubmit}
+        >
+          <p>Email a link to this games lobby to a friend</p>
+          <div className="input-field">
+            <label htmlFor="email">Friend's Email</label>
+            <input type="email" id="email" onChange={onChangeHandler} />
+          </div>
+          <div className="input-field">
+            <label htmlFor="friendName">Friend's Name</label>
+            <input type="text" id="friendName" onChange={onChangeHandler} />
+          </div>
+        </form>
+        <button
+          className="invite-btn btn waves-effect waves-dark teal darken-4"
+          onClick={() => setInviteFriend(false)}
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { StartGame } from "../../store/GameThunks";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import InviteFriendForm from "./InviteFriendForm";
 
 import { canStartGame, turnTracker } from "../../utils";
 
@@ -23,6 +24,7 @@ const GameLobby = props => {
   const isFetching = Games !== undefined;
   const game = isFetching ? Games[gameId] : null;
 
+  const [inviteFriend, setInviteFriend] = useState(false);
   const [spyMasters, setSpyMasters] = useState({
     red: "",
     blue: ""
@@ -170,13 +172,18 @@ const GameLobby = props => {
           ready to start
         </button>
         <button
-          onClick={inviteHandler}
+          onClick={() => setInviteFriend(true)}
           className="ready-btn btn  waves-effect waves-dark teal darken-4"
         >
           Invite Friend
         </button>
       </div>
-      {/* {InviteFriendFormHere} */}
+      {inviteFriend ? (
+        <InviteFriendForm
+          setInviteFriend={setInviteFriend}
+          inviteHandler={inviteHandler}
+        />
+      ) : null}
     </>
   );
 };
