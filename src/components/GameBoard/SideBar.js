@@ -34,8 +34,6 @@ const SideBar = ({
   Sendhint,
   EndTurn
 }) => {
-  console.log("All Players - Siderbar", allPlayers);
-  console.log("The Current Turn - Siderbar", currentTurn);
   const [hint, setHint] = useState("");
   const [hintNumber, setHintNumber] = useState(1);
   // const [windowResized, setWindowResized] = useState(false);
@@ -55,11 +53,11 @@ const SideBar = ({
 
     //fixed height
     setFixedHeight(calculateFixedHeight);
-    console.log("On load window height is: ", window.innerHeight);
-    console.log(
-      `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight}. total height: ${navbarHeight +
-        sideBarHeight}`
-    );
+    // console.log("On load window height is: ", window.innerHeight);
+    // console.log(
+    //   `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight}. total height: ${navbarHeight +
+    //     sideBarHeight}`
+    // );
     window.onresize = resize;
   }, [gameStatus, spyMaster]);
 
@@ -72,12 +70,12 @@ const SideBar = ({
   const resize = () => {
     const navbarHeight = document.getElementById("navbar").offsetHeight;
     const sideBarHeight = document.getElementById("sideBar").offsetHeight;
-    console.log("On resize window height is: ", window.innerHeight);
-    console.log(
-      `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight} total height: ${navbarHeight +
-        sideBarHeight}`
-    );
-    console.log("fixed Height is: ", fixedHeight);
+    // console.log("On resize window height is: ", window.innerHeight);
+    // console.log(
+    //   `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight} total height: ${navbarHeight +
+    //     sideBarHeight}`
+    // );
+    // console.log("fixed Height is: ", fixedHeight);
   };
 
   const isFetching = Games === undefined || Games[gameId] === undefined;
@@ -91,15 +89,6 @@ const SideBar = ({
     try {
       await LeaveGame(gameId, Games[gameId], User);
       history.push("/userProfile");
-      // if(err === undefined){
-      //   history.push("/userProfile");
-      // }
-      // else{
-      //   addToast("Sorry, we couldn't exit you from this game. Try again", {
-      //     appearance: "warning",
-      //     autoDismiss: true
-      //   });
-      // }
     } catch (error) {
       console.error(error);
     }
@@ -187,7 +176,6 @@ const SideBar = ({
   const submitChat = async () => {
     let chatMsg = document.getElementById("chatMsg").value;
     if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
-      console.log("Banned word used");
     } else {
       try {
         await SendMessage(gameId, game, User, chatMsg);

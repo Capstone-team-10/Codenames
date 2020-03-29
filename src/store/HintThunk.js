@@ -4,7 +4,6 @@ export const SetHintWordAndCount = (id, Word, Count) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("We are in the SetHintWordAndCount Thunk", id, Word, Count);
     const firestore = getFirestore();
     await firestore
       .collection("Games")
@@ -27,7 +26,6 @@ export const ChangeHintCount = (id, game) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("We are in the ChangeHintCount Thunk");
     const firestore = getFirestore();
     await firestore
       .collection("Games")

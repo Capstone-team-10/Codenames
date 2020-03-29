@@ -6,7 +6,6 @@ const resultImages = {
 };
 
 export default result => {
-  console.log("In getImageResults: result is: ", result);
   return resultImages[result][
     Math.floor(Math.random() * resultImages[result].length)
   ];

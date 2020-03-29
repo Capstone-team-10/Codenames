@@ -90,7 +90,6 @@ export const selectAgency = (color, gameId, game, User) => async (
     const user = game.UsersInRoom[User.uid];
     const firestore = getFirestore();
     if (!user.isSpyMaster || (user.isSpyMaster && user.Team !== color)) {
-      console.log("Select Agency if Statement");
       await firestore
         .collection("Games")
         .doc(gameId)
@@ -141,11 +140,6 @@ export const updateWinRecord = (userId, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In Winn  Record Thunk");
-    console.log("Your User ID String", userId);
-    console.log("Your User record --> ", user[userId]);
-    let test = user[userId].Win + 1;
-    console.log("Your Win Record after update--> ", test);
     const firestore = getFirestore();
     await firestore
       .collection("Users")
@@ -167,11 +161,6 @@ export const updateLossRecord = (userId, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In Update Loss Record Thunk");
-    console.log("Your User ID String", userId);
-    console.log("Your User record --> ", user[userId]);
-    let test = user[userId].Loss + 1;
-    console.log("Your Loss Record after update--> ", test);
     const firestore = getFirestore();
     await firestore
       .collection("Users")

@@ -21,8 +21,8 @@ const EndGameScreen = props => {
     history
   } = props;
 
-  const isFetching = Games !== undefined;
-  const game = isFetching ? Games[gameId] : null;
+  // const isFetching = Games !== undefined;
+  // const game = isFetching ? Games[gameId] : null;
 
   const [className, setClassName] = useState("");
   const [message, setMessage] = useState(
@@ -30,7 +30,6 @@ const EndGameScreen = props => {
   );
 
   useEffect(() => {
-    console.log("Running the switch case");
     switch (GameResult) {
       case "bluewin":
         setClassName("bluewin");
@@ -56,7 +55,7 @@ const EndGameScreen = props => {
 
   const SameGameRoom = async e => {
     try {
-      const err = await ReplayGame(gameId, game, User);
+      const err = await ReplayGame(gameId, Games[gameId], User);
       if (err === undefined) {
         history.push(`/play/${gameId}`);
       } else {
@@ -72,7 +71,7 @@ const EndGameScreen = props => {
 
   const NewGameRoom = async e => {
     try {
-      const err = await LeaveGame(gameId, game, User);
+      const err = await LeaveGame(gameId, Games[gameId], User);
       if (err === undefined) {
         history.push("/onSubmit");
       } else {

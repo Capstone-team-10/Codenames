@@ -3,11 +3,9 @@ export const joinGame = (id, game, user) => async (
   getState,
   { getFirebase, getFirestore }
 ) => {
-  console.log(`id: ${id}, game: ${game}`);
   try {
     const copy = Object.assign({}, game.UsersInRoom);
     const firestore = getFirestore();
-    console.log("User In Game", copy[user.uid]);
     if (copy[user.uid] === undefined) {
       await firestore
         .collection("Games")
@@ -91,8 +89,6 @@ export const Endturn = (id, turnString) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In EndTurn Thunk Next Turn---.", turnString);
-    // console.log('in Endturn thunk---turnString', )
     const firestore = getFirestore();
     await firestore
       .collection("Games")
@@ -112,12 +108,15 @@ export const leaveGame = (id, game, user) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("Users in the Game Before Update", game.UsersInRoom);
-    const copy = Object.assign({}, game.UsersInRoom);
-    delete copy[user.uid];
-    console.log("Users in the Game After Update", game.UsersInRoom);
-
     const firestore = getFirestore();
+
+    let updatedGameRoom = await firestore.collection('Games').doc(id).get();
+    console.log("Before object assign Copy", updatedGameRoom.data().UsersInRoom)
+    const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
+    console.log("Users in the Game Before Delete", copy);
+    delete copy[user.uid];
+    console.log("Users in the Game After Delete", copy);
+
     await firestore
       .collection("Games")
       .doc(id)
@@ -162,7 +161,6 @@ export const ReplayGame = (id, game, user) => async (
         GameOver: false,
         GameStarted: false
       });
-    // dispatch(joinGame(id,game,user))
   } catch (error) {
     return error.message;
   }
