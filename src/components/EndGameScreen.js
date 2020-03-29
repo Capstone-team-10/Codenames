@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { leaveGame, ReplayGame } from "../store/GameThunks";
@@ -37,13 +37,17 @@ const EndGameScreen = props => {
     game.UsersInRoom[User.uid].Team
   );
 
-  let className, message;
+  const [className, setClassName] = useState("");
+  const [message, setMessage] = useState(
+    "There was an error, Win-loss records will not be recorded"
+  );
+
   useEffect(() => {
     console.log("Running the switch case");
     switch (GameResult) {
       case "bluewin":
-        className = "bluewin";
-        message = "Blue team has won the game";
+        setClassName("bluewin");
+        setMessage("Blue team has won the game");
         if (game.UsersInRoom[User.uid].Team === "blue") {
           UpdateWin(User.uid, Users);
         } else {
@@ -51,8 +55,8 @@ const EndGameScreen = props => {
         }
         break;
       case "redwin":
-        className = "redwin";
-        message = "Red team has won the game";
+        setClassName("redwin");
+        setMessage("Red team has won the game");
         if (game.UsersInRoom[User.uid].Team === "red") {
           UpdateWin(User.uid, Users);
         } else {
@@ -60,8 +64,8 @@ const EndGameScreen = props => {
         }
         break;
       case "bluekilled":
-        className = "bluekilled";
-        message = "Blue team has been assassinated";
+        setClassName("bluekilled");
+        setMessage("Blue team has been assassinated");
         if (game.UsersInRoom[User.uid].Team === "red") {
           UpdateWin(User.uid, Users);
         } else {
@@ -69,8 +73,8 @@ const EndGameScreen = props => {
         }
         break;
       case "redkilled":
-        className = "redkilled";
-        message = "Red team has been assassinated";
+        setClassName("redkilled");
+        setMessage("Red team has been assassinated");
         if (game.UsersInRoom[User.uid].Team === "blue") {
           UpdateWin(User.uid);
         } else {
@@ -78,8 +82,8 @@ const EndGameScreen = props => {
         }
         break;
       default:
-        className = "";
-        message = "There was an error, Win-loss records will not be recorded";
+        setClassName("");
+        setMessage("There was an error, Win-loss records will not be recorded");
     }
   });
 
