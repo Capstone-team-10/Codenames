@@ -26,7 +26,7 @@ const EndGameScreen = (props) => {
     case "bluewin":
       className = "bluewin"
       message = "Blue team has won the game"
-      if((game.UsersInRoom[User.uid].Team = "blue")){
+      if((game.UsersInRoom[User.uid].Team === "blue")){
         UpdateWin(User.uid,Users)
       }
       else{
@@ -36,7 +36,7 @@ const EndGameScreen = (props) => {
     case "redwin":
       className = "redwin"
       message = "Red team has won the game"
-      if((game.UsersInRoom[User.uid].Team = "red")){
+      if((game.UsersInRoom[User.uid].Team === "red")){
         UpdateWin(User.uid,Users)
       }
       else{
@@ -46,7 +46,7 @@ const EndGameScreen = (props) => {
     case "bluekilled":
       className = "bluekilled"
       message = "Blue team has been assassinated"
-      if((game.UsersInRoom[User.uid].Team = "red")){
+      if((game.UsersInRoom[User.uid].Team === "red")){
         UpdateWin(User.uid,Users)
       }
       else{
@@ -56,7 +56,7 @@ const EndGameScreen = (props) => {
     case "redkilled":
       className = "redkilled"
       message = "Red team has been assassinated"
-      if((game.UsersInRoom[User.uid].Team = "blue")){
+      if((game.UsersInRoom[User.uid].Team === "blue")){
         UpdateWin(User.uid)
       }
       else{
