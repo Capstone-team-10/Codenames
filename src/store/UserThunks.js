@@ -103,18 +103,16 @@ export const selectMaster = (color,gameId,game,User) => async (dispatch, getStat
 
 export const updateWinRecord = (userId,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("In Winn Loss Record Thunk")
+    console.log("In Winn  Record Thunk")
     console.log("Your User ID String",userId)
     console.log("Your User record --> ",user[userId])
     let test = user[userId].Win +1
     console.log("Your Win Record after update--> ",test)
-    // const copy = Object.assign({}, user[userId);
-    // copy.Win++
-    // const firestore = getFirestore()
-    // await firestore.collection("Users").doc(userId).set({
-    //   Win: user[userId].Win + 1
-    // }, {merge:true})
-    //
+    const firestore = getFirestore()
+    await firestore.collection("Users").doc(userId).set({
+      Win: user[userId].Win + 1
+    }, {merge:true})
+
   }
   catch (error) {
     return error.message
@@ -128,12 +126,10 @@ export const updateLossRecord = (userId,user) => async (dispatch, getState, {get
     console.log("Your User record --> ",user[userId])
     let test = user[userId].Loss + 1
     console.log("Your Loss Record after update--> ",test)
-     // const copy = Object.assign({}, User[ID]);
-    // copy.loss ++
-    // const firestore = getFirestore()
-    // await firestore.collection("Users").doc(userId).set({
-    //   Loss: user[userId].Loss + 1
-    // }, {merge:true})
+    const firestore = getFirestore()
+    await firestore.collection("Users").doc(userId).set({
+      Loss: user[userId].Loss + 1
+    }, {merge:true})
 
     }
   catch (error) {
