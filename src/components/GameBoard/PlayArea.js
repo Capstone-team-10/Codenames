@@ -19,7 +19,6 @@ const PlayArea = ({
   // console.log("In PlayArea deck is: ", deck);
   console.log("Play Area ID", gameId);
 
-
   const [firstCard, setFirstCard] = useState(1);
 
   useEffect(() => {
@@ -51,31 +50,32 @@ const PlayArea = ({
   return (
     <>
       {GameOver ? (
-        <EndGameScreen gameId={gameId}
-          GameResult={GameResult}
-        />
+        <EndGameScreen gameId={gameId} GameResult={GameResult} />
       ) : (
-          <div className="playArea-container">
-            <p> Blue Score: {blueScore}
-            Red Score: {redScore}   </p>
-
-            <div className="cards-wrapper">
-              {deck.map((card, index) => (
-                <PlayerCard
-                  teamColor={teamColor}
-                  card={card}
-                  image={card.image}
-                  index={index}
-                  key={card.word}
-                  playersPick={playersPick}
-                  setPickResult={setPickResult}
-                  spyMaster={spyMaster}
-                  currentTurn={currentTurn}
-                />
-              ))}
-            </div>
+        <div className="playArea-container">
+          <div className="scoreContainer">
+            <p>
+              Blue Score: {blueScore} Red Score: {redScore}
+            </p>
           </div>
-        )}
+
+          <div className="cards-wrapper">
+            {deck.map((card, index) => (
+              <PlayerCard
+                teamColor={teamColor}
+                card={card}
+                image={card.image}
+                index={index}
+                key={card.word}
+                playersPick={playersPick}
+                setPickResult={setPickResult}
+                spyMaster={spyMaster}
+                currentTurn={currentTurn}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };

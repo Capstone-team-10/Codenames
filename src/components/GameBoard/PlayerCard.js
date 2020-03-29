@@ -50,8 +50,16 @@ const PlayerCard = ({
   const { word, flipped } = card;
   return (
     <div className="cardContainer">
-      <div className="card-inner" id={index} onClick={handleClick}>
-        <div className="card-front">
+      <div
+        className="card-inner"
+        id={index}
+        onClick={spyMaster ? null : handleClick}
+      >
+        <div
+          className={`card-front ${
+            spyMaster ? `card-color-${card.color}` : ""
+          }`}
+        >
           <p>{word}</p>
         </div>
         <img
