@@ -25,8 +25,9 @@ const EndGameScreen = (props) => {
   //   UpdateLoss(User.uid)
   // }, [winningteam,losingteam ])
 
-  console.log("Specific Users in the EndScreen ------>",Users[User.uid] )
-  console.log("Name of Specific User in the EndScreen", User.displayName)
+  console.log("Specific Users Record in the EndScreen ------>",Users[User.uid] )
+  console.log("Name of Specific User in the EndScreen", User.DisplayName)
+  console.log("Team of Specific User in the EndScreen", game.UsersInRoom[User.uid].Team)
 
   let className, message
   switch (GameResult) {
