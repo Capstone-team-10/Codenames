@@ -6,10 +6,23 @@ import {newGame} from "../store/GameThunks"
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { useToasts } from "react-toast-notifications";
 
 const ChooseGameRoom = (props)=> {
-  const newGameRoom = () =>{
-    props.newGame(props.history,props.User)
+  const {addToast} = useToasts()
+
+  const newGameRoom = async () =>{
+    try {
+      const err = await props.newGame(props.history,props.User)
+      if(err !== undefined){
+        addToast("Sorry, we can't create a new Game right now", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

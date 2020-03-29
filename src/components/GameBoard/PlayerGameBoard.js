@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { SideBar, PlayArea, GameLobby } from "./index";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 
 import "../../css/playerGameBoard.css";
 
 const PlayerGameBoard = ({
   allPlayers,
-  chatLog,
   deck,
   displayName,
   gameStatus,
@@ -15,8 +17,21 @@ const PlayerGameBoard = ({
   teamColor,
   gameId,
   history,
+  dealCards,
+  blueScore,
+  redScore,
+  GameOver,
+  GameResult,
+  dealSpyAndSpymasterDecks,
+  Games
 }) => {
   const [bannedWords, setBannedWords] = useState([]);
+
+  const isFetching = Games === undefined || Games[gameId] === undefined;
+
+  const game = isFetching ? null : Games[gameId];
+  const currentTurn = isFetching ? "" : game.CurrentTurn;
+  console.log("currentTurn is: ", currentTurn);
 
   useEffect(() => {
     const banned = [];
@@ -34,47 +49,88 @@ const PlayerGameBoard = ({
       {spyMaster ? (
         <>
           {gameStatus ? (
-            <PlayArea deck={deck} spyMaster={spyMaster} gameId={gameId}/>
+            <PlayArea
+              currentTurn={currentTurn}
+              deck={deck}
+              spyMaster={spyMaster}
+              gameId={gameId}
+              blueScore={blueScore}
+              redScore={redScore}
+              GameOver={GameOver}
+              GameResult={GameResult}
+              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+            />
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
-          )}
+              <GameLobby
+                allPlayers={allPlayers}
+                gameId={gameId}
+                dealCards={dealCards}
+              />
+            )}
           <SideBar
+            currentTurn={currentTurn}
             allPlayers={allPlayers}
             bannedWords={bannedWords}
             displayName={displayName}
-            chatLog={chatLog}
             spyMaster={spyMaster}
             teamColor={teamColor}
             gameId={gameId}
+            gameStatus={gameStatus}
             history={history}
           />
         </>
       ) : (
-        <>
-          {gameStatus ? (
-            <PlayArea
-              deck={deck}
-              playersPick={playersPick}
-              setPickResult={setPickResult}
+          <>
+            {gameStatus ? (
+              <PlayArea
+                currentTurn={currentTurn}
+                deck={deck}
+                playersPick={playersPick}
+                setPickResult={setPickResult}
+                spyMaster={spyMaster}
+                gameId={gameId}
+                teamColor={teamColor}
+                blueScore={blueScore}
+                redScore={redScore}
+                GameOver={GameOver}
+                GameResult={GameResult}
+                dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              />
+            ) : (
+                <GameLobby
+                  allPlayers={allPlayers}
+                  gameId={gameId}
+                  dealCards={dealCards}
+                />
+              )}
+            <SideBar
+              currentTurn={currentTurn}
+              allPlayers={allPlayers}
+              displayName={displayName}
               spyMaster={spyMaster}
+              teamColor={teamColor}
               gameId={gameId}
+              gameStatus={gameStatus}
+              history={history}
             />
-          ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
-          )}
-          <SideBar
-            allPlayers={allPlayers}
-            displayName={displayName}
-            chatLog={chatLog}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            gameId={gameId}
-            history={history}
-          />
-        </>
-      )}
+          </>
+        )}
     </div>
   );
 };
 
-export default PlayerGameBoard;
+const mapStateToProps = state => {
+  return {
+    Games: state.firestore.data.Games,
+    User: state.firebase.auth
+  };
+};
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Games"
+    }
+  ]),
+  connect(mapStateToProps)
+)(PlayerGameBoard);

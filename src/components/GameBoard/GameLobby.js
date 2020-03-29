@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
+import { canStartGame, turnTracker } from "../../utils";
+
 const GameLobby = props => {
   const {
     allPlayers,
@@ -14,10 +16,9 @@ const GameLobby = props => {
     selectAgency,
     User,
     Games,
-    selectMaster
+    selectMaster,
+    dealCards
   } = props;
-  const [agency, setAgency] = useState("");
-  const [isSpyMaster, setIsSpyMaster] = useState(false);
 
   const isFetching = Games !== undefined;
   const game = isFetching ? Games[gameId] : null;
@@ -30,50 +31,77 @@ const GameLobby = props => {
   const { addToast } = useToasts();
 
   useEffect(() => {
-    selectAgency(agency, gameId, game, User);
-  }, [agency]);
-
-  ///Determine if spyMaster role is available
-  useEffect(() => {
-    console.log("AllPlayers", allPlayers);
+    console.log("running hook______");
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
-        if (player.spyMaster) {
-          acc[player.team] = player.displayName;
+        if (player.isSpyMaster) {
+          acc[player.Team] = player.DisplayName;
         }
         return acc;
       },
       { red: "", blue: "" }
     );
-    console.log("who are masters", spyMasterSelected);
     setSpyMasters(spyMasterSelected);
   }, [allPlayers]);
 
   //Choosing SpyMaster
-  const spyMasterHandler = agency => {
+  const spyMasterHandler = async agency => {
     if (spyMasters[agency] === "") {
-      setIsSpyMaster(true);
       selectAgencyHandler(agency);
-      selectMaster(agency, gameId, game, User);
+      try {
+        const err = await selectMaster(agency, gameId, game, User);
+        if (err !== undefined) {
+          addToast(
+            "Sorry, we couldn't make you spymaster right now. Try again",
+            {
+              appearance: "warning",
+              autoDismiss: true
+            }
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      } ///
     } else {
       console.log(`${agency} Spy Master already chosen`);
-      addToast(`${spyMasters.blue} is already ${agency}'s Spy Master`, {
+      addToast(`${spyMasters[agency]} is already ${agency}'s Spy Master`, {
         appearance: "warning",
         autoDismiss: true
       });
     }
+    console.log("---------spyMasters is: ", spyMasters);
   };
 
   /// Choosing Sides
-  const selectAgencyHandler = selectedAgency => {
+  const selectAgencyHandler = async selectedAgency => {
     console.log(`Player chose the ${selectedAgency} agency`);
-    setAgency(selectedAgency);
+    try {
+      const err = await selectAgency(selectedAgency, gameId, game, User);
+      if (err !== undefined) {
+        addToast("Sorry, we couldn't select your side right now. Try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  ///Start the game
-  const readyHandler = () => {
+  const readyHandler = async () => {
     console.log("ready to start clicked");
-    StartGame(gameId);
+    try {
+      const err = await StartGame(gameId, turnTracker.startWithTeam());
+      dealCards();
+      if (err !== undefined) {
+        addToast("Sorry, failed to start game. Please try again", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   ///Open Invite friend form
@@ -162,7 +190,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    StartGame: id => dispatch(StartGame(id)),
+    StartGame: (id, startTeam) => dispatch(StartGame(id, startTeam)),
     selectAgency: (color, gameId, game, User) =>
       dispatch(selectAgency(color, gameId, game, User)),
     selectMaster: (color, gameId, game, User) =>
