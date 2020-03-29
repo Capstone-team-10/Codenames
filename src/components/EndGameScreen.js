@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import { connect } from "react-redux"
 import { withRouter } from 'react-router'
 import { leaveGame, ReplayGame } from "../store/GameThunks"
+import {updateWinRecord,updateLossRecord} from "../store/UserThunks"
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { useToasts } from "react-toast-notifications";
@@ -11,28 +12,46 @@ import "../css/EndGameScreen.css";
 
 const EndGameScreen = (props) => {
   const { addToast } = useToasts()
-  const { GameResult, gameId, Games, User, ReplayGame, LeaveGame, history } = props
+  const { GameResult, gameId, Games, User, ReplayGame, LeaveGame, history,Users } = props
 
   const isFetching = Games !== undefined
   const game = isFetching ? Games[gameId] : null
+
+  //  const [winningteam,setWinningTeam] = useState([])
+  //  const [losingteam,setLosingTeam] = useState([])
+
+  // useEffect(() => {
+  //   UpdateWin(User.uid)
+  //   UpdateLoss(User.uid)
+  // }, [winningteam,losingteam ])
+
+  console.log("Users in the EndScreem",Users )
 
   let className, message
   switch (GameResult) {
     case "bluewin":
       className = "bluewin"
       message = "Blue team has won the game"
+      // setWinningTeam(users.filter(user.Team = Blue))
+      // setLosingTeam(users.filter(user.Team = Red))
       break;
     case "redwin":
       className = "redwin"
       message = "Red team has won the game"
+      // setWinningTeam(users.filter(user.Team = Red))
+      // setLosingTeam(users.filter(user.Team = Blue))
       break;
     case "bluekilled":
       className = "bluekilled"
       message = "Blue team has been assassinated"
+      // setWinningTeam(users.filter(user.Team = Red))
+      // setLosingTeam(users.filter(user.Team = Blue))
       break;
     case "redkilled":
       className = "redkilled"
       message = "Red team has been assassinated"
+      // setWinningTeam(users.filter(user.Team = Blue))
+      // setLosingTeam(users.filter(user.Team = Red))
       break;
     default:
       className = ""
@@ -99,7 +118,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     LeaveGame: (Gameid, game, user) => dispatch(leaveGame(Gameid, game, user)),
-    ReplayGame: (Gameid, game, user) => dispatch(ReplayGame(Gameid, game, user))
+    ReplayGame: (Gameid, game, user) => dispatch(ReplayGame(Gameid, game, user)),
+    UpdateWin: (uid,user) =>dispatch(updateWinRecord(uid,user)),
+    UpdateLoss: (uid,user) =>dispatch(updateLossRecord(uid,user)),
   }
 }
 

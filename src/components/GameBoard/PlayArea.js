@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import { connect } from "react-redux"
 
 const PlayArea = ({
   deck,
@@ -14,7 +17,8 @@ const PlayArea = ({
   GameResult,
   redScore,
   GameOver,
-  currentTurn
+  currentTurn,
+  Users
 }) => {
   // console.log("In PlayArea deck is: ", deck);
   console.log("Play Area ID", gameId);
@@ -50,7 +54,7 @@ const PlayArea = ({
   return (
     <>
       {GameOver ? (
-        <EndGameScreen gameId={gameId} GameResult={GameResult} />
+        <EndGameScreen gameId={gameId} GameResult={GameResult} Users={Users}/>
       ) : (
         <div className="playArea-container">
           <div className="scoreContainer">
@@ -80,4 +84,17 @@ const PlayArea = ({
   );
 };
 
-export default PlayArea;
+const mapStateToProps = (state) => {
+  return {
+    Users: state.firestore.data.Users,
+  }
+}
+
+
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Users"
+    }
+  ]),
+  connect(mapStateToProps))(PlayArea)

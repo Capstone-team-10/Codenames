@@ -104,15 +104,16 @@ export const selectMaster = (color,gameId,game,User) => async (dispatch, getStat
 export const updateWinRecord = (userId,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     console.log("In Winn Loss Record")
-    console.log("Grab UserId from firebase.auth")
-    console.log("Grab Userobj from firestore.data  --> User[ID].win")
-    // const copy = Object.assign({}, User[ID]);
-    // copy.win ++
+    console.log("Grab UserId from firebase.auth", userId)
+    console.log("Grab Userobj from firestore.data  --> User[ID].win",user)
+    // const copy = Object.assign({}, user[userId);
+    // copy.Win++
     // const firestore = getFirestore()
     // await firestore.collection("Users").doc(userId).set({
-    //   Win: User[ID].Win++
+    //   Win: user[userId].Win + 1
     // }, {merge:true})
-    }
+    //
+  }
   catch (error) {
     return error.message
   }
@@ -121,13 +122,13 @@ export const updateWinRecord = (userId,user) => async (dispatch, getState, {getF
 export const updateLossRecord = (userId,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
     console.log("In Update Loss Record")
-    console.log("Grab UserId from firebase.auth")
-    console.log("Grab Userobj from firestore.data  --> User[ID].loss")
+    console.log("Grab UserId from firebase.auth",userId)
+    console.log("Grab Userobj from firestore.data  --> User[ID].loss",user)
      // const copy = Object.assign({}, User[ID]);
     // copy.loss ++
     // const firestore = getFirestore()
     // await firestore.collection("Users").doc(userId).set({
-    //   Loss: User[ID].Loss++
+    //   Loss: user[userId].Loss + 1
     // }, {merge:true})
 
     }
