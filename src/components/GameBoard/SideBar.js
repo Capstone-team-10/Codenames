@@ -199,6 +199,12 @@ const SideBar = ({
   };
 
   const endTurnHandler = () => {
+    if (!isItYourTurn(currentTurn)) {
+      addToast(`Wait for your turn!`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
+    }
     let turnString = turnTracker.nextTurn(currentTurn);
     EndTurn(gameId, turnString);
   };
@@ -226,7 +232,7 @@ const SideBar = ({
         </p>
       </div>
       <ResizableBox
-        handleSize={[8, 8]}
+        handleSize={[10, 10]}
         resizeHandles={["s"]}
         height={80}
         width={225}
@@ -296,7 +302,7 @@ const SideBar = ({
         )}
       </div>
       <ResizableBox
-        handleSize={[8, 8]}
+        handleSize={[10, 10]}
         resizeHandles={["s"]}
         height={175}
         width={225}
