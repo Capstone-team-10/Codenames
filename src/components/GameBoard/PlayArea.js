@@ -16,14 +16,9 @@ const PlayArea = ({
   GameOver,
   currentTurn
 }) => {
-  // console.log("In PlayArea deck is: ", deck);
-  console.log("Play Area ID", gameId);
-
-
   const [firstCard, setFirstCard] = useState(1);
 
   useEffect(() => {
-    console.log("In PlayArea the deck is: ", deck);
     dealSpyAndSpymasterDecks();
     if (!deck.length) {
       setFirstCard(firstCard + 1);
@@ -34,48 +29,35 @@ const PlayArea = ({
     }
   }, [firstCard]);
 
-  // useEffect(() => {
-  //   console.log("In PlayArea the deck is: ", deck);
-  //   dealSpyAndSpymasterDecks();
-  // }, [firstCard]);
-
-  // useEffect(() => {
-  //   console.log("In playarea useeffect the deck is: ", deck);
-  //   if (!deck.length) {
-  //     setFirstCard("empty");
-  //   } else {
-  //     setFirstCard(deck[0].word);
-  //   }
-  // }, [deck]);
-
   return (
     <>
       {GameOver ? (
-        <EndGameScreen gameId={gameId}
-          GameResult={GameResult}
-        />
+        <EndGameScreen gameId={gameId} GameResult={GameResult} />
       ) : (
-          <div className="playArea-container">
-            <p> Blue Score: {blueScore}
-            Red Score: {redScore}   </p>
-
-            <div className="cards-wrapper">
-              {deck.map((card, index) => (
-                <PlayerCard
-                  teamColor={teamColor}
-                  card={card}
-                  image={card.image}
-                  index={index}
-                  key={card.word}
-                  playersPick={playersPick}
-                  setPickResult={setPickResult}
-                  spyMaster={spyMaster}
-                  currentTurn={currentTurn}
-                />
-              ))}
-            </div>
+        <div className="playArea-container">
+          <div className="scoreContainer">
+            <p>
+              Blue Score: {blueScore} Red Score: {redScore}
+            </p>
           </div>
-        )}
+
+          <div className="cards-wrapper">
+            {deck.map((card, index) => (
+              <PlayerCard
+                teamColor={teamColor}
+                card={card}
+                image={card.image}
+                index={index}
+                key={card.word}
+                playersPick={playersPick}
+                setPickResult={setPickResult}
+                spyMaster={spyMaster}
+                currentTurn={currentTurn}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };

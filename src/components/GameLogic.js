@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
+import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
 import { Endturn, Assassin, victory } from "../store/GameThunks";
 import { ChangeHintCount } from "../store/HintThunk";
 
@@ -14,12 +15,15 @@ const GameLogic = props => {
   const {
     Games,
     User,
+    Users,
     history,
     decksync,
     changeCardsLeft,
     ChangeHintCount,
     Endturn,
     Assassin,
+    UpdateWin,
+    UpdateLoss,
     victory
   } = props;
   const Gameid = props.match.params.id;
@@ -35,7 +39,7 @@ const GameLogic = props => {
   let hintCount = isFetching ? 0 : game.HintCount;
 
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
-
+  const allPlayersIds = isFetching ? [] : Object.keys(game.UsersInRoom);
   const gameStatus = isFetching ? null : game.GameStarted;
   const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
   const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
@@ -44,7 +48,6 @@ const GameLogic = props => {
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
-  // const [dealFunction, setDealFunction] = useState();
 
   const cardPick = deck => {
     return (cardPicked, currentTeam) => {
@@ -52,7 +55,6 @@ const GameLogic = props => {
       const wrongCard = currentTeam === "red" ? "blue" : "red";
       const neutralCard = "white";
       const fatalCard = "black";
-      console.log("the deck is: ", deck);
       let outcome;
       switch (deck[cardPicked].color) {
         case rightCard:
@@ -61,6 +63,7 @@ const GameLogic = props => {
             image: getResultImage(rightCard)
           };
           if (blueScore === 1 || redScore === 1) {
+            updateWinLossRecord(rightCard);
             setTimeout(() => {
               victory(Gameid, rightCard);
             }, 3000);
@@ -88,6 +91,7 @@ const GameLogic = props => {
             image: getResultImage(wrongCard)
           };
           if (blueScore === 1 || redScore === 1) {
+            updateWinLossRecord(wrongCard);
             setTimeout(() => {
               victory(Gameid, wrongCard);
             }, 3000);
@@ -103,6 +107,7 @@ const GameLogic = props => {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
+          updateWinLossRecord(wrongCard);
           setTimeout(() => {
             Assassin(Gameid, currentTeam);
           }, 3000);
@@ -116,6 +121,16 @@ const GameLogic = props => {
       }
       return outcome;
     };
+  };
+
+  const updateWinLossRecord = winner => {
+    for (let i = 0; i < allPlayersIds.length; i++) {
+      if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
+        UpdateWin(allPlayersIds[i], Users);
+      } else {
+        UpdateLoss(allPlayersIds[i], Users);
+      }
+    }
   };
 
   const flipCard = (deck, cardPicked, outcome) => {
@@ -134,18 +149,11 @@ const GameLogic = props => {
   };
 
   useEffect(() => {
-    console.log(
-      "----Is this running after the deck is updated?",
-      FirestoreDeck
-    );
     dealSpyAndSpymasterDecks();
   }, [FirestoreDeck]);
 
   const dealSpyAndSpymasterDecks = (gameDeck = FirestoreDeck) => {
-    // makeSpyAndSpyMasterDecks(FirestoreDeck);
-    console.log("the gameDeck is: ", gameDeck);
     const deck = gameDeck ? gameDeck : [];
-    console.log("the after is: ", deck);
     const spy = deck.map(({ word, flipped, image }) => ({
       word,
       flipped,
@@ -155,20 +163,6 @@ const GameLogic = props => {
     setSpyMasterDeck(deck);
     setSpyDeck(spy);
   };
-
-  //consider moving functionality into dealSpyAndSpyMasterDecks
-  // const makeSpyAndSpyMasterDecks = deck => {
-
-  // };
-
-  // useEffect(() => {
-  //   setDealFunction(dealDeck(spyMasterDeck))
-  // }, []);
-
-  // useEffect(() => {
-  //   let cardsFromDealer = dealCards();
-  //   makeSpyAndSpyMasterDecks(cardsFromDealer);
-  // }, []);
 
   return (
     <>
@@ -215,7 +209,8 @@ const GameLogic = props => {
 const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth
+    User: state.firebase.auth,
+    Users: state.firestore.data.Users
   };
 };
 
@@ -227,7 +222,9 @@ const mapDispatchToProps = dispatch => {
     Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
     Assassin: (id, result) => dispatch(Assassin(id, result)),
     ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
-    victory: (id, team) => dispatch(victory(id, team))
+    victory: (id, team) => dispatch(victory(id, team)),
+    UpdateWin: (uid, user) => dispatch(updateWinRecord(uid, user)),
+    UpdateLoss: (uid, user) => dispatch(updateLossRecord(uid, user))
   };
 };
 
@@ -235,6 +232,9 @@ export default compose(
   firestoreConnect([
     {
       collection: "Games"
+    },
+    {
+      collection: "Users"
     }
   ]),
   connect(mapStateToProps, mapDispatchToProps)

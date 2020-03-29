@@ -33,7 +33,6 @@ const GameLobby = props => {
   const { addToast } = useToasts();
 
   useEffect(() => {
-    console.log("running hook______");
     const spyMasterSelected = allPlayers.reduce(
       (acc, player) => {
         if (player.isSpyMaster) {
@@ -63,20 +62,17 @@ const GameLobby = props => {
         }
       } catch (error) {
         console.error(error);
-      } ///
+      }
     } else {
-      console.log(`${agency} Spy Master already chosen`);
       addToast(`${spyMasters[agency]} is already ${agency}'s Spy Master`, {
         appearance: "warning",
         autoDismiss: true
       });
     }
-    console.log("---------spyMasters is: ", spyMasters);
   };
 
   /// Choosing Sides
   const selectAgencyHandler = async selectedAgency => {
-    console.log(`Player chose the ${selectedAgency} agency`);
     try {
       const err = await selectAgency(selectedAgency, gameId, game, User);
       if (err !== undefined) {
@@ -91,7 +87,6 @@ const GameLobby = props => {
   };
 
   const readyHandler = async () => {
-    console.log("ready to start clicked");
     try {
       const err = await StartGame(gameId, turnTracker.startWithTeam());
       dealCards();
