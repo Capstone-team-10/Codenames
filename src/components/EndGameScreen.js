@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react'
+import React from 'react'
 import { connect } from "react-redux"
 import { withRouter } from 'react-router'
 import { leaveGame, ReplayGame } from "../store/GameThunks"
@@ -12,21 +12,13 @@ import "../css/EndGameScreen.css";
 
 const EndGameScreen = (props) => {
   const { addToast } = useToasts()
-  const { GameResult, gameId, Games, User, ReplayGame, LeaveGame, history,Users } = props
+  const { GameResult, gameId, Games, User, ReplayGame, LeaveGame, history, Users,UpdateWin,UpdateLoss } = props
 
   const isFetching = Games !== undefined
   const game = isFetching ? Games[gameId] : null
 
-  //  const [winningteam,setWinningTeam] = useState([])
-  //  const [losingteam,setLosingTeam] = useState([])
-
-  // useEffect(() => {
-  //   UpdateWin(User.uid)
-  //   UpdateLoss(User.uid)
-  // }, [winningteam,losingteam ])
-
   console.log("Specific Users Record in the EndScreen ------>",Users[User.uid] )
-  console.log("Name of Specific User in the EndScreen", User.DisplayName)
+  console.log("Name of Specific User in the EndScreen", User.displayName)
   console.log("Team of Specific User in the EndScreen", game.UsersInRoom[User.uid].Team)
 
   let className, message
@@ -34,26 +26,42 @@ const EndGameScreen = (props) => {
     case "bluewin":
       className = "bluewin"
       message = "Blue team has won the game"
-      // setWinningTeam(users.filter(user.Team = Blue))
-      // setLosingTeam(users.filter(user.Team = Red))
+      if((game.UsersInRoom[User.uid].Team = "blue")){
+        UpdateWin(User.uid,Users)
+      }
+      else{
+        UpdateLoss(User.uid,Users)
+      }
       break;
     case "redwin":
       className = "redwin"
       message = "Red team has won the game"
-      // setWinningTeam(users.filter(user.Team = Red))
-      // setLosingTeam(users.filter(user.Team = Blue))
+      if((game.UsersInRoom[User.uid].Team = "red")){
+        UpdateWin(User.uid,Users)
+      }
+      else{
+        UpdateLoss(User.uid,Users)
+      }
       break;
     case "bluekilled":
       className = "bluekilled"
       message = "Blue team has been assassinated"
-      // setWinningTeam(users.filter(user.Team = Red))
-      // setLosingTeam(users.filter(user.Team = Blue))
+      if((game.UsersInRoom[User.uid].Team = "red")){
+        UpdateWin(User.uid,Users)
+      }
+      else{
+        UpdateLoss(User.uid,Users)
+      }
       break;
     case "redkilled":
       className = "redkilled"
       message = "Red team has been assassinated"
-      // setWinningTeam(users.filter(user.Team = Blue))
-      // setLosingTeam(users.filter(user.Team = Red))
+      if((game.UsersInRoom[User.uid].Team = "blue")){
+        UpdateWin(User.uid)
+      }
+      else{
+        UpdateLoss(User.uid)
+      }
       break;
     default:
       className = ""

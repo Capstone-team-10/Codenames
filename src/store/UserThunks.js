@@ -103,9 +103,11 @@ export const selectMaster = (color,gameId,game,User) => async (dispatch, getStat
 
 export const updateWinRecord = (userId,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("In Winn Loss Record")
-    console.log("Grab UserId from firebase.auth", userId)
-    console.log("Grab Userobj from firestore.data  --> User[ID].win",user)
+    console.log("In Winn Loss Record Thunk")
+    console.log("Your User ID String",userId)
+    console.log("Your User record --> ",user[userId])
+    let test = user[userId].Win +1
+    console.log("Your Win Record after update--> ",test)
     // const copy = Object.assign({}, user[userId);
     // copy.Win++
     // const firestore = getFirestore()
@@ -121,9 +123,11 @@ export const updateWinRecord = (userId,user) => async (dispatch, getState, {getF
 
 export const updateLossRecord = (userId,user) => async (dispatch, getState, {getFirebase,getFirestore}) => {
   try {
-    console.log("In Update Loss Record")
-    console.log("Grab UserId from firebase.auth",userId)
-    console.log("Grab Userobj from firestore.data  --> User[ID].loss",user)
+    console.log("In Update Loss Record Thunk")
+    console.log("Your User ID String",userId)
+    console.log("Your User record --> ",user[userId])
+    let test = user[userId].Loss + 1
+    console.log("Your Loss Record after update--> ",test)
      // const copy = Object.assign({}, User[ID]);
     // copy.loss ++
     // const firestore = getFirestore()
