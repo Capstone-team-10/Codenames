@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { leaveGame, ReplayGame } from "../store/GameThunks";
-import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
+
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { useToasts } from "react-toast-notifications";
@@ -18,24 +18,11 @@ const EndGameScreen = props => {
     User,
     ReplayGame,
     LeaveGame,
-    history,
-    Users,
-    UpdateWin,
-    UpdateLoss
+    history
   } = props;
 
   const isFetching = Games !== undefined;
   const game = isFetching ? Games[gameId] : null;
-
-  console.log(
-    "Specific Users Record in the EndScreen ------>",
-    Users[User.uid]
-  );
-  console.log("Name of Specific User in the EndScreen", User.displayName);
-  console.log(
-    "Team of Specific User in the EndScreen",
-    game.UsersInRoom[User.uid].Team
-  );
 
   const [className, setClassName] = useState("");
   const [message, setMessage] = useState(
@@ -43,52 +30,28 @@ const EndGameScreen = props => {
   );
 
   useEffect(() => {
-    return () => {
-      console.log("Running the switch case");
-      switch (GameResult) {
-        case "bluewin":
-          setClassName("bluewin");
-          setMessage("Blue team has won the game");
-          if (game.UsersInRoom[User.uid].Team === "blue") {
-            UpdateWin(User.uid, Users);
-          } else {
-            UpdateLoss(User.uid, Users);
-          }
-          break;
-        case "redwin":
-          setClassName("redwin");
-          setMessage("Red team has won the game");
-          if (game.UsersInRoom[User.uid].Team === "red") {
-            UpdateWin(User.uid, Users);
-          } else {
-            UpdateLoss(User.uid, Users);
-          }
-          break;
-        case "bluekilled":
-          setClassName("bluekilled");
-          setMessage("Blue team has been assassinated");
-          if (game.UsersInRoom[User.uid].Team === "red") {
-            UpdateWin(User.uid, Users);
-          } else {
-            UpdateLoss(User.uid, Users);
-          }
-          break;
-        case "redkilled":
-          setClassName("redkilled");
-          setMessage("Red team has been assassinated");
-          if (game.UsersInRoom[User.uid].Team === "blue") {
-            UpdateWin(User.uid);
-          } else {
-            UpdateLoss(User.uid);
-          }
-          break;
-        default:
-          setClassName("");
-          setMessage(
-            "There was an error, Win-loss records will not be recorded"
-          );
-      }
-    };
+    console.log("Running the switch case");
+    switch (GameResult) {
+      case "bluewin":
+        setClassName("bluewin");
+        setMessage("Blue team has won the game");
+        break;
+      case "redwin":
+        setClassName("redwin");
+        setMessage("Red team has won the game");
+        break;
+      case "bluekilled":
+        setClassName("bluekilled");
+        setMessage("Blue team has been assassinated");
+        break;
+      case "redkilled":
+        setClassName("redkilled");
+        setMessage("Red team has been assassinated");
+        break;
+      default:
+        setClassName("");
+        setMessage("There was an error, Win-loss records will not be recorded");
+    }
   }, []);
 
   const SameGameRoom = async e => {
@@ -148,10 +111,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     LeaveGame: (Gameid, game, user) => dispatch(leaveGame(Gameid, game, user)),
-    ReplayGame: (Gameid, game, user) =>
-      dispatch(ReplayGame(Gameid, game, user)),
-    UpdateWin: (uid, user) => dispatch(updateWinRecord(uid, user)),
-    UpdateLoss: (uid, user) => dispatch(updateLossRecord(uid, user))
+    ReplayGame: (Gameid, game, user) => dispatch(ReplayGame(Gameid, game, user))
   };
 };
 

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import { connect } from "react-redux"
 
 const PlayArea = ({
   deck,
@@ -17,16 +14,11 @@ const PlayArea = ({
   GameResult,
   redScore,
   GameOver,
-  currentTurn,
-  Users
+  currentTurn
 }) => {
-  // console.log("In PlayArea deck is: ", deck);
-  console.log("Play Area ID", gameId);
-
   const [firstCard, setFirstCard] = useState(1);
 
   useEffect(() => {
-    console.log("In PlayArea the deck is: ", deck);
     dealSpyAndSpymasterDecks();
     if (!deck.length) {
       setFirstCard(firstCard + 1);
@@ -37,24 +29,10 @@ const PlayArea = ({
     }
   }, [firstCard]);
 
-  // useEffect(() => {
-  //   console.log("In PlayArea the deck is: ", deck);
-  //   dealSpyAndSpymasterDecks();
-  // }, [firstCard]);
-
-  // useEffect(() => {
-  //   console.log("In playarea useeffect the deck is: ", deck);
-  //   if (!deck.length) {
-  //     setFirstCard("empty");
-  //   } else {
-  //     setFirstCard(deck[0].word);
-  //   }
-  // }, [deck]);
-
   return (
     <>
       {GameOver ? (
-        <EndGameScreen gameId={gameId} GameResult={GameResult} Users={Users}/>
+        <EndGameScreen gameId={gameId} GameResult={GameResult} />
       ) : (
         <div className="playArea-container">
           <div className="scoreContainer">
@@ -84,17 +62,4 @@ const PlayArea = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    Users: state.firestore.data.Users,
-  }
-}
-
-
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Users"
-    }
-  ]),
-  connect(mapStateToProps))(PlayArea)
+export default PlayArea;

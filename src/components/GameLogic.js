@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
+import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
 import { Endturn, Assassin, victory } from "../store/GameThunks";
 import { ChangeHintCount } from "../store/HintThunk";
 
@@ -14,12 +15,15 @@ const GameLogic = props => {
   const {
     Games,
     User,
+    Users,
     history,
     decksync,
     changeCardsLeft,
     ChangeHintCount,
     Endturn,
     Assassin,
+    UpdateWin,
+    UpdateLoss,
     victory
   } = props;
   const Gameid = props.match.params.id;
@@ -45,7 +49,7 @@ const GameLogic = props => {
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
   // const [dealFunction, setDealFunction] = useState();
-
+  console.log("Game logic the props are: ", props);
   const cardPick = deck => {
     return (cardPicked, currentTeam) => {
       const rightCard = currentTeam;
@@ -61,6 +65,7 @@ const GameLogic = props => {
             image: getResultImage(rightCard)
           };
           if (blueScore === 1 || redScore === 1) {
+            updateWinLossRecord(rightCard);
             setTimeout(() => {
               victory(Gameid, rightCard);
             }, 3000);
@@ -88,6 +93,7 @@ const GameLogic = props => {
             image: getResultImage(wrongCard)
           };
           if (blueScore === 1 || redScore === 1) {
+            updateWinLossRecord(wrongCard);
             setTimeout(() => {
               victory(Gameid, wrongCard);
             }, 3000);
@@ -116,6 +122,17 @@ const GameLogic = props => {
       }
       return outcome;
     };
+  };
+
+  const updateWinLossRecord = winner => {
+    const players = Object.keys(allPlayers);
+    for (let i = 0; i < players.length; i++) {
+      if (allPlayers[players[i]].Team === winner) {
+        UpdateWin(players[i], Users);
+      } else {
+        UpdateLoss(players[i], Users);
+      }
+    }
   };
 
   const flipCard = (deck, cardPicked, outcome) => {
@@ -215,7 +232,8 @@ const GameLogic = props => {
 const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth
+    User: state.firebase.auth,
+    Users: state.firestore.data.Users
   };
 };
 
@@ -227,7 +245,9 @@ const mapDispatchToProps = dispatch => {
     Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
     Assassin: (id, result) => dispatch(Assassin(id, result)),
     ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
-    victory: (id, team) => dispatch(victory(id, team))
+    victory: (id, team) => dispatch(victory(id, team)),
+    UpdateWin: (uid, user) => dispatch(updateWinRecord(uid, user)),
+    UpdateLoss: (uid, user) => dispatch(updateLossRecord(uid, user))
   };
 };
 
@@ -235,6 +255,9 @@ export default compose(
   firestoreConnect([
     {
       collection: "Games"
+    },
+    {
+      collection: "Users"
     }
   ]),
   connect(mapStateToProps, mapDispatchToProps)
