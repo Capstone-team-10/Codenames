@@ -30,7 +30,6 @@ const EndGameScreen = props => {
   );
 
   useEffect(() => {
-    console.log("Running the switch case");
     switch (GameResult) {
       case "bluewin":
         setClassName("bluewin");

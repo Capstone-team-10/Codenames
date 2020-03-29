@@ -31,7 +31,6 @@ const PlayerGameBoard = ({
 
   const game = isFetching ? null : Games[gameId];
   const currentTurn = isFetching ? "" : game.CurrentTurn;
-  console.log("currentTurn is: ", currentTurn);
 
   useEffect(() => {
     const banned = [];
@@ -41,7 +40,6 @@ const PlayerGameBoard = ({
       }
     });
     setBannedWords(banned);
-    console.log("banned words are: ", banned);
   }, [deck]);
 
   return (
@@ -61,12 +59,12 @@ const PlayerGameBoard = ({
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
-              <GameLobby
-                allPlayers={allPlayers}
-                gameId={gameId}
-                dealCards={dealCards}
-              />
-            )}
+            <GameLobby
+              allPlayers={allPlayers}
+              gameId={gameId}
+              dealCards={dealCards}
+            />
+          )}
           <SideBar
             currentTurn={currentTurn}
             allPlayers={allPlayers}
@@ -80,41 +78,41 @@ const PlayerGameBoard = ({
           />
         </>
       ) : (
-          <>
-            {gameStatus ? (
-              <PlayArea
-                currentTurn={currentTurn}
-                deck={deck}
-                playersPick={playersPick}
-                setPickResult={setPickResult}
-                spyMaster={spyMaster}
-                gameId={gameId}
-                teamColor={teamColor}
-                blueScore={blueScore}
-                redScore={redScore}
-                GameOver={GameOver}
-                GameResult={GameResult}
-                dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-              />
-            ) : (
-                <GameLobby
-                  allPlayers={allPlayers}
-                  gameId={gameId}
-                  dealCards={dealCards}
-                />
-              )}
-            <SideBar
+        <>
+          {gameStatus ? (
+            <PlayArea
               currentTurn={currentTurn}
-              allPlayers={allPlayers}
-              displayName={displayName}
+              deck={deck}
+              playersPick={playersPick}
+              setPickResult={setPickResult}
               spyMaster={spyMaster}
-              teamColor={teamColor}
               gameId={gameId}
-              gameStatus={gameStatus}
-              history={history}
+              teamColor={teamColor}
+              blueScore={blueScore}
+              redScore={redScore}
+              GameOver={GameOver}
+              GameResult={GameResult}
+              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
-          </>
-        )}
+          ) : (
+            <GameLobby
+              allPlayers={allPlayers}
+              gameId={gameId}
+              dealCards={dealCards}
+            />
+          )}
+          <SideBar
+            currentTurn={currentTurn}
+            allPlayers={allPlayers}
+            displayName={displayName}
+            spyMaster={spyMaster}
+            teamColor={teamColor}
+            gameId={gameId}
+            gameStatus={gameStatus}
+            history={history}
+          />
+        </>
+      )}
     </div>
   );
 };

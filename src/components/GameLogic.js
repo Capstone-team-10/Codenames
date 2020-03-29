@@ -107,7 +107,6 @@ const GameLogic = props => {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
-          console.log("calling updateWinLossRecord");
           updateWinLossRecord(wrongCard);
           setTimeout(() => {
             Assassin(Gameid, currentTeam);
@@ -125,19 +124,10 @@ const GameLogic = props => {
   };
 
   const updateWinLossRecord = winner => {
-    console.log("Updating the win loss records winners were", winner);
-
-    console.log("the players ID Array are: ", allPlayersIds);
     for (let i = 0; i < allPlayersIds.length; i++) {
-      console.log(
-        "allPlayers[allPlayersIds[i]]: ",
-        game.UsersInRoom[allPlayersIds[i]]
-      );
       if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
-        console.log("Winning Players ID: ", allPlayersIds[i]);
         UpdateWin(allPlayersIds[i], Users);
       } else {
-        console.log("Losing Players ID: ", allPlayersIds[i]);
         UpdateLoss(allPlayersIds[i], Users);
       }
     }

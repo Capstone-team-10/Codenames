@@ -3,11 +3,9 @@ export const joinGame = (id, game, user) => async (
   getState,
   { getFirebase, getFirestore }
 ) => {
-  console.log(`id: ${id}, game: ${game}`);
   try {
     const copy = Object.assign({}, game.UsersInRoom);
     const firestore = getFirestore();
-    console.log("User In Game", copy[user.uid]);
     if (copy[user.uid] === undefined) {
       await firestore
         .collection("Games")
@@ -91,8 +89,6 @@ export const Endturn = (id, turnString) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log("In EndTurn Thunk Next Turn---.", turnString);
-    // console.log('in Endturn thunk---turnString', )
     const firestore = getFirestore();
     await firestore
       .collection("Games")
@@ -162,7 +158,6 @@ export const ReplayGame = (id, game, user) => async (
         GameOver: false,
         GameStarted: false
       });
-    // dispatch(joinGame(id,game,user))
   } catch (error) {
     return error.message;
   }
