@@ -289,15 +289,15 @@ const SideBar = ({
           </>
         </div>
       ) : (
-          <div className="hint-container">
+          <>
             {hint ? (
-              <>
+              <div className="hint-container">
                 <h6>{`Hint: ${hint}`}</h6>
                 <h6>{`For: ${hintNumber} cards `}</h6>
-              </>
+              </div>
             ) : null
             }
-          </div>
+          </>
         )}
       <ResizableBox
         handleSize={[10, 10]}
