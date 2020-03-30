@@ -240,16 +240,13 @@ const SideBar = ({
           );
         })}
       </ResizableBox>
-      {spyMaster ? (
-        <div className="hint-container">
+      <div className="hint-container">
+        {spyMaster ? (
           <>
-            {hint ? (
-              <div className="spyMaster-hint-text-wrapper">
-                <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
-                <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
-              </div>
-            ) : null
-            }
+            <div className="spyMaster-hint-text-wrapper">
+              <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
+              <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
+            </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
                 <label htmlFor="hint">One Word Hint</label>
@@ -287,18 +284,13 @@ const SideBar = ({
               Submit Hint
             </button>
           </>
-        </div>
-      ) : (
-          <>
-            {hint ? (
-              <div className="hint-container">
-                <h6>{`Hint: ${hint}`}</h6>
-                <h6>{`For: ${hintNumber} cards `}</h6>
-              </div>
-            ) : null
-            }
-          </>
-        )}
+        ) : (
+            <>
+              <h6>{`Hint: ${getHint}`}</h6>
+              <h6>{`For: ${getHintCount} cards `}</h6>
+            </>
+          )}
+      </div>
       <ResizableBox
         handleSize={[10, 10]}
         resizeHandles={["s"]}
