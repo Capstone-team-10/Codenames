@@ -34,8 +34,8 @@ const SideBar = ({
   Sendhint,
   EndTurn
 }) => {
-  const [hint, setHint] = useState("");
-  const [hintNumber, setHintNumber] = useState(1);
+  // const [hint, setHint] = useState("");
+  // const [hintNumber, setHintNumber] = useState(1);
   // const [windowResized, setWindowResized] = useState(false);
   const [fixedHeight, setFixedHeight] = useState(45.7 + 71.3 + 33);
 
@@ -106,7 +106,7 @@ const SideBar = ({
     }
     const hintElem = document.getElementById("hint");
     const hintNumberElem = document.getElementById("hintNumber");
-    const bannedWord = bannedWords.indexOf(hintElem.value.toUpperCase()) > 0;
+    const bannedWord = bannedWords[hintElem.value.toUpperCase()];
     const invalidChars = hintElem.value.split(/(\W|\d)/).length > 1;
     const tooLong = hintElem.value.length > 15;
     if (bannedWord || invalidChars || tooLong) {
@@ -135,8 +135,8 @@ const SideBar = ({
         }
       );
     } else {
-      setHint(hintElem.value);
-      setHintNumber(hintNumberElem.value);
+      // setHint(hintElem.value);
+      // setHintNumber(hintNumberElem.value);
       Sendhint(gameId, hintElem.value, hintNumberElem.value);
       let turnString = turnTracker.nextTurn(currentTurn);
       EndTurn(gameId, turnString);
@@ -148,7 +148,7 @@ const SideBar = ({
   //Consider moving function out to utils folder
   const spyMasterChatBan = message => {
     for (let i = 0; i < message.length; i++) {
-      if (bannedWords.indexOf(message[i].toUpperCase()) > 0) {
+      if (bannedWords[message[i].toUpperCase()]) {
         addToast(
           `The word ${message[i]} is on the board and you cannot send it in chat!`,
           {
@@ -189,11 +189,14 @@ const SideBar = ({
   };
 
   const endTurnHandler = () => {
-    if (!isItYourTurn(currentTurn)) {
+    console.log("currentTurn is ", currentTurn);
+    console.log("teamColor is ", teamColor);
+    if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
       addToast(`Wait for your turn!`, {
         appearance: "warning",
         autoDismiss: true
       });
+      return;
     }
     let turnString = turnTracker.nextTurn(currentTurn);
     EndTurn(gameId, turnString);
@@ -202,7 +205,10 @@ const SideBar = ({
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
-        <div id="turnInfo" className= {`current-turn-info-container add-glow-${currentTurn}`}>
+        <div
+          id="turnInfo"
+          className={`current-turn-info-container add-glow-${currentTurn}`}
+        >
           <p className="current-turn-text">{`${displayCurrentPlayersTurn(
             currentTurn
           )}'s turn`}</p>
@@ -216,8 +222,8 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-              1
-            )} Spy Master`
+                1
+              )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
@@ -244,8 +250,10 @@ const SideBar = ({
         {spyMaster ? (
           <>
             <div className="spyMaster-hint-text-wrapper">
-              <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
-              <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
+              <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
+              <p className="spyMaster-hint-text">{`For: ${
+                getHintCount !== -1 ? getHintCount : 0
+              } cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
@@ -285,11 +293,11 @@ const SideBar = ({
             </button>
           </>
         ) : (
-            <>
-              <h6>{`Hint: ${getHint}`}</h6>
-              <h6>{`For: ${getHintCount} cards `}</h6>
-            </>
-          )}
+          <>
+            <h6>{`Hint: ${getHint}`}</h6>
+            <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
+          </>
+        )}
       </div>
       <ResizableBox
         handleSize={[10, 10]}

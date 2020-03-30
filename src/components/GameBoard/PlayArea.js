@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
+import Notification from "./Notification";
 
 const PlayArea = ({
   deck,
@@ -14,9 +15,27 @@ const PlayArea = ({
   GameResult,
   redScore,
   GameOver,
-  currentTurn
+  currentTurn,
+  hintWord,
+  hintCount
 }) => {
   const [firstCard, setFirstCard] = useState(1);
+  const [visibility, setVisibility] = useState(false);
+  const [message, setMessage] = useState("The game has started");
+
+  useEffect(() => {
+    if (hintWord !== " ") {
+      setMessage(`The hint is ${hintWord}`);
+      setVisibility(true);
+    }
+  }, [hintWord]);
+
+  useEffect(() => {
+    if (hintCount === 0) {
+      setMessage("You've earned a free guess");
+      setVisibility(true);
+    }
+  }, [hintCount]);
 
   useEffect(() => {
     dealSpyAndSpymasterDecks();
@@ -35,6 +54,9 @@ const PlayArea = ({
         <EndGameScreen gameId={gameId} GameResult={GameResult} />
       ) : (
         <div className="playArea-container">
+          {visibility ? (
+            <Notification message={message} setVisibility={setVisibility} />
+          ) : null}
           <div className="scoreContainer">
             <p>
               Blue Score: {blueScore} Red Score: {redScore}
