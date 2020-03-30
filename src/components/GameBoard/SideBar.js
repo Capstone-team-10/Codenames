@@ -199,7 +199,6 @@ const SideBar = ({
     EndTurn(gameId, turnString);
   };
 
-  console.log('----hint', hint);
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
@@ -290,7 +289,7 @@ const SideBar = ({
           </>
         </div>
       ) : (
-          <>
+          <div className="hint-container">
 
             {hint ? (
               <>
@@ -299,9 +298,7 @@ const SideBar = ({
               </>
             ) : null
             }
-
-
-          </>
+          </div>
         )}
       <ResizableBox
         handleSize={[10, 10]}
