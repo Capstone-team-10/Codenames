@@ -35,8 +35,17 @@
   color: red;
   text-shadow: 0px 0px 2px black;
 }
+.add-glow-redHint, .add-glow-redGuess  {
+  color: red;
+  text-shadow: 0px 0px 2px black;
+}
 
 .add-color-blue {
+  color: blue;
+  text-shadow: 0px 0px 2px black;
+}
+
+.add-glow-blueHint, .add-glow-blueGuess  {
   color: blue;
   text-shadow: 0px 0px 2px black;
 }
