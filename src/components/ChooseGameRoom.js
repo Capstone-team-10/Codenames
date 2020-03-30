@@ -30,11 +30,11 @@ const ChooseGameRoom = (props)=> {
        <button className="title-button" onClick={newGameRoom}>
           New Game
         </button>
-        <button className="title-button">
-          <Link to="/JoinGame">
+        <Link to="/JoinGame">
+          <button className="title-button">
             Join Game
-          </Link>
-        </button>
+          </button>
+        </Link>
     </div>
   )
 }

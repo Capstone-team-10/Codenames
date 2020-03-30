@@ -38,6 +38,8 @@ export const newGame = (history, user) => async (
     const firestore = getFirestore();
     const { id } = await firestore.collection("Games").add({
       Chat: [],
+      HintCount: -1,
+      HintWord: " ",
       GameStarted: false,
       UsersInRoom: {
         [user.uid]: {
@@ -69,8 +71,6 @@ export const StartGame = (id, CurrentTurn) => async (
           GameOver: false,
           BlueCardsLeft: 9,
           RedCardsLeft: 9,
-          HintCount: 0,
-          HintWord: "",
           GameResult: "",
           CurrentTurn: CurrentTurn,
           CardPickedResult: "",
@@ -110,12 +110,12 @@ export const leaveGame = (id, game, user) => async (
   try {
     const firestore = getFirestore();
 
-    let updatedGameRoom = await firestore.collection('Games').doc(id).get();
-    console.log("Before object assign Copy", updatedGameRoom.data().UsersInRoom)
+    let updatedGameRoom = await firestore
+      .collection("Games")
+      .doc(id)
+      .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
-    console.log("Users in the Game Before Delete", copy);
     delete copy[user.uid];
-    console.log("Users in the Game After Delete", copy);
 
     await firestore
       .collection("Games")
@@ -159,7 +159,9 @@ export const ReplayGame = (id, game, user) => async (
       .doc(id)
       .update({
         GameOver: false,
-        GameStarted: false
+        GameStarted: false,
+        HintCount: -1,
+        HintWord: " "
       });
   } catch (error) {
     return error.message;

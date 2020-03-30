@@ -5,10 +5,11 @@ import "../css/Title.css";
 export default function Title() {
   return (
     <div className="title-container">
-      <h1 className="title-name">CODENAMES</h1>
+      <Link to="/auth/register">
       <button className="title-button">
-        <Link to="/auth/register">Want to be a spy?</Link>
+        Want to be a spy?
       </button>
+      </Link>
     </div>
   )
 }

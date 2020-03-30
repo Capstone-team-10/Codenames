@@ -3,19 +3,13 @@
   background-size: cover;
   display:flex;
   padding-top:1%;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
-.title-name{
-  font-size: 10vh;
-  color: white;
-  font-family: "Avant Garde"
-}
 
 .title-button {
-  align-self: center;
   font-size: 24px;
   padding:1%;
   background-color: teal;
@@ -27,5 +21,5 @@
   background-color: black
 }
 a{
-  color:white
+  color:white;
 }
