@@ -202,7 +202,10 @@ const SideBar = ({
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
-        <div id="turnInfo" className= {`current-turn-info-container add-glow-${currentTurn}`}>
+        <div
+          id="turnInfo"
+          className={`current-turn-info-container add-glow-${currentTurn}`}
+        >
           <p className="current-turn-text">{`${displayCurrentPlayersTurn(
             currentTurn
           )}'s turn`}</p>
@@ -216,8 +219,8 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-              1
-            )} Spy Master`
+                1
+              )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
@@ -244,8 +247,8 @@ const SideBar = ({
         {spyMaster ? (
           <>
             <div className="spyMaster-hint-text-wrapper">
-              <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
-              <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
+              <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
+              <p className="spyMaster-hint-text">{`For: ${getHintCount} cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
@@ -285,11 +288,11 @@ const SideBar = ({
             </button>
           </>
         ) : (
-            <>
-              <h6>{`Hint: ${getHint}`}</h6>
-              <h6>{`For: ${getHintCount} cards `}</h6>
-            </>
-          )}
+          <>
+            <h6>{`Hint: ${getHint}`}</h6>
+            <h6>{`For: ${getHintCount} cards `}</h6>
+          </>
+        )}
       </div>
       <ResizableBox
         handleSize={[10, 10]}
