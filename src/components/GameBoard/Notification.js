@@ -7,11 +7,11 @@ export default function Notification({ message, setVisibility }) {
 
     setTimeout(() => {
       notificationElem.classList.remove("popIn");
-    }, 1000);
+    }, 2000);
 
     setTimeout(() => {
       setVisibility(false);
-    }, 2000);
+    }, 4000);
   });
   return (
     <div id="notification-container" className="notification-container">
