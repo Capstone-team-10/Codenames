@@ -106,7 +106,7 @@ const SideBar = ({
     }
     const hintElem = document.getElementById("hint");
     const hintNumberElem = document.getElementById("hintNumber");
-    const bannedWord = bannedWords.indexOf(hintElem.value.toUpperCase()) > 0;
+    const bannedWord = bannedWords[hintElem.value.toUpperCase()];
     const invalidChars = hintElem.value.split(/(\W|\d)/).length > 1;
     const tooLong = hintElem.value.length > 15;
     if (bannedWord || invalidChars || tooLong) {
@@ -148,7 +148,7 @@ const SideBar = ({
   //Consider moving function out to utils folder
   const spyMasterChatBan = message => {
     for (let i = 0; i < message.length; i++) {
-      if (bannedWords.indexOf(message[i].toUpperCase()) > 0) {
+      if (bannedWords[message[i].toUpperCase()]) {
         addToast(
           `The word ${message[i]} is on the board and you cannot send it in chat!`,
           {
@@ -251,7 +251,9 @@ const SideBar = ({
           <>
             <div className="spyMaster-hint-text-wrapper">
               <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
-              <p className="spyMaster-hint-text">{`For: ${getHintCount} cards `}</p>
+              <p className="spyMaster-hint-text">{`For: ${
+                getHintCount !== -1 ? getHintCount : 0
+              } cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
@@ -293,7 +295,7 @@ const SideBar = ({
         ) : (
           <>
             <h6>{`Hint: ${getHint}`}</h6>
-            <h6>{`For: ${getHintCount} cards `}</h6>
+            <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
           </>
         )}
       </div>
