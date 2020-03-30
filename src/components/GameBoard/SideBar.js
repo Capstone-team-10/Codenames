@@ -34,8 +34,8 @@ const SideBar = ({
   Sendhint,
   EndTurn
 }) => {
-  const [hint, setHint] = useState("");
-  const [hintNumber, setHintNumber] = useState(1);
+  // const [hint, setHint] = useState("");
+  // const [hintNumber, setHintNumber] = useState(1);
   // const [windowResized, setWindowResized] = useState(false);
   const [fixedHeight, setFixedHeight] = useState(45.7 + 71.3 + 33);
 
@@ -135,8 +135,8 @@ const SideBar = ({
         }
       );
     } else {
-      setHint(hintElem.value);
-      setHintNumber(hintNumberElem.value);
+      // setHint(hintElem.value);
+      // setHintNumber(hintNumberElem.value);
       Sendhint(gameId, hintElem.value, hintNumberElem.value);
       let turnString = turnTracker.nextTurn(currentTurn);
       EndTurn(gameId, turnString);
@@ -189,11 +189,14 @@ const SideBar = ({
   };
 
   const endTurnHandler = () => {
-    if (!isItYourTurn(currentTurn)) {
+    console.log("currentTurn is ", currentTurn);
+    console.log("teamColor is ", teamColor);
+    if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
       addToast(`Wait for your turn!`, {
         appearance: "warning",
         autoDismiss: true
       });
+      return;
     }
     let turnString = turnTracker.nextTurn(currentTurn);
     EndTurn(gameId, turnString);

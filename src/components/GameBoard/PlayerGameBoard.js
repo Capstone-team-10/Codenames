@@ -56,6 +56,8 @@ const PlayerGameBoard = ({
               redScore={redScore}
               GameOver={GameOver}
               GameResult={GameResult}
+              hintWord={game.HintWord}
+              hintCount={game.HintCount}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
