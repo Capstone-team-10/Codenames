@@ -202,7 +202,7 @@ const SideBar = ({
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
-        <div id="turnInfo" className="current-turn-info-container">
+        <div id="turnInfo" className= {`current-turn-info-container add-color-${teamColor}`}>
           <p className="current-turn-text">{`${displayCurrentPlayersTurn(
             currentTurn
           )}'s turn`}</p>
