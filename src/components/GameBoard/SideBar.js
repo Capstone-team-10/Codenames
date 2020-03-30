@@ -290,7 +290,6 @@ const SideBar = ({
         </div>
       ) : (
           <div className="hint-container">
-
             {hint ? (
               <>
                 <h6>{`Hint: ${hint}`}</h6>
