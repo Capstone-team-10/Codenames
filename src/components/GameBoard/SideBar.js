@@ -178,7 +178,9 @@ const SideBar = ({
     if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
     } else {
       try {
-        await SendMessage(gameId, game, User, chatMsg);
+        if (chatMsg !== "") {
+          await SendMessage(gameId, game, User, chatMsg);
+        }
       } catch (error) {
         return error.message;
       }
@@ -200,7 +202,7 @@ const SideBar = ({
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
-        <div id="turnInfo" className="current-turn-info-container">
+        <div id="turnInfo" className= {`current-turn-info-container add-glow-${currentTurn}`}>
           <p className="current-turn-text">{`${displayCurrentPlayersTurn(
             currentTurn
           )}'s turn`}</p>
@@ -214,8 +216,8 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-                1
-              )} Spy Master`
+              1
+            )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
@@ -283,11 +285,11 @@ const SideBar = ({
             </button>
           </>
         ) : (
-          <>
-            <h6>{`Hint: ${getHint}`}</h6>
-            <h6>{`For: ${getHintCount} cards `}</h6>
-          </>
-        )}
+            <>
+              <h6>{`Hint: ${getHint}`}</h6>
+              <h6>{`For: ${getHintCount} cards `}</h6>
+            </>
+          )}
       </div>
       <ResizableBox
         handleSize={[10, 10]}

@@ -62,7 +62,7 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
-          if (blueScore === 1 || redScore === 1) {
+          if ((blueScore === 1 & currentTeam) || (redScore === 1 & currentTeam)) {
             updateWinLossRecord(rightCard);
             setTimeout(() => {
               victory(Gameid, rightCard);
@@ -184,24 +184,24 @@ const GameLogic = props => {
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       ) : (
-        <PlayerGameBoard
-          gameId={Gameid}
-          history={history}
-          allPlayers={allPlayers}
-          deck={spyDeck}
-          displayName={displayName}
-          gameStatus={gameStatus}
-          playersPick={cardPick(spyMasterDeck)}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
-          blueScore={blueScore}
-          redScore={redScore}
-          GameOver={GameOver}
-          GameResult={GameResult}
-          dealCards={dealDeck(dealCards(), Gameid)}
-          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-        />
-      )}
+          <PlayerGameBoard
+            gameId={Gameid}
+            history={history}
+            allPlayers={allPlayers}
+            deck={spyDeck}
+            displayName={displayName}
+            gameStatus={gameStatus}
+            playersPick={cardPick(spyMasterDeck)}
+            spyMaster={spyMaster}
+            teamColor={teamColor}
+            blueScore={blueScore}
+            redScore={redScore}
+            GameOver={GameOver}
+            GameResult={GameResult}
+            dealCards={dealDeck(dealCards(), Gameid)}
+            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+          />
+        )}
     </>
   );
 };
