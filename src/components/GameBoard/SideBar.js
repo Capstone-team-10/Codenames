@@ -199,6 +199,7 @@ const SideBar = ({
     EndTurn(gameId, turnString);
   };
 
+  console.log('----hint', hint);
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
       {gameStatus ? (
@@ -240,13 +241,16 @@ const SideBar = ({
           );
         })}
       </ResizableBox>
-      <div className="hint-container">
-        {spyMaster ? (
+      {spyMaster ? (
+        <div className="hint-container">
           <>
-            <div className="spyMaster-hint-text-wrapper">
-              <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
-              <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
-            </div>
+            {hint ? (
+              <div className="spyMaster-hint-text-wrapper">
+                <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
+                <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
+              </div>
+            ) : null
+            }
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
                 <label htmlFor="hint">One Word Hint</label>
@@ -284,13 +288,21 @@ const SideBar = ({
               Submit Hint
             </button>
           </>
-        ) : (
-            <>
-              <h6>{`Hint: ${getHint}`}</h6>
-              <h6>{`For: ${getHintCount} cards `}</h6>
-            </>
-          )}
-      </div>
+        </div>
+      ) : (
+          <>
+
+            {hint ? (
+              <>
+                <h6>{`Hint: ${hint}`}</h6>
+                <h6>{`For: ${hintNumber} cards `}</h6>
+              </>
+            ) : null
+            }
+
+
+          </>
+        )}
       <ResizableBox
         handleSize={[10, 10]}
         resizeHandles={["s"]}
