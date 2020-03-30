@@ -25,7 +25,7 @@ const PlayerGameBoard = ({
   dealSpyAndSpymasterDecks,
   Games
 }) => {
-  const [bannedWords, setBannedWords] = useState([]);
+  const [bannedWords, setBannedWords] = useState({});
 
   const isFetching = Games === undefined || Games[gameId] === undefined;
 
@@ -33,14 +33,24 @@ const PlayerGameBoard = ({
   const currentTurn = isFetching ? "" : game.CurrentTurn;
 
   useEffect(() => {
-    const banned = [];
+    const banned = {};
     deck.forEach(({ word, flipped }) => {
       if (!flipped) {
-        banned.push(word);
+        banned[word] = word;
       }
     });
     setBannedWords(banned);
   }, [deck]);
+
+  // useEffect(() => {
+  //   const banned = [];
+  //   deck.forEach(({ word, flipped }) => {
+  //     if (!flipped) {
+  //       banned.push(word);
+  //     }
+  //   });
+  //   setBannedWords(banned);
+  // }, [deck]);
 
   return (
     <div className="gameBoard-container">
@@ -56,6 +66,8 @@ const PlayerGameBoard = ({
               redScore={redScore}
               GameOver={GameOver}
               GameResult={GameResult}
+              hintWord={game.HintWord}
+              hintCount={game.HintCount}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
@@ -91,6 +103,8 @@ const PlayerGameBoard = ({
               blueScore={blueScore}
               redScore={redScore}
               GameOver={GameOver}
+              hintWord={game.HintWord}
+              hintCount={game.HintCount}
               GameResult={GameResult}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />

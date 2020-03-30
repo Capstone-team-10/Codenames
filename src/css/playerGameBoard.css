@@ -35,8 +35,19 @@
   color: red;
   text-shadow: 0px 0px 2px black;
 }
+.add-glow-redHint,
+.add-glow-redGuess {
+  color: red;
+  text-shadow: 0px 0px 2px black;
+}
 
 .add-color-blue {
+  color: blue;
+  text-shadow: 0px 0px 2px black;
+}
+
+.add-glow-blueHint,
+.add-glow-blueGuess {
   color: blue;
   text-shadow: 0px 0px 2px black;
 }
@@ -176,6 +187,7 @@
 /*                    */
 
 .playArea-container {
+  position: relative;
   width: 100%;
   height: 100%;
   padding: 30px;
@@ -400,6 +412,24 @@
 .invite-btn {
   width: 120px;
 }
+/*    notification    */
+/*                    */
+
+.notification-container {
+  position: absolute;
+  top: -60px;
+  padding: 5px 20px;
+  background-color: lightskyblue;
+  transition: all 0.75s ease-in-out;
+}
+
+.popIn {
+  top: 9px;
+}
+
+/*                    */
+/*     media query    */
+/*                    */
 
 @media screen and (max-width: 1000px) {
   .card-inner {
