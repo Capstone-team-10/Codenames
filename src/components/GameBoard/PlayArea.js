@@ -24,11 +24,18 @@ const PlayArea = ({
   const [message, setMessage] = useState("The game has started");
 
   useEffect(() => {
-    if (hintWord !== undefined) {
+    if (hintWord !== " ") {
       setMessage(`The hint is ${hintWord}`);
       setVisibility(true);
     }
   }, [hintWord]);
+
+  useEffect(() => {
+    if (hintCount === 0) {
+      setMessage("You've earned a free guess");
+      setVisibility(true);
+    }
+  }, [hintCount]);
 
   useEffect(() => {
     dealSpyAndSpymasterDecks();
