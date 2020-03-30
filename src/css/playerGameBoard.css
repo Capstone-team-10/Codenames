@@ -382,7 +382,7 @@
   top: -60px;
   padding: 5px 20px;
   background-color: lightskyblue;
-  transition: all 1s ease-in-out;
+  transition: all 0.75s ease-in-out;
 }
 
 .popIn {
