@@ -64,6 +64,7 @@ const SideBar = ({
   useEffect(() => {
     return () => {
       LeaveHandler();
+      window.onresize = null;
     };
   }, []);
 

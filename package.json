@@ -10,6 +10,7 @@
     "firebase-admin": "^8.10.0",
     "firebaseui": "^4.5.0",
     "firestore": "^1.1.6",
+    "nodemailer": "^6.4.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",

@@ -14,8 +14,11 @@ const InviteFriendForm = ({ setInviteFriend }) => {
   };
 
   //handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = evt => {
+    evt.preventDefault();
     console.log(`Sending friend invite to ${friendName}`);
+
+    setInviteFriend(false);
   };
 
   return (
@@ -36,12 +39,20 @@ const InviteFriendForm = ({ setInviteFriend }) => {
             <input type="text" id="friendName" onChange={onChangeHandler} />
           </div>
         </form>
-        <button
-          className="invite-btn btn waves-effect waves-dark teal darken-4"
-          onClick={() => setInviteFriend(false)}
-        >
-          Cancel
-        </button>
+        <div className="invite-form-button-wrapper">
+          <button
+            className="invite-btn btn waves-effect waves-dark teal darken-4"
+            onClick={handleSubmit}
+          >
+            Send
+          </button>
+          <button
+            className="invite-btn btn waves-effect waves-dark teal darken-4"
+            onClick={() => setInviteFriend(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
