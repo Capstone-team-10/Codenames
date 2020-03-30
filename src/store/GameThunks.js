@@ -38,7 +38,7 @@ export const newGame = (history, user) => async (
     const firestore = getFirestore();
     const { id } = await firestore.collection("Games").add({
       Chat: [],
-      HintCount: 0,
+      HintCount: -1,
       HintWord: " ",
       GameStarted: false,
       UsersInRoom: {
@@ -159,7 +159,9 @@ export const ReplayGame = (id, game, user) => async (
       .doc(id)
       .update({
         GameOver: false,
-        GameStarted: false
+        GameStarted: false,
+        HintCount: -1,
+        HintWord: " "
       });
   } catch (error) {
     return error.message;
