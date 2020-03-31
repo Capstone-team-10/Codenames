@@ -11,7 +11,8 @@ export const SetHintWordAndCount = (id, Word, Count) => async (
       .set(
         {
           HintCount: Count,
-          HintWord: Word
+          HintWord: Word,
+          GuessMade: false,
         },
         { merge: true }
       );
@@ -32,7 +33,8 @@ export const ChangeHintCount = (id, game) => async (
       .doc(id)
       .set(
         {
-          HintCount: game.HintCount - 1
+          HintCount: game.HintCount - 1,
+          GuessMade: true
         },
         { merge: true }
       );
