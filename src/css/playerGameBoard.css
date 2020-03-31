@@ -187,6 +187,44 @@
   font-size: 15px;
 }
 
+.confirm-leave-wrapper {
+  background-color: lightskyblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px 30px;
+}
+
+.confirm-leave-container {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000000;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  transition: background-color 0.5s ease-in;
+}
+
+.show-confirm-leave {
+  background-color: #000000aa;
+  display: flex;
+}
+
+.leave-btn-wrapper {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.leave-btn {
+  width: 105px;
+}
+
 /*                    */
 /*      PlayArea      */
 /*                    */

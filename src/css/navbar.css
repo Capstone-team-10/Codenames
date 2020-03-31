@@ -9,7 +9,13 @@
 }
 
 .navbar-move-out {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 10;
   top: -64px;
+  transition: all 1s ease-in-out;
 }
 
 .controls-btn {
@@ -18,6 +24,7 @@
 
 .header-logo {
   margin: 0px 1rem;
+  font-size: 4.05rem;
 }
 
 .logo-container {
@@ -26,4 +33,16 @@
 
 .btns-right-container {
   margin-right: 6px;
+}
+
+@media (max-width: 990px) {
+  .header-logo {
+    font-size: 2.92rem;
+  }
+}
+
+@media (max-width: 750px) {
+  .header-logo {
+    display: none;
+  }
 }
