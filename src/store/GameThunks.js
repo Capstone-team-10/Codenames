@@ -1,3 +1,6 @@
+import {updateLossRecord} from "./UserThunks"
+
+
 export const joinGame = (id, game, user) => async (
   dispatch,
   getState,
@@ -101,7 +104,7 @@ export const Endturn = (id, turnString) => async (
   }
 };
 
-// Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
+
 export const leaveGame = (id, game, user) => async (
   dispatch,
   getState,
@@ -115,10 +118,12 @@ export const leaveGame = (id, game, user) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
+    if spymaster leave game, dispatch to EndGame Thunk
     if (copy[user.uid].isSpyMaster){
+      dispatch(updateLossRecord(user.uid,copy[]))
       dispatch(deleteGame(id))
     }
-    // console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)
+    console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)
 
     // if(updatedGameRoom.data().GameStarted){
 
