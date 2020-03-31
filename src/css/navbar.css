@@ -4,6 +4,12 @@
   justify-content: space-between;
   position: relative;
   z-index: 10;
+  top: 0;
+  transition: all 1s ease-in-out;
+}
+
+.navbar-move-out {
+  top: -64px;
 }
 
 .controls-btn {

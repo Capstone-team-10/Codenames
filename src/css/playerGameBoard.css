@@ -9,6 +9,11 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  transition: top 1s ease-in-out;
+}
+
+.gameBoard-move-up {
+  top: 0;
 }
 
 /*                    */
