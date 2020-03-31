@@ -24,6 +24,18 @@ const PlayArea = ({
   const [visibility, setVisibility] = useState(false);
   const [message, setMessage] = useState("The game has started");
 
+  //On DidMount and Unmount
+  useEffect(() => {
+    const navElem = document.getElementById("navbar");
+    const gameBoardElem = document.getElementById("gameBoard-container");
+    navElem.classList.add("navbar-move-out");
+    gameBoardElem.classList.add("gameBoard-move-up");
+    return () => {
+      navElem.classList.remove("navbar-move-out");
+      gameBoardElem.classList.remove("gameBoard-move-up");
+    };
+  });
+
   useEffect(() => {
     if (hintWord !== " ") {
       setMessage(`The hint is ${hintWord}`);
