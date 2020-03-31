@@ -115,6 +115,9 @@ export const leaveGame = (id, game, user) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
+    if (copy[user.uid].isSpyMaster){
+      dispatch(deleteGame(id))
+    }
     delete copy[user.uid];
 
     await firestore
