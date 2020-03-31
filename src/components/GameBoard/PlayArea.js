@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
 import Notification from "./Notification";
+import {isItYourTurn,turnTranslation} from "../../utils"
 
 const PlayArea = ({
   deck,
@@ -36,6 +37,17 @@ const PlayArea = ({
       setVisibility(true);
     }
   }, [hintCount]);
+
+  useEffect(() => {
+    if (isItYourTurn(currentTurn,teamColor,spyMaster)) {
+      setMessage("It is your turn");
+      setVisibility(true);
+    }
+    else{
+      setMessage(turnTranslation(currentTurn));
+      setVisibility(true);
+    }
+  }, [currentTurn]);
 
   useEffect(() => {
     dealSpyAndSpymasterDecks();

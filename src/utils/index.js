@@ -5,3 +5,4 @@ export { default as wordBank } from "./wordBank";
 export { default as turnTracker } from "./turnTracker";
 export { default as getResultImage } from "./getResultImage";
 export { default as canStartGame } from "./canStartGame";
+export { default as turnTranslation } from "./turnTranslation";
