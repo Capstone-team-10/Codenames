@@ -1,5 +1,4 @@
-import {updateLossRecord} from "./UserThunks"
-
+import { updateLossRecord } from "./UserThunks";
 
 export const joinGame = (id, game, user) => async (
   dispatch,
@@ -104,7 +103,6 @@ export const Endturn = (id, turnString) => async (
   }
 };
 
-
 export const leaveGame = (id, game, user) => async (
   dispatch,
   getState,
@@ -118,12 +116,15 @@ export const leaveGame = (id, game, user) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
-    if spymaster leave game, dispatch to EndGame Thunk
-    if (copy[user.uid].isSpyMaster){
-      dispatch(updateLossRecord(user.uid,copy[]))
-      dispatch(deleteGame(id))
-    }
-    console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)
+    // if spymaster leave game, dispatch to EndGame Thunk
+    // if (copy[user.uid].isSpyMaster){
+    //   dispatch(updateLossRecord(user.uid,copy[]))
+    //   dispatch(deleteGame(id))
+    // }
+    console.log(
+      "What props do I get in leave thunk copy",
+      updatedGameRoom.data().GameStarted
+    );
 
     // if(updatedGameRoom.data().GameStarted){
 
