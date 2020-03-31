@@ -44,7 +44,7 @@ const PlayerGameBoard = ({
   }, [deck]);
 
   return (
-    <div className="gameBoard-container">
+    <div id="gameBoard-container" className="gameBoard-container">
       {spyMaster ? (
         <>
           {gameStatus ? (
