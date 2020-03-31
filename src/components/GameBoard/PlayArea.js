@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
 import Notification from "./Notification";
+import { isItYourTurn, turnTranslation } from "../../utils";
 
 const PlayArea = ({
   deck,
@@ -31,11 +32,21 @@ const PlayArea = ({
   }, [hintWord]);
 
   useEffect(() => {
-    if (hintCount === 0) {
+    if (hintCount === 0 && isItYourTurn(currentTurn, teamColor, spyMaster)) {
       setMessage("You've earned a free guess");
       setVisibility(true);
     }
   }, [hintCount]);
+
+  useEffect(() => {
+    if (isItYourTurn(currentTurn, teamColor, spyMaster)) {
+      setMessage("It is your turn");
+      setVisibility(true);
+    } else {
+      setMessage(turnTranslation(currentTurn));
+      setVisibility(true);
+    }
+  }, [currentTurn]);
 
   useEffect(() => {
     dealSpyAndSpymasterDecks();
