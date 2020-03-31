@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import EndGameScreen from "../EndGameScreen";
-import Notification from "./Notification";
+import Notification from "./index";
 import { isItYourTurn, turnTranslation } from "../../utils";
 
 const PlayArea = ({
@@ -29,8 +29,10 @@ const PlayArea = ({
     const navElem = document.getElementById("navbar");
     const gameBoardElem = document.getElementById("gameBoard-container");
     navElem.classList.add("navbar-move-out");
+    navElem.classList.remove("gameBoard-container");
     gameBoardElem.classList.add("gameBoard-move-up");
     return () => {
+      navElem.classList.add("gameBoard-container");
       navElem.classList.remove("navbar-move-out");
       gameBoardElem.classList.remove("gameBoard-move-up");
     };
