@@ -39,9 +39,6 @@ const PlayArea = ({
   }, [hintCount]);
 
   useEffect(() => {
-    console.log(
-      `In useEffect currentTurn is: ${currentTurn}, teamColor is: ${teamColor}, spyMaster is: ${spyMaster}`
-    );
     if (isItYourTurn(currentTurn, teamColor, spyMaster)) {
       setMessage("It is your turn");
       setVisibility(true);
