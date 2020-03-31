@@ -36,6 +36,7 @@ const GameLogic = props => {
   const redScore = isFetching ? 0 : game.RedCardsLeft;
   const GameOver = isFetching ? false : game.GameOver;
   const GameResult = isFetching ? "" : game.GameResult;
+  const GameMade = isFetching ? false : game.GuessMade;
   let hintCount = isFetching ? 0 : game.HintCount;
 
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
@@ -180,6 +181,7 @@ const GameLogic = props => {
           redScore={redScore}
           GameOver={GameOver}
           GameResult={GameResult}
+          GameMade={GameMade}
           dealCards={dealDeck(dealCards(), Gameid)}
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
@@ -198,6 +200,7 @@ const GameLogic = props => {
             redScore={redScore}
             GameOver={GameOver}
             GameResult={GameResult}
+            GameMade={GameMade}
             dealCards={dealDeck(dealCards(), Gameid)}
             dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
           />

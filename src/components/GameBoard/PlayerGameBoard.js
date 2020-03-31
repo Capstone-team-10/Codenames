@@ -23,7 +23,8 @@ const PlayerGameBoard = ({
   GameOver,
   GameResult,
   dealSpyAndSpymasterDecks,
-  Games
+  Games,
+  GameMade
 }) => {
   const [bannedWords, setBannedWords] = useState({});
 
@@ -115,6 +116,7 @@ const PlayerGameBoard = ({
             gameId={gameId}
             gameStatus={gameStatus}
             history={history}
+            GameMade={GameMade}
           />
         </>
       )}

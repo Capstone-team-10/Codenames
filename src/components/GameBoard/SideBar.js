@@ -32,7 +32,8 @@ const SideBar = ({
   currentTurn,
   gameStatus,
   Sendhint,
-  EndTurn
+  EndTurn,
+  GameMade
 }) => {
   // const [hint, setHint] = useState("");
   // const [hintNumber, setHintNumber] = useState(1);
@@ -192,16 +193,25 @@ const SideBar = ({
   const endTurnHandler = () => {
     console.log("currentTurn is ", currentTurn);
     console.log("teamColor is ", teamColor);
-    if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
-      addToast(`Wait for your turn!`, {
+    console.log("Was a guess made",GameMade)
+    if(!GameMade){
+      addToast(`${teamColor} team must make at least one guess`, {
         appearance: "warning",
         autoDismiss: true
       });
       return;
     }
-    let turnString = turnTracker.nextTurn(currentTurn);
-    EndTurn(gameId, turnString);
-  };
+    else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
+        addToast(`Wait for your turn!`, {
+          appearance: "warning",
+          autoDismiss: true
+        });
+        return;
+      }
+
+      let turnString = turnTracker.nextTurn(currentTurn);
+      EndTurn(gameId, turnString);
+    }
 
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
