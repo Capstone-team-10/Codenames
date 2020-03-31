@@ -62,6 +62,7 @@ const SideBar = ({
     window.onresize = resize;
   }, [gameStatus, spyMaster]);
 
+  //On mount and on unmount handler
   useEffect(() => {
     return () => {
       LeaveHandler();
@@ -95,6 +96,8 @@ const SideBar = ({
       console.error(error);
     }
   };
+
+  const confirmLeave = () => {};
 
   const submitHint = () => {
     if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
@@ -193,25 +196,24 @@ const SideBar = ({
   const endTurnHandler = () => {
     console.log("currentTurn is ", currentTurn);
     console.log("teamColor is ", teamColor);
-    console.log("Was a guess made",GameMade)
-    if(!GameMade){
+    console.log("Was a guess made", GameMade);
+    if (!GameMade) {
       addToast(`${teamColor} team must make at least one guess`, {
         appearance: "warning",
         autoDismiss: true
       });
       return;
+    } else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
+      addToast(`Wait for your turn!`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
     }
-    else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
-        addToast(`Wait for your turn!`, {
-          appearance: "warning",
-          autoDismiss: true
-        });
-        return;
-      }
 
-      let turnString = turnTracker.nextTurn(currentTurn);
-      EndTurn(gameId, turnString);
-    }
+    let turnString = turnTracker.nextTurn(currentTurn);
+    EndTurn(gameId, turnString);
+  };
 
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
