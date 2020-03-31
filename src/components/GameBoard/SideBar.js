@@ -182,6 +182,8 @@ const SideBar = ({
       try {
         if (chatMsg !== "") {
           await SendMessage(gameId, game, User, chatMsg);
+          var elem = document.getElementById('chat-box');
+          elem.scrollTop = elem.scrollHeight;
         }
       } catch (error) {
         return error.message;
@@ -193,8 +195,8 @@ const SideBar = ({
   const endTurnHandler = () => {
     console.log("currentTurn is ", currentTurn);
     console.log("teamColor is ", teamColor);
-    console.log("Was a guess made",GameMade)
-    if(!GameMade){
+    console.log("Was a guess made", GameMade)
+    if (!GameMade) {
       addToast(`${teamColor} team must make at least one guess`, {
         appearance: "warning",
         autoDismiss: true
@@ -202,16 +204,16 @@ const SideBar = ({
       return;
     }
     else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
-        addToast(`Wait for your turn!`, {
-          appearance: "warning",
-          autoDismiss: true
-        });
-        return;
-      }
-
-      let turnString = turnTracker.nextTurn(currentTurn);
-      EndTurn(gameId, turnString);
+      addToast(`Wait for your turn!`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
     }
+
+    let turnString = turnTracker.nextTurn(currentTurn);
+    EndTurn(gameId, turnString);
+  }
 
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
@@ -233,8 +235,8 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-                1
-              )} Spy Master`
+              1
+            )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
@@ -264,7 +266,7 @@ const SideBar = ({
               <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
               <p className="spyMaster-hint-text">{`For: ${
                 getHintCount !== -1 ? getHintCount : 0
-              } cards `}</p>
+                } cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
@@ -304,11 +306,11 @@ const SideBar = ({
             </button>
           </>
         ) : (
-          <>
-            <h6>{`Hint: ${getHint}`}</h6>
-            <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
-          </>
-        )}
+            <>
+              <h6>{`Hint: ${getHint}`}</h6>
+              <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
+            </>
+          )}
       </div>
       <ResizableBox
         handleSize={[10, 10]}
@@ -320,7 +322,7 @@ const SideBar = ({
         axis={"y"}
         className="chat-container"
       >
-        <div className="log-wrapper">
+        <div className="log-wrapper" id="chat-box">
           {chatLog.map(({ sender, message }, index) => {
             return (
               <React.Fragment key={`${sender}${index}`}>
