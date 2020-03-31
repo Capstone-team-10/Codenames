@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { ResizableBox } from "react-resizable";
+import { ConfirmLeave } from "./";
 
 import { useToasts } from "react-toast-notifications";
 import { leaveGame, Endturn } from "../../store/GameThunks";
@@ -97,7 +98,10 @@ const SideBar = ({
     }
   };
 
-  const confirmLeave = () => {};
+  const confirmLeaveHandler = () => {
+    const confirmLeaveElem = document.getElementById("confirm-leave-container");
+    confirmLeaveElem.classList.add("show-confirm-leave");
+  };
 
   const submitHint = () => {
     if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
@@ -217,6 +221,7 @@ const SideBar = ({
 
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
+      <ConfirmLeave LeaveHandler={LeaveHandler} />
       {gameStatus ? (
         <div
           id="turnInfo"
@@ -360,7 +365,7 @@ const SideBar = ({
       <button
         id="leaveGameBtn"
         className="leave-game-btn btn center waves-effect waves-dark red darken-4"
-        onClick={LeaveHandler}
+        onClick={confirmLeaveHandler}
       >
         Leave Game
       </button>
