@@ -118,6 +118,11 @@ export const leaveGame = (id, game, user) => async (
     if (copy[user.uid].isSpyMaster){
       dispatch(deleteGame(id))
     }
+    // console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)
+
+    // if(updatedGameRoom.data().GameStarted){
+
+    // }
     delete copy[user.uid];
 
     await firestore
