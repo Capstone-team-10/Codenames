@@ -5,6 +5,7 @@ import { StartGame } from "../../store/GameThunks";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import InviteFriendForm from "./InviteFriendForm";
 
 import { canStartGame, turnTracker } from "../../utils";
 
@@ -23,6 +24,7 @@ const GameLobby = props => {
   const isFetching = Games !== undefined;
   const game = isFetching ? Games[gameId] : null;
 
+  const [inviteFriend, setInviteFriend] = useState(false);
   const [spyMasters, setSpyMasters] = useState({
     red: "",
     blue: ""
@@ -99,67 +101,86 @@ const GameLobby = props => {
     }
   };
 
+  ///Open Invite friend form
+  const inviteHandler = () => {
+    console.log("inviteHandler clicked");
+  };
+
   return (
-    <div className="gameLobby-container">
-      <p className="lobby-header-text">Choose your Side</p>
-      <div className="team-select-wrapper">
-        <div className="blue-team-wrapper">
-          <div
-            onClick={() => spyMasterHandler("blue")}
-            className="spyMaster-check-wrapper"
-          >
-            {spyMasters.blue === "" ? (
-              <p className="blue-spyMaster-text"> Click to be Spy Master</p>
-            ) : (
-              <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
-            )}
+    <>
+      <div className="gameLobby-container">
+        <p className="lobby-header-text">Choose your Side</p>
+        <div className="team-select-wrapper">
+          <div className="blue-team-wrapper">
+            <div
+              onClick={() => spyMasterHandler("blue")}
+              className="spyMaster-check-wrapper"
+            >
+              {spyMasters.blue === "" ? (
+                <p className="blue-spyMaster-text"> Click to be Spy Master</p>
+              ) : (
+                <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
+              )}
+            </div>
+            <img
+              onClick={() => selectAgencyHandler("blue")}
+              className="agent-image-blue"
+              src={process.env.PUBLIC_URL + "/images/agent-blue-1.png"}
+              alt="blue agent male"
+            />
+            <img
+              onClick={() => selectAgencyHandler("blue")}
+              className="agent-image-blue deep-cover-agent"
+              src={process.env.PUBLIC_URL + "/images/agent-blue-2.png"}
+              alt="blue agent female"
+            />
           </div>
-          <img
-            onClick={() => selectAgencyHandler("blue")}
-            className="agent-image-blue"
-            src={process.env.PUBLIC_URL + "/images/agent-blue-1.png"}
-            alt="blue agent male"
-          />
-          <img
-            onClick={() => selectAgencyHandler("blue")}
-            className="agent-image-blue deep-cover-agent"
-            src={process.env.PUBLIC_URL + "/images/agent-blue-2.png"}
-            alt="blue agent female"
-          />
-        </div>
-        <div className="red-team-wrapper">
-          <div
-            onClick={() => spyMasterHandler("red")}
-            className="spyMaster-check-wrapper"
-          >
-            {spyMasters.red === "" ? (
-              <p className="red-spyMaster-text"> Click to be Spy Master</p>
-            ) : (
-              <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
-            )}
+          <div className="red-team-wrapper">
+            <div
+              onClick={() => spyMasterHandler("red")}
+              className="spyMaster-check-wrapper"
+            >
+              {spyMasters.red === "" ? (
+                <p className="red-spyMaster-text"> Click to be Spy Master</p>
+              ) : (
+                <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
+              )}
+            </div>
+            <img
+              onClick={() => selectAgencyHandler("red")}
+              className="agent-image-red deep-cover-agent"
+              src={process.env.PUBLIC_URL + "/images/agent-red-1.jpeg"}
+              alt="red agent male"
+            />
+            <img
+              onClick={() => selectAgencyHandler("red")}
+              className="agent-image-red"
+              src={process.env.PUBLIC_URL + "/images/agent-red-2.png"}
+              alt="red agent female"
+            />
           </div>
-          <img
-            onClick={() => selectAgencyHandler("red")}
-            className="agent-image-red deep-cover-agent"
-            src={process.env.PUBLIC_URL + "/images/agent-red-1.jpeg"}
-            alt="red agent male"
-          />
-          <img
-            onClick={() => selectAgencyHandler("red")}
-            className="agent-image-red"
-            src={process.env.PUBLIC_URL + "/images/agent-red-2.png"}
-            alt="red agent female"
-          />
         </div>
+        <button
+          disabled={canStartGame(allPlayers)}
+          onClick={readyHandler}
+          className="ready-btn btn  waves-effect waves-dark teal darken-4"
+        >
+          ready to start
+        </button>
+        <button
+          onClick={() => setInviteFriend(true)}
+          className="ready-btn btn  waves-effect waves-dark teal darken-4"
+        >
+          Invite Friend
+        </button>
       </div>
-      <button
-        disabled={canStartGame(allPlayers)}
-        onClick={readyHandler}
-        className="ready-btn btn  waves-effect waves-dark teal darken-4"
-      >
-        ready to start
-      </button>
-    </div>
+      {inviteFriend ? (
+        <InviteFriendForm
+          setInviteFriend={setInviteFriend}
+          inviteHandler={inviteHandler}
+        />
+      ) : null}
+    </>
   );
 };
 
