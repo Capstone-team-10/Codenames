@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { inviteFriend } from "../../fireFunctionCalls";
-import { useToasts } from "react-toast-notifications";
 
 const InviteFriendForm = ({ setInviteFriend }) => {
   const [friendEmail, setFriendEmail] = useState("");
   const [friendName, setFriendName] = useState("");
   const [senderName, setSenderName] = useState("");
   const [message, setMessage] = useState("");
-  const { addToast } = useToasts();
 
   //form handler
   const onChangeHandler = evt => {
