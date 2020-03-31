@@ -8,16 +8,9 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 
 exports.sendInvite = functions.https.onRequest(async (req, res) => {
-  console.log("In sendInvite");
+  const invite = JSON.parse(req.body);
   try {
-    const {
-      friendName,
-      friendEmail,
-      senderName,
-      link,
-      message = "Hi"
-    } = req.body;
-
+    const { friendName, friendEmail, senderName, link, message } = invite;
     let email = `<div>
         <h4>Codenames Invite</h4>
         <p>Hey ${friendName} Your friend ${senderName} wants to invite you to play Codenames</p>
@@ -64,14 +57,12 @@ exports.sendInvite = functions.https.onRequest(async (req, res) => {
         console.error("smtp error", error);
         res.send(error.message);
       } else {
-        console.log(response);
         res.status(200).send({
           message: "success"
         });
       }
       smtpTransport.close();
     });
-    console.log("after smtpTransport");
   } catch (error) {
     console.error("ERROR", error.message);
     res.send(`Error: ${error.message}`);

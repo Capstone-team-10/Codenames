@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { inviteFriend } from "../../fireFunctionCalls";
+import { useToasts } from "react-toast-notifications";
 
 const InviteFriendForm = ({ setInviteFriend }) => {
   const [friendEmail, setFriendEmail] = useState("");
   const [friendName, setFriendName] = useState("");
   const [senderName, setSenderName] = useState("");
   const [message, setMessage] = useState("");
+  const { addToast } = useToasts();
 
   //form handler
   const onChangeHandler = evt => {
@@ -12,16 +15,26 @@ const InviteFriendForm = ({ setInviteFriend }) => {
       setFriendEmail(evt.target.value);
     } else if (evt.target.id === "friendName") {
       setFriendName(evt.target.value);
+    } else if (evt.target.id === "senderName") {
+      setSenderName(evt.target.value);
     } else if (evt.target.id === "message") {
-      setMessage(evt.target.value === senderName);
+      setMessage(evt.target.value);
     }
   };
 
   //handle form submission
-  const handleSubmit = evt => {
-    evt.preventDefault();
-    console.log(`Sending friend invite to ${friendName}`);
-
+  const handleSubmit = async evt => {
+    try {
+      evt.preventDefault();
+      await inviteFriend({
+        friendEmail,
+        friendName,
+        senderName,
+        message
+      });
+    } catch (error) {
+      console.error(error);
+    }
     setInviteFriend(false);
   };
 
@@ -29,8 +42,6 @@ const InviteFriendForm = ({ setInviteFriend }) => {
     <div className="inviteFriend-wrapper">
       <div className="formWrapper">
         <form
-          method="get"
-          action="http://localhost:5001/codenames-3a350/us-central1/sendInvite"
           id="inviteFriend"
           className="inviteFriendForm"
           onSubmit={handleSubmit}
@@ -43,6 +54,10 @@ const InviteFriendForm = ({ setInviteFriend }) => {
           <div className="input-field">
             <label htmlFor="friendName">Friend's Name</label>
             <input type="text" id="friendName" onChange={onChangeHandler} />
+          </div>
+          <div className="input-field">
+            <label htmlFor="senderName">Your Name</label>
+            <input type="text" id="senderName" onChange={onChangeHandler} />
           </div>
           <div className="input-field">
             <label htmlFor="message">Message</label>
