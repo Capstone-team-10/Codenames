@@ -161,6 +161,7 @@ const GameLobby = props => {
           </div>
         </div>
         <button
+          disabled={canStartGame(allPlayers)}
           onClick={readyHandler}
           className="ready-btn btn  waves-effect waves-dark teal darken-4"
         >
