@@ -67,6 +67,7 @@ const PlayerGameBoard = ({
               allPlayers={allPlayers}
               gameId={gameId}
               dealCards={dealCards}
+              history={history}
             />
           )}
           <SideBar
@@ -105,6 +106,7 @@ const PlayerGameBoard = ({
               allPlayers={allPlayers}
               gameId={gameId}
               dealCards={dealCards}
+              history={history}
             />
           )}
           <SideBar

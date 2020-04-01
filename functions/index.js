@@ -15,7 +15,9 @@ exports.sendInvite = functions.https.onRequest(async (req, res) => {
         <h4>Codenames Invite</h4>
         <p>Hey ${friendName} Your friend ${senderName} wants to invite you to play Codenames</p>
         <p>${message}</p>
-        <a href=${link}>Click here to play!</a>
+        <a href="https://codenames-3a350.firebaseapp.com/">
+        First click here to signup and login</a>
+        <a href=${link}>Then click here to play with me!</a>
       </div>`;
 
     const oauth2Client = new google.auth.OAuth2(
@@ -24,7 +26,7 @@ exports.sendInvite = functions.https.onRequest(async (req, res) => {
       "https://developers.google.com/oauthplayground"
     );
 
-    await oauth2Client.setCredentials({
+    oauth2Client.setCredentials({
       refresh_token: refreshToken
     });
 

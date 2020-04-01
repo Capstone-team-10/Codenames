@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router";
 import { inviteFriend } from "../../fireFunctionCalls";
 
-const InviteFriendForm = ({ setInviteFriend }) => {
+const InviteFriendForm = ({ setInviteFriend, history }) => {
   const [friendEmail, setFriendEmail] = useState("");
   const [friendName, setFriendName] = useState("");
   const [senderName, setSenderName] = useState("");
@@ -21,18 +22,15 @@ const InviteFriendForm = ({ setInviteFriend }) => {
   };
 
   //handle form submission
-  const handleSubmit = async evt => {
-    try {
-      evt.preventDefault();
-      await inviteFriend({
-        friendEmail,
-        friendName,
-        senderName,
-        message
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    inviteFriend({
+      friendEmail,
+      friendName,
+      senderName,
+      message,
+      link: `https://codenames-3a350.firebaseapp.com/${history.location.pathname}`
+    });
     setInviteFriend(false);
   };
 
@@ -81,4 +79,4 @@ const InviteFriendForm = ({ setInviteFriend }) => {
   );
 };
 
-export default InviteFriendForm;
+export default withRouter(InviteFriendForm);
