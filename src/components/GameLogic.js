@@ -66,7 +66,10 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
-          if ((blueScore === 1 && currentTeam) || (redScore === 1 && currentTeam)) {
+          if (
+            (blueScore === 1 && currentTeam) ||
+            (redScore === 1 && currentTeam)
+          ) {
             // console.log('------>-bluescore', blueScore, 'curreteam', currentTeam, 'redscroe', redScore, 'gameid', Gameid, 'rightcard', rightCard)
             updateWinLossRecord(rightCard);
             setTimeout(() => {
@@ -131,9 +134,9 @@ const GameLogic = props => {
   const updateWinLossRecord = winner => {
     for (let i = 0; i < allPlayersIds.length; i++) {
       if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
-        UpdateWin(allPlayersIds[i], currentUser);
+        UpdateWin(allPlayersIds[i], game.UsersInRoom[allPlayersIds[i]]);
       } else {
-        UpdateLoss(allPlayersIds[i], currentUser);
+        UpdateLoss(allPlayersIds[i], game.UsersInRoom[allPlayersIds[i]]);
       }
     }
   };
@@ -193,28 +196,28 @@ const GameLogic = props => {
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       ) : (
-          <PlayerGameBoard
-            gameId={Gameid}
-            Games={Games}
-            history={history}
-            allPlayers={allPlayers}
-            deck={spyDeck}
-            currentUser={currentUser}
-            uid={uid}
-            displayName={displayName}
-            gameStatus={gameStatus}
-            playersPick={cardPick(spyMasterDeck)}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            blueScore={blueScore}
-            redScore={redScore}
-            GameOver={GameOver}
-            GameResult={GameResult}
-            GameMade={GameMade}
-            dealCards={dealDeck(dealCards(), Gameid)}
-            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-          />
-        )}
+        <PlayerGameBoard
+          gameId={Gameid}
+          Games={Games}
+          history={history}
+          allPlayers={allPlayers}
+          deck={spyDeck}
+          currentUser={currentUser}
+          uid={uid}
+          displayName={displayName}
+          gameStatus={gameStatus}
+          playersPick={cardPick(spyMasterDeck)}
+          spyMaster={spyMaster}
+          teamColor={teamColor}
+          blueScore={blueScore}
+          redScore={redScore}
+          GameOver={GameOver}
+          GameResult={GameResult}
+          GameMade={GameMade}
+          dealCards={dealDeck(dealCards(), Gameid)}
+          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+        />
+      )}
     </>
   );
 };
@@ -243,10 +246,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  firestoreConnect((props) => {
+  firestoreConnect(props => {
     // console.log('props in firestoreconnect-----', props)
     // console.log('props.matchparamsid in firestoreconnect-----', props.match.params.id)
-    return ([
+    return [
       {
         collection: "Games",
         doc: `${props.match.params.id}`
@@ -254,7 +257,7 @@ export default compose(
       {
         collection: "Users"
       }
-    ])
+    ];
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(GameLogic);
