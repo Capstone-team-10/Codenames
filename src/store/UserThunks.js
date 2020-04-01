@@ -96,15 +96,18 @@ export const selectAgency = (color, gameId, game, uid) => async (
       await firestore
         .collection("Games")
         .doc(gameId)
-        .set({
-          UsersInRoom: {
-            ...game.UsersInRoom,
-            [uid]: {
-              Team: color,
-              isSpyMaster: false
+        .set(
+          {
+            UsersInRoom: {
+              ...game.UsersInRoom,
+              [uid]: {
+                Team: color,
+                isSpyMaster: false
+              }
             }
-          }
-        }, { merge: true });
+          },
+          { merge: true }
+        );
     }
   } catch (error) {
     return error.message;
@@ -121,27 +124,35 @@ export const selectMaster = (color, gameId, game, uid) => async (
     await firestore
       .collection("Games")
       .doc(gameId)
-      .set({
-        UsersInRoom: {
-          ...game.UsersInRoom,
-          [uid]: {
-            Team: color,
-            isSpyMaster: true
+      .set(
+        {
+          UsersInRoom: {
+            ...game.UsersInRoom,
+            [uid]: {
+              Team: color,
+              isSpyMaster: true
+            }
           }
-        }
-      }, { merge: true });
+        },
+        { merge: true }
+      );
   } catch (error) {
     return error.message;
   }
 };
 
-export const updateWinRecord = (userId, user) => async (
+export const updateWinRecord = userId => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
     const firestore = getFirestore();
+    let user = await firestore
+      .collection("Users")
+      .doc(userId)
+      .get();
+
     await firestore
       .collection("Users")
       .doc(userId)
@@ -156,13 +167,18 @@ export const updateWinRecord = (userId, user) => async (
   }
 };
 
-export const updateLossRecord = (userId, user) => async (
+export const updateLossRecord = userId => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
     const firestore = getFirestore();
+    let user = await firestore
+      .collection("Users")
+      .doc(userId)
+      .get();
+
     await firestore
       .collection("Users")
       .doc(userId)

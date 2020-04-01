@@ -134,9 +134,9 @@ const GameLogic = props => {
   const updateWinLossRecord = winner => {
     for (let i = 0; i < allPlayersIds.length; i++) {
       if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
-        UpdateWin(allPlayersIds[i], game.UsersInRoom[allPlayersIds[i]]);
+        UpdateWin(allPlayersIds[i]);
       } else {
-        UpdateLoss(allPlayersIds[i], game.UsersInRoom[allPlayersIds[i]]);
+        UpdateLoss(allPlayersIds[i]);
       }
     }
   };
@@ -240,8 +240,8 @@ const mapDispatchToProps = dispatch => {
     Assassin: (id, result) => dispatch(Assassin(id, result)),
     ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
     victory: (id, team) => dispatch(victory(id, team)),
-    UpdateWin: (uid, user) => dispatch(updateWinRecord(uid, user)),
-    UpdateLoss: (uid, user) => dispatch(updateLossRecord(uid, user))
+    UpdateWin: uid => dispatch(updateWinRecord(uid)),
+    UpdateLoss: uid => dispatch(updateLossRecord(uid))
   };
 };
 
