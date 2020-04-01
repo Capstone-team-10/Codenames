@@ -1,4 +1,4 @@
-export const joinGame = (id, game, user) => async (
+export const joinGame = (id, game, user, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -6,7 +6,7 @@ export const joinGame = (id, game, user) => async (
   try {
     const copy = Object.assign({}, game.UsersInRoom);
     const firestore = getFirestore();
-    if (copy[user.uid] === undefined) {
+    if (copy[uid] === undefined) {
       await firestore
         .collection("Games")
         .doc(id)
@@ -14,7 +14,7 @@ export const joinGame = (id, game, user) => async (
           {
             UsersInRoom: {
               ...game.UsersInRoom,
-              [user.uid]: {
+              [uid]: {
                 DisplayName: user.displayName,
                 Team: "",
                 isSpyMaster: false
@@ -29,7 +29,7 @@ export const joinGame = (id, game, user) => async (
   }
 };
 
-export const newGame = (history, user) => async (
+export const newGame = (history, user, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -42,7 +42,7 @@ export const newGame = (history, user) => async (
       HintWord: " ",
       GameStarted: false,
       UsersInRoom: {
-        [user.uid]: {
+        [uid]: {
           DisplayName: user.displayName,
           Team: "",
           isSpyMaster: false
@@ -102,7 +102,7 @@ export const Endturn = (id, turnString) => async (
 };
 
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
-export const leaveGame = (id, game, user) => async (
+export const leaveGame = (id, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -115,15 +115,10 @@ export const leaveGame = (id, game, user) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
-    if (copy[user.uid].isSpyMaster){
-      dispatch(deleteGame(id))
-    }
-    // console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)
-
-    // if(updatedGameRoom.data().GameStarted){
-
+    // if (copy[uid].isSpyMaster) {
+    //   dispatch(deleteGame(id))
     // }
-    delete copy[user.uid];
+    delete copy[uid];
 
     await firestore
       .collection("Games")
@@ -155,7 +150,7 @@ export const deleteGame = id => async (
   }
 };
 
-export const ReplayGame = (id, game, user) => async (
+export const ReplayGame = (id) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }

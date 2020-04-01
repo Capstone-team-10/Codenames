@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+// import { firestoreConnect } from "react-redux-firebase";
+// import { compose } from "redux";
 import { ResizableBox } from "react-resizable";
 
 import { useToasts } from "react-toast-notifications";
@@ -26,14 +26,16 @@ const SideBar = ({
   history,
   gameId,
   Games,
-  User,
   SendMessage,
   LeaveGame,
   currentTurn,
   gameStatus,
   Sendhint,
   EndTurn,
-  GameMade
+  GameMade,
+  currentUser,
+  uid,
+  chatLog
 }) => {
   // const [hint, setHint] = useState("");
   // const [hintNumber, setHintNumber] = useState(1);
@@ -41,6 +43,11 @@ const SideBar = ({
   const [fixedHeight, setFixedHeight] = useState(45.7 + 71.3 + 33);
 
   const { addToast } = useToasts();
+
+  useEffect(() => {
+    var elem = document.getElementById('chat-box');
+    elem.scrollTop = elem.scrollHeight;
+  }, [chatLog])
 
   useEffect(() => {
     const navbarHeight = document.getElementById("navbar").offsetHeight;
@@ -82,14 +89,14 @@ const SideBar = ({
 
   const isFetching = Games === undefined || Games[gameId] === undefined;
   const game = isFetching ? null : Games[gameId]; // individual game
-  const isFetchingChat = isFetching || game.Chat === undefined;
-  const chatLog = isFetchingChat ? [] : game.Chat;
+  // const isFetchingChat = isFetching || game.Chat === undefined;
+  // const chatLog = isFetchingChat ? [] : game.Chat;
   const getHint = isFetching ? "" : game.HintWord;
   const getHintCount = isFetching ? 0 : game.HintCount;
 
   const LeaveHandler = async () => {
     try {
-      await LeaveGame(gameId, Games[gameId], User);
+      await LeaveGame(gameId, uid);
       history.push("/userProfile");
     } catch (error) {
       console.error(error);
@@ -181,9 +188,9 @@ const SideBar = ({
     } else {
       try {
         if (chatMsg !== "") {
-          await SendMessage(gameId, game, User, chatMsg);
-          var elem = document.getElementById('chat-box');
-          elem.scrollTop = elem.scrollHeight;
+          await SendMessage(gameId, game, currentUser, chatMsg);
+          // var elem = document.getElementById('chat-box');
+          // elem.scrollTop = elem.scrollHeight;
         }
       } catch (error) {
         return error.message;
@@ -368,29 +375,16 @@ const SideBar = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
-    SendMessage: (id, game, user, message) =>
-      dispatch(SendMessage(id, game, user, message)),
+    LeaveGame: (id, uid) => dispatch(leaveGame(id, uid)),
+    SendMessage: (id, game, currentUser, message) =>
+      dispatch(SendMessage(id, game, currentUser, message)),
     Sendhint: (id, word, count) =>
       dispatch(SetHintWordAndCount(id, word, count)),
     EndTurn: (id, turnString) => dispatch(Endturn(id, turnString))
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
-)(SideBar);
+export default connect(null, mapDispatchToProps)(SideBar);

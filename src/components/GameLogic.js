@@ -14,7 +14,6 @@ import { ChangeHintCount } from "../store/HintThunk";
 const GameLogic = props => {
   const {
     Games,
-    User,
     Users,
     history,
     decksync,
@@ -24,12 +23,16 @@ const GameLogic = props => {
     Assassin,
     UpdateWin,
     UpdateLoss,
-    victory
+    victory,
+    uid
   } = props;
   const Gameid = props.match.params.id;
 
+  const isFetchingUser = Users === undefined;
+  const currentUser = isFetchingUser ? null : Users[uid];
+
   const isFetching = Games === undefined || Games[Gameid] === undefined;
-  const displayName = User.displayName;
+  const displayName = currentUser.displayName;
 
   const game = isFetching ? null : Games[Gameid];
   const blueScore = isFetching ? 0 : game.BlueCardsLeft;
@@ -42,8 +45,8 @@ const GameLogic = props => {
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
   const allPlayersIds = isFetching ? [] : Object.keys(game.UsersInRoom);
   const gameStatus = isFetching ? null : game.GameStarted;
-  const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
-  const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
+  const teamColor = isFetching ? null : game.UsersInRoom[uid]?.Team;
+  const spyMaster = isFetching ? null : game.UsersInRoom[uid]?.isSpyMaster;
 
   const FirestoreDeck = isFetching ? [] : game.CardsOnTable;
 
@@ -63,7 +66,11 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
-          if ((blueScore === 1 & currentTeam) || (redScore === 1 & currentTeam)) {
+          if (
+            (blueScore === 1 && currentTeam) ||
+            (redScore === 1 && currentTeam)
+          ) {
+            // console.log('------>-bluescore', blueScore, 'curreteam', currentTeam, 'redscroe', redScore, 'gameid', Gameid, 'rightcard', rightCard)
             updateWinLossRecord(rightCard);
             setTimeout(() => {
               victory(Gameid, rightCard);
@@ -127,9 +134,9 @@ const GameLogic = props => {
   const updateWinLossRecord = winner => {
     for (let i = 0; i < allPlayersIds.length; i++) {
       if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
-        UpdateWin(allPlayersIds[i], Users);
+        UpdateWin(allPlayersIds[i]);
       } else {
-        UpdateLoss(allPlayersIds[i], Users);
+        UpdateLoss(allPlayersIds[i]);
       }
     }
   };
@@ -170,6 +177,9 @@ const GameLogic = props => {
       {spyMaster ? (
         <PlayerGameBoard
           gameId={Gameid}
+          Games={Games}
+          currentUser={currentUser}
+          uid={uid}
           history={history}
           allPlayers={allPlayers}
           deck={spyMasterDeck}
@@ -186,25 +196,28 @@ const GameLogic = props => {
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
         />
       ) : (
-          <PlayerGameBoard
-            gameId={Gameid}
-            history={history}
-            allPlayers={allPlayers}
-            deck={spyDeck}
-            displayName={displayName}
-            gameStatus={gameStatus}
-            playersPick={cardPick(spyMasterDeck)}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            blueScore={blueScore}
-            redScore={redScore}
-            GameOver={GameOver}
-            GameResult={GameResult}
-            GameMade={GameMade}
-            dealCards={dealDeck(dealCards(), Gameid)}
-            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-          />
-        )}
+        <PlayerGameBoard
+          gameId={Gameid}
+          Games={Games}
+          history={history}
+          allPlayers={allPlayers}
+          deck={spyDeck}
+          currentUser={currentUser}
+          uid={uid}
+          displayName={displayName}
+          gameStatus={gameStatus}
+          playersPick={cardPick(spyMasterDeck)}
+          spyMaster={spyMaster}
+          teamColor={teamColor}
+          blueScore={blueScore}
+          redScore={redScore}
+          GameOver={GameOver}
+          GameResult={GameResult}
+          GameMade={GameMade}
+          dealCards={dealDeck(dealCards(), Gameid)}
+          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+        />
+      )}
     </>
   );
 };
@@ -212,8 +225,9 @@ const GameLogic = props => {
 const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth,
-    Users: state.firestore.data.Users
+    // User: state.firebase.auth,
+    Users: state.firestore.data.Users,
+    uid: state.firebase.auth.uid
   };
 };
 
@@ -226,19 +240,24 @@ const mapDispatchToProps = dispatch => {
     Assassin: (id, result) => dispatch(Assassin(id, result)),
     ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
     victory: (id, team) => dispatch(victory(id, team)),
-    UpdateWin: (uid, user) => dispatch(updateWinRecord(uid, user)),
-    UpdateLoss: (uid, user) => dispatch(updateLossRecord(uid, user))
+    UpdateWin: uid => dispatch(updateWinRecord(uid)),
+    UpdateLoss: uid => dispatch(updateLossRecord(uid))
   };
 };
 
 export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    },
-    {
-      collection: "Users"
-    }
-  ]),
+  firestoreConnect(props => {
+    // console.log('props in firestoreconnect-----', props)
+    // console.log('props.matchparamsid in firestoreconnect-----', props.match.params.id)
+    return [
+      {
+        collection: "Games",
+        doc: `${props.match.params.id}`
+      },
+      {
+        collection: "Users"
+      }
+    ];
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(GameLogic);

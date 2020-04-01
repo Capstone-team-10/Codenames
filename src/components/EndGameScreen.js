@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { leaveGame, ReplayGame } from "../store/GameThunks";
-
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 import { useToasts } from "react-toast-notifications";
 
 import "../css/EndGameScreen.css";
@@ -14,8 +11,7 @@ const EndGameScreen = props => {
   const {
     GameResult,
     gameId,
-    Games,
-    User,
+    uid,
     ReplayGame,
     LeaveGame,
     history
@@ -55,7 +51,7 @@ const EndGameScreen = props => {
 
   const SameGameRoom = async e => {
     try {
-      const err = await ReplayGame(gameId, Games[gameId], User);
+      const err = await ReplayGame(gameId);
       if (err === undefined) {
         history.push(`/play/${gameId}`);
       } else {
@@ -71,7 +67,7 @@ const EndGameScreen = props => {
 
   const NewGameRoom = async e => {
     try {
-      const err = await LeaveGame(gameId, Games[gameId], User);
+      const err = await LeaveGame(gameId, uid);
       if (err === undefined) {
         history.push("/onSubmit");
       } else {
@@ -100,25 +96,11 @@ const EndGameScreen = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (Gameid, game, user) => dispatch(leaveGame(Gameid, game, user)),
-    ReplayGame: (Gameid, game, user) => dispatch(ReplayGame(Gameid, game, user))
+    LeaveGame: (Gameid, uid) => dispatch(leaveGame(Gameid, uid)),
+    ReplayGame: (Gameid) => dispatch(ReplayGame(Gameid))
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
-)(withRouter(EndGameScreen));
+export default connect(null, mapDispatchToProps)(withRouter(EndGameScreen));

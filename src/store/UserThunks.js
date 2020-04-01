@@ -14,15 +14,16 @@ export const createProfile = (name, email, password) => async (
       .auth()
       .createUserWithEmailAndPassword(email, password);
 
-    await user.updateProfile({
-      displayName: name
-    });
+    // await user.updateProfile({
+    //   displayName: name
+    // });
 
     const firestore = getFirestore();
     await firestore
       .collection("Users")
       .doc(user.uid)
       .set({
+        displayName: name,
         Win: 0,
         Loss: 0
       });
@@ -54,12 +55,14 @@ export const googleProfile = () => async (
   try {
     const firebase = getFirebase();
     const { user } = await firebase.auth().signInWithPopup(google);
+    const name = await firebase.auth().currentUser.displayName;
 
     const firestore = getFirestore();
     await firestore
       .collection("Users")
       .doc(user.uid)
       .set({
+        displayName: name,
         Win: 0,
         Loss: 0
       });
@@ -81,35 +84,37 @@ export const logout = () => async (
   }
 };
 
-export const selectAgency = (color, gameId, game, User) => async (
+export const selectAgency = (color, gameId, game, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    const user = game.UsersInRoom[User.uid];
+    // const user = game.UsersInRoom[uid];
     const firestore = getFirestore();
-    if (!user.isSpyMaster || (user.isSpyMaster && user.Team !== color)) {
-      await firestore
-        .collection("Games")
-        .doc(gameId)
-        .update({
+    // if (user.Team === color || (user.isSpyMaster && user.Team !== color)) {
+    await firestore
+      .collection("Games")
+      .doc(gameId)
+      .set(
+        {
           UsersInRoom: {
             ...game.UsersInRoom,
-            [User.uid]: {
-              DisplayName: User.displayName,
+            [uid]: {
               Team: color,
               isSpyMaster: false
             }
           }
-        });
-    }
+        },
+        { merge: true }
+      );
+    // }
   } catch (error) {
     return error.message;
   }
 };
 
-export const selectMaster = (color, gameId, game, User) => async (
+export const selectMaster = (color, gameId, game, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -119,34 +124,15 @@ export const selectMaster = (color, gameId, game, User) => async (
     await firestore
       .collection("Games")
       .doc(gameId)
-      .update({
-        UsersInRoom: {
-          ...game.UsersInRoom,
-          [User.uid]: {
-            DisplayName: User.displayName,
-            Team: color,
-            isSpyMaster: !User.isSpyMaster
-          }
-        }
-      });
-  } catch (error) {
-    return error.message;
-  }
-};
-
-export const updateWinRecord = (userId, user) => async (
-  dispatch,
-  getState,
-  { getFirebase, getFirestore }
-) => {
-  try {
-    const firestore = getFirestore();
-    await firestore
-      .collection("Users")
-      .doc(userId)
       .set(
         {
-          Win: user[userId].Win + 1
+          UsersInRoom: {
+            ...game.UsersInRoom,
+            [uid]: {
+              Team: color,
+              isSpyMaster: true
+            }
+          }
         },
         { merge: true }
       );
@@ -155,19 +141,50 @@ export const updateWinRecord = (userId, user) => async (
   }
 };
 
-export const updateLossRecord = (userId, user) => async (
+export const updateWinRecord = userId => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
     const firestore = getFirestore();
+    let user = await firestore
+      .collection("Users")
+      .doc(userId)
+      .get();
+
     await firestore
       .collection("Users")
       .doc(userId)
       .set(
         {
-          Loss: user[userId].Loss + 1
+          Win: user.data().Win + 1
+        },
+        { merge: true }
+      );
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export const updateLossRecord = userId => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  try {
+    const firestore = getFirestore();
+    let user = await firestore
+      .collection("Users")
+      .doc(userId)
+      .get();
+
+    await firestore
+      .collection("Users")
+      .doc(userId)
+      .set(
+        {
+          Loss: user.data().Loss + 1
         },
         { merge: true }
       );

@@ -3,8 +3,6 @@ import { useToasts } from "react-toast-notifications";
 import { selectAgency, selectMaster } from "../../store/UserThunks";
 import { StartGame } from "../../store/GameThunks";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
 import InviteFriendForm from "./InviteFriendForm";
 
 import { canStartGame, turnTracker } from "../../utils";
@@ -15,10 +13,10 @@ const GameLobby = props => {
     gameId,
     StartGame,
     selectAgency,
-    User,
     Games,
     selectMaster,
-    dealCards
+    dealCards,
+    uid
   } = props;
 
   const isFetching = Games !== undefined;
@@ -50,7 +48,7 @@ const GameLobby = props => {
     if (spyMasters[agency] === "") {
       selectAgencyHandler(agency);
       try {
-        const err = await selectMaster(agency, gameId, game, User);
+        const err = await selectMaster(agency, gameId, game, uid);
         if (err !== undefined) {
           addToast(
             "Sorry, we couldn't make you spymaster right now. Try again",
@@ -74,7 +72,7 @@ const GameLobby = props => {
   /// Choosing Sides
   const selectAgencyHandler = async selectedAgency => {
     try {
-      const err = await selectAgency(selectedAgency, gameId, game, User);
+      const err = await selectAgency(selectedAgency, gameId, game, uid);
       if (err !== undefined) {
         addToast("Sorry, we couldn't select your side right now. Try again", {
           appearance: "warning",
@@ -114,8 +112,8 @@ const GameLobby = props => {
               {spyMasters.blue === "" ? (
                 <p className="blue-spyMaster-text"> Click to be Spy Master</p>
               ) : (
-                <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
-              )}
+                  <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
+                )}
             </div>
             <img
               onClick={() => selectAgencyHandler("blue")}
@@ -138,8 +136,8 @@ const GameLobby = props => {
               {spyMasters.red === "" ? (
                 <p className="red-spyMaster-text"> Click to be Spy Master</p>
               ) : (
-                <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
-              )}
+                  <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
+                )}
             </div>
             <img
               onClick={() => selectAgencyHandler("red")}
@@ -179,28 +177,16 @@ const GameLobby = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
+
 
 const mapDispatchToProps = dispatch => {
   return {
     StartGame: (id, startTeam) => dispatch(StartGame(id, startTeam)),
-    selectAgency: (color, gameId, game, User) =>
-      dispatch(selectAgency(color, gameId, game, User)),
-    selectMaster: (color, gameId, game, User) =>
-      dispatch(selectMaster(color, gameId, game, User))
+    selectAgency: (color, gameId, game, uid) =>
+      dispatch(selectAgency(color, gameId, game, uid)),
+    selectMaster: (color, gameId, game, uid) =>
+      dispatch(selectMaster(color, gameId, game, uid))
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
-)(GameLobby);
+export default connect(null, mapDispatchToProps)(GameLobby);
