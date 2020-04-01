@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+// import { firestoreConnect } from "react-redux-firebase";
+// import { compose } from "redux";
 import { ResizableBox } from "react-resizable";
 
 import { useToasts } from "react-toast-notifications";
@@ -370,7 +370,7 @@ const SideBar = ({
 
 const mapStateToProps = state => {
   return {
-    Games: state.firestore.data.Games,
+    // Games: state.firestore.data.Games,
     User: state.firebase.auth
   };
 };
@@ -386,11 +386,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
-)(SideBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { SideBar, PlayArea, GameLobby } from "./index";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+// import { firestoreConnect } from "react-redux-firebase";
+// import { compose } from "redux";
 
 import "../../css/playerGameBoard.css";
 
@@ -44,7 +44,7 @@ const PlayerGameBoard = ({
   }, [deck]);
 
   return (
-    <div className="gameBoard-container">
+    <div id="gameBoard-container" className="gameBoard-container">
       {spyMaster ? (
         <>
           {gameStatus ? (
@@ -57,19 +57,20 @@ const PlayerGameBoard = ({
               blueScore={blueScore}
               redScore={redScore}
               GameOver={GameOver}
+              Games={Games}
               GameResult={GameResult}
               hintWord={game.HintWord}
               hintCount={game.HintCount}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
             />
           ) : (
-            <GameLobby
-              allPlayers={allPlayers}
-              gameId={gameId}
-              dealCards={dealCards}
-              history={history}
-            />
-          )}
+              <GameLobby
+                allPlayers={allPlayers}
+                gameId={gameId}
+                dealCards={dealCards}
+                Games={Games}
+              />
+            )}
           <SideBar
             currentTurn={currentTurn}
             allPlayers={allPlayers}
@@ -80,64 +81,60 @@ const PlayerGameBoard = ({
             gameId={gameId}
             gameStatus={gameStatus}
             history={history}
+            Games={Games}
           />
         </>
       ) : (
-        <>
-          {gameStatus ? (
-            <PlayArea
+          <>
+            {gameStatus ? (
+              <PlayArea
+                currentTurn={currentTurn}
+                deck={deck}
+                playersPick={playersPick}
+                setPickResult={setPickResult}
+                spyMaster={spyMaster}
+                gameId={gameId}
+                teamColor={teamColor}
+                blueScore={blueScore}
+                Games={Games}
+                redScore={redScore}
+                GameOver={GameOver}
+                hintWord={game.HintWord}
+                hintCount={game.HintCount}
+                GameResult={GameResult}
+                dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              />
+            ) : (
+                <GameLobby
+                  allPlayers={allPlayers}
+                  gameId={gameId}
+                  dealCards={dealCards}
+                  Games={Games}
+                />
+              )}
+            <SideBar
               currentTurn={currentTurn}
-              deck={deck}
-              playersPick={playersPick}
-              setPickResult={setPickResult}
-              spyMaster={spyMaster}
-              gameId={gameId}
-              teamColor={teamColor}
-              blueScore={blueScore}
-              redScore={redScore}
-              GameOver={GameOver}
-              hintWord={game.HintWord}
-              hintCount={game.HintCount}
-              GameResult={GameResult}
-              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-            />
-          ) : (
-            <GameLobby
               allPlayers={allPlayers}
+              displayName={displayName}
+              spyMaster={spyMaster}
+              teamColor={teamColor}
               gameId={gameId}
-              dealCards={dealCards}
+              gameStatus={gameStatus}
               history={history}
+              GameMade={GameMade}
+              Games={Games}
             />
-          )}
-          <SideBar
-            currentTurn={currentTurn}
-            allPlayers={allPlayers}
-            displayName={displayName}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            gameId={gameId}
-            gameStatus={gameStatus}
-            history={history}
-            GameMade={GameMade}
-          />
-        </>
-      )}
+          </>
+        )}
     </div>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    Games: state.firestore.data.Games,
+    // Games: state.firestore.data.Games,
     User: state.firebase.auth
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps)
-)(PlayerGameBoard);
+export default connect(mapStateToProps)(PlayerGameBoard);

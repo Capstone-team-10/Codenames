@@ -170,6 +170,7 @@ const GameLogic = props => {
       {spyMaster ? (
         <PlayerGameBoard
           gameId={Gameid}
+          Games={Games}
           history={history}
           allPlayers={allPlayers}
           deck={spyMasterDeck}
@@ -188,6 +189,7 @@ const GameLogic = props => {
       ) : (
           <PlayerGameBoard
             gameId={Gameid}
+            Games={Games}
             history={history}
             allPlayers={allPlayers}
             deck={spyDeck}
@@ -232,13 +234,18 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    },
-    {
-      collection: "Users"
-    }
-  ]),
+  firestoreConnect((props) => {
+    // console.log('props in firestoreconnect-----', props)
+    // console.log('props.matchparamsid in firestoreconnect-----', props.match.params.id)
+    return ([
+      {
+        collection: "Games",
+        doc: `${props.match.params.id}`
+      },
+      {
+        collection: "Users"
+      }
+    ])
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(GameLogic);

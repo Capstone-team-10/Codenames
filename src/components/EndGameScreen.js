@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { leaveGame, ReplayGame } from "../store/GameThunks";
 
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+// import { firestoreConnect } from "react-redux-firebase";
+// import { compose } from "redux";
 import { useToasts } from "react-toast-notifications";
 
 import "../css/EndGameScreen.css";
@@ -102,7 +102,7 @@ const EndGameScreen = props => {
 
 const mapStateToProps = state => {
   return {
-    Games: state.firestore.data.Games,
+    // Games: state.firestore.data.Games,
     User: state.firebase.auth
   };
 };
@@ -114,11 +114,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
-)(withRouter(EndGameScreen));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EndGameScreen));
