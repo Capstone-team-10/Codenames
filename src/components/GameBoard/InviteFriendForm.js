@@ -22,19 +22,15 @@ const InviteFriendForm = ({ setInviteFriend, history }) => {
   };
 
   //handle form submission
-  const handleSubmit = async evt => {
-    try {
-      evt.preventDefault();
-      await inviteFriend({
-        friendEmail,
-        friendName,
-        senderName,
-        message,
-        link: `https://codenames-3a350.firebaseapp.com/${history.location.pathname}`
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    inviteFriend({
+      friendEmail,
+      friendName,
+      senderName,
+      message,
+      link: `https://codenames-3a350.firebaseapp.com/${history.location.pathname}`
+    });
     setInviteFriend(false);
   };
 
