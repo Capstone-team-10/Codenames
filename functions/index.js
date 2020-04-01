@@ -10,14 +10,15 @@ const { google } = require("googleapis");
 exports.sendInvite = functions.https.onRequest(async (req, res) => {
   const invite = JSON.parse(req.body);
   try {
-    const { friendName, friendEmail, senderName, link, message } = invite;
+    const { friendName, friendEmail, senderName, roomNumber, message } = invite;
     let email = `<div>
         <h4>Codenames Invite</h4>
         <p>Hey ${friendName} Your friend ${senderName} wants to invite you to play Codenames</p>
         <p>${message}</p>
         <a href="https://codenames-3a350.firebaseapp.com/">
-        First click here to signup and login</a>
-        <a href=${link}>Then click here to play with me!</a>
+        First click here to signup or login</a>
+        <p>Second go to game room</p>
+        <p>Finally join game room ${roomNumber}</p>
       </div>`;
 
     const oauth2Client = new google.auth.OAuth2(

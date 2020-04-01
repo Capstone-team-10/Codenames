@@ -99,6 +99,7 @@ const GameLobby = props => {
     }
   };
 
+  console.log();
   return (
     <>
       <div className="gameLobby-container">
@@ -112,8 +113,8 @@ const GameLobby = props => {
               {spyMasters.blue === "" ? (
                 <p className="blue-spyMaster-text"> Click to be Spy Master</p>
               ) : (
-                  <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
-                )}
+                <p className="blue-spyMaster-text blue-spyMaster-selected">{`Spy Master is ${spyMasters.blue}`}</p>
+              )}
             </div>
             <img
               onClick={() => selectAgencyHandler("blue")}
@@ -136,8 +137,8 @@ const GameLobby = props => {
               {spyMasters.red === "" ? (
                 <p className="red-spyMaster-text"> Click to be Spy Master</p>
               ) : (
-                  <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
-                )}
+                <p className="red-spyMaster-text red-spyMaster-selected">{`Spy Master is ${spyMasters.red}`}</p>
+              )}
             </div>
             <img
               onClick={() => selectAgencyHandler("red")}
@@ -169,15 +170,13 @@ const GameLobby = props => {
       </div>
       {inviteFriend ? (
         <InviteFriendForm
-          link={props.history.location.path}
+          roomNumber={gameId}
           setInviteFriend={setInviteFriend}
         />
       ) : null}
     </>
   );
 };
-
-
 
 const mapDispatchToProps = dispatch => {
   return {
