@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router";
 import { inviteFriend } from "../../fireFunctionCalls";
 
-const InviteFriendForm = ({ setInviteFriend }) => {
+const InviteFriendForm = ({ setInviteFriend, history }) => {
   const [friendEmail, setFriendEmail] = useState("");
   const [friendName, setFriendName] = useState("");
   const [senderName, setSenderName] = useState("");
@@ -28,7 +29,8 @@ const InviteFriendForm = ({ setInviteFriend }) => {
         friendEmail,
         friendName,
         senderName,
-        message
+        message,
+        link: `https://codenames-3a350.firebaseapp.com/${history.location.pathname}`
       });
     } catch (error) {
       console.error(error);
@@ -81,4 +83,4 @@ const InviteFriendForm = ({ setInviteFriend }) => {
   );
 };
 
-export default InviteFriendForm;
+export default withRouter(InviteFriendForm);

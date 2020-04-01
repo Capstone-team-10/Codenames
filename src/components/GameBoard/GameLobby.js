@@ -101,11 +101,7 @@ const GameLobby = props => {
     }
   };
 
-  ///Open Invite friend form
-  const inviteHandler = () => {
-    console.log("inviteHandler clicked");
-  };
-
+  console.log("the props are: ", props.history.location.path);
   return (
     <>
       <div className="gameLobby-container">
@@ -176,8 +172,8 @@ const GameLobby = props => {
       </div>
       {inviteFriend ? (
         <InviteFriendForm
+          link={props.history.location.path}
           setInviteFriend={setInviteFriend}
-          inviteHandler={inviteHandler}
         />
       ) : null}
     </>
