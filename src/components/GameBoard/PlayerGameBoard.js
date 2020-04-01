@@ -45,81 +45,44 @@ const PlayerGameBoard = ({
 
   return (
     <div id="gameBoard-container" className="gameBoard-container">
-      {spyMaster ? (
-        <>
-          {gameStatus ? (
-            <PlayArea
-              currentTurn={currentTurn}
-              deck={deck}
-              spyMaster={spyMaster}
-              gameId={gameId}
-              teamColor={teamColor}
-              blueScore={blueScore}
-              redScore={redScore}
-              GameOver={GameOver}
-              GameResult={GameResult}
-              hintWord={game.HintWord}
-              hintCount={game.HintCount}
-              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-            />
-          ) : (
-            <GameLobby
-              allPlayers={allPlayers}
-              gameId={gameId}
-              dealCards={dealCards}
-            />
-          )}
-          <SideBar
+      <>
+        {gameStatus ? (
+          <PlayArea
             currentTurn={currentTurn}
-            allPlayers={allPlayers}
-            bannedWords={bannedWords}
-            displayName={displayName}
+            deck={deck}
+            playersPick={playersPick}
+            setPickResult={setPickResult}
             spyMaster={spyMaster}
-            teamColor={teamColor}
             gameId={gameId}
-            gameStatus={gameStatus}
-            history={history}
+            teamColor={teamColor}
+            blueScore={blueScore}
+            redScore={redScore}
+            GameOver={GameOver}
+            hintWord={game.HintWord}
+            hintCount={game.HintCount}
+            GameResult={GameResult}
+            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
           />
-        </>
-      ) : (
-        <>
-          {gameStatus ? (
-            <PlayArea
-              currentTurn={currentTurn}
-              deck={deck}
-              playersPick={playersPick}
-              setPickResult={setPickResult}
-              spyMaster={spyMaster}
-              gameId={gameId}
-              teamColor={teamColor}
-              blueScore={blueScore}
-              redScore={redScore}
-              GameOver={GameOver}
-              hintWord={game.HintWord}
-              hintCount={game.HintCount}
-              GameResult={GameResult}
-              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-            />
-          ) : (
-            <GameLobby
-              allPlayers={allPlayers}
-              gameId={gameId}
-              dealCards={dealCards}
-            />
-          )}
-          <SideBar
-            currentTurn={currentTurn}
+        ) : (
+          <GameLobby
             allPlayers={allPlayers}
-            displayName={displayName}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
             gameId={gameId}
-            gameStatus={gameStatus}
-            history={history}
-            GameMade={GameMade}
+            dealCards={dealCards}
           />
-        </>
-      )}
+        )}
+        <SideBar
+          currentTurn={currentTurn}
+          allPlayers={allPlayers}
+          bannedWords={bannedWords}
+          displayName={displayName}
+          spyMaster={spyMaster}
+          teamColor={teamColor}
+          gameId={gameId}
+          gameStatus={gameStatus}
+          history={history}
+          GameMade={GameMade}
+        />
+      </>
     </div>
   );
 };
