@@ -101,7 +101,6 @@ const GameLobby = props => {
     }
   };
 
-  console.log("the props are: ", props.history.location.path);
   return (
     <>
       <div className="gameLobby-container">
