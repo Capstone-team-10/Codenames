@@ -63,7 +63,10 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
-          if ((blueScore === 1 & currentTeam) || (redScore === 1 & currentTeam)) {
+          if (
+            (blueScore === 1) & currentTeam ||
+            (redScore === 1) & currentTeam
+          ) {
             updateWinLossRecord(rightCard);
             setTimeout(() => {
               victory(Gameid, rightCard);
@@ -165,47 +168,26 @@ const GameLogic = props => {
     setSpyDeck(spy);
   };
 
+  console.log("In GameLogic allPlayers is: ", allPlayers);
   return (
-    <>
-      {spyMaster ? (
-        <PlayerGameBoard
-          gameId={Gameid}
-          history={history}
-          allPlayers={allPlayers}
-          deck={spyMasterDeck}
-          displayName={displayName}
-          gameStatus={gameStatus}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
-          blueScore={blueScore}
-          redScore={redScore}
-          GameOver={GameOver}
-          GameResult={GameResult}
-          GameMade={GameMade}
-          dealCards={dealDeck(dealCards(), Gameid)}
-          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-        />
-      ) : (
-          <PlayerGameBoard
-            gameId={Gameid}
-            history={history}
-            allPlayers={allPlayers}
-            deck={spyDeck}
-            displayName={displayName}
-            gameStatus={gameStatus}
-            playersPick={cardPick(spyMasterDeck)}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            blueScore={blueScore}
-            redScore={redScore}
-            GameOver={GameOver}
-            GameResult={GameResult}
-            GameMade={GameMade}
-            dealCards={dealDeck(dealCards(), Gameid)}
-            dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-          />
-        )}
-    </>
+    <PlayerGameBoard
+      gameId={Gameid}
+      history={history}
+      allPlayers={allPlayers}
+      deck={spyMaster ? spyMasterDeck : spyDeck}
+      displayName={displayName}
+      gameStatus={gameStatus}
+      playersPick={cardPick(spyMasterDeck)}
+      spyMaster={spyMaster}
+      teamColor={teamColor}
+      blueScore={blueScore}
+      redScore={redScore}
+      GameOver={GameOver}
+      GameResult={GameResult}
+      GameMade={GameMade}
+      dealCards={dealDeck(dealCards(), Gameid)}
+      dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+    />
   );
 };
 
