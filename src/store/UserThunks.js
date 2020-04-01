@@ -90,25 +90,25 @@ export const selectAgency = (color, gameId, game, uid) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    const user = game.UsersInRoom[uid];
+    // const user = game.UsersInRoom[uid];
     const firestore = getFirestore();
-    if (user.Team === color || (user.isSpyMaster && user.Team !== color)) {
-      await firestore
-        .collection("Games")
-        .doc(gameId)
-        .set(
-          {
-            UsersInRoom: {
-              ...game.UsersInRoom,
-              [uid]: {
-                Team: color,
-                isSpyMaster: false
-              }
+    // if (user.Team === color || (user.isSpyMaster && user.Team !== color)) {
+    await firestore
+      .collection("Games")
+      .doc(gameId)
+      .set(
+        {
+          UsersInRoom: {
+            ...game.UsersInRoom,
+            [uid]: {
+              Team: color,
+              isSpyMaster: false
             }
-          },
-          { merge: true }
-        );
-    }
+          }
+        },
+        { merge: true }
+      );
+    // }
   } catch (error) {
     return error.message;
   }
