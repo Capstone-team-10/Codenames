@@ -92,7 +92,7 @@ export const selectAgency = (color, gameId, game, uid) => async (
   try {
     const user = game.UsersInRoom[uid];
     const firestore = getFirestore();
-    if (!user.isSpyMaster || (user.isSpyMaster && user.Team !== color)) {
+    if (user.Team === color || (user.isSpyMaster && user.Team !== color)) {
       await firestore
         .collection("Games")
         .doc(gameId)
