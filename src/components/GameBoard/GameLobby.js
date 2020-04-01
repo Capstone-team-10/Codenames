@@ -3,8 +3,6 @@ import { useToasts } from "react-toast-notifications";
 import { selectAgency, selectMaster } from "../../store/UserThunks";
 import { StartGame } from "../../store/GameThunks";
 import { connect } from "react-redux";
-// import { firestoreConnect } from "react-redux-firebase";
-// import { compose } from "redux";
 import InviteFriendForm from "./InviteFriendForm";
 
 import { canStartGame, turnTracker } from "../../utils";
@@ -18,7 +16,6 @@ const GameLobby = props => {
     Games,
     selectMaster,
     dealCards,
-    currentUser,
     uid
   } = props;
 
@@ -180,12 +177,7 @@ const GameLobby = props => {
   );
 };
 
-// const mapStateToProps = state => {
-//   return {
-//     // Games: state.firestore.data.Games,
-//     // User: state.firebase.auth
-//   };
-// };
+
 
 const mapDispatchToProps = dispatch => {
   return {

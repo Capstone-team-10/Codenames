@@ -26,14 +26,15 @@ const SideBar = ({
   history,
   gameId,
   Games,
-  User,
   SendMessage,
   LeaveGame,
   currentTurn,
   gameStatus,
   Sendhint,
   EndTurn,
-  GameMade
+  GameMade,
+  currentUser,
+  uid
 }) => {
   // const [hint, setHint] = useState("");
   // const [hintNumber, setHintNumber] = useState(1);
@@ -89,7 +90,7 @@ const SideBar = ({
 
   const LeaveHandler = async () => {
     try {
-      await LeaveGame(gameId, Games[gameId], User);
+      await LeaveGame(gameId, uid);
       history.push("/userProfile");
     } catch (error) {
       console.error(error);
@@ -181,7 +182,7 @@ const SideBar = ({
     } else {
       try {
         if (chatMsg !== "") {
-          await SendMessage(gameId, game, User, chatMsg);
+          await SendMessage(gameId, game, currentUser, chatMsg);
           var elem = document.getElementById('chat-box');
           elem.scrollTop = elem.scrollHeight;
         }
@@ -368,22 +369,16 @@ const SideBar = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    // Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user)),
-    SendMessage: (id, game, user, message) =>
-      dispatch(SendMessage(id, game, user, message)),
+    LeaveGame: (id, uid) => dispatch(leaveGame(id, uid)),
+    SendMessage: (id, game, currentUser, message) =>
+      dispatch(SendMessage(id, game, currentUser, message)),
     Sendhint: (id, word, count) =>
       dispatch(SetHintWordAndCount(id, word, count)),
     EndTurn: (id, turnString) => dispatch(Endturn(id, turnString))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
+export default connect(null, mapDispatchToProps)(SideBar);

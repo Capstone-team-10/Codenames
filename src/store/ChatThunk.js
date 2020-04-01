@@ -1,11 +1,11 @@
-export const SendMessage = (id, game, user, message) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const SendMessage = (id, game, currentUser, message) => async (dispatch, getState, { getFirebase, getFirestore }) => {
   try {
     const firestore = getFirestore()
     await firestore.collection("Games").doc(id).set({
       Chat: [
         ...game.Chat,
         {
-          'sender': [user.displayName],
+          'sender': [currentUser.displayName],
           'message': message
         }
       ]

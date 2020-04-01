@@ -96,7 +96,7 @@ export const selectAgency = (color, gameId, game, uid) => async (
       await firestore
         .collection("Games")
         .doc(gameId)
-        .update({
+        .set({
           UsersInRoom: {
             ...game.UsersInRoom,
             [uid]: {
@@ -104,7 +104,7 @@ export const selectAgency = (color, gameId, game, uid) => async (
               isSpyMaster: false
             }
           }
-        });
+        }, { merge: true });
     }
   } catch (error) {
     return error.message;
@@ -122,15 +122,15 @@ export const selectMaster = (color, gameId, game, uid) => async (
     await firestore
       .collection("Games")
       .doc(gameId)
-      .update({
+      .set({
         UsersInRoom: {
           ...game.UsersInRoom,
           [uid]: {
             Team: color,
-            isSpyMaster: !user.isSpyMaster
+            isSpyMaster: true
           }
         }
-      });
+      }, { merge: true });
   } catch (error) {
     return error.message;
   }

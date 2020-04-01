@@ -71,7 +71,6 @@ const PlayerGameBoard = ({
                 gameId={gameId}
                 dealCards={dealCards}
                 Games={Games}
-                currentUser={currentUser}
                 uid={uid}
               />
             )}
@@ -116,7 +115,6 @@ const PlayerGameBoard = ({
                   gameId={gameId}
                   dealCards={dealCards}
                   Games={Games}
-                  currentUser={currentUser}
                   uid={uid}
                 />
               )}

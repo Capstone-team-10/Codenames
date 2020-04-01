@@ -103,7 +103,7 @@ export const Endturn = (id, turnString) => async (
 };
 
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
-export const leaveGame = (id, game, user) => async (
+export const leaveGame = (id, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -116,15 +116,11 @@ export const leaveGame = (id, game, user) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
-    if (copy[user.uid].isSpyMaster) {
+    if (copy[uid].isSpyMaster) {
       dispatch(deleteGame(id))
     }
-    // console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)
 
-    // if(updatedGameRoom.data().GameStarted){
-
-    // }
-    delete copy[user.uid];
+    delete copy[uid];
 
     await firestore
       .collection("Games")
