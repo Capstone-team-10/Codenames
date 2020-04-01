@@ -69,6 +69,7 @@ const PlayerGameBoard = ({
               hintWord={game.HintWord}
               hintCount={game.HintCount}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              uid={uid}
             />
           ) : (
               <GameLobby
@@ -114,6 +115,7 @@ const PlayerGameBoard = ({
                 hintCount={game.HintCount}
                 GameResult={GameResult}
                 dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+                uid={uid}
               />
             ) : (
                 <GameLobby

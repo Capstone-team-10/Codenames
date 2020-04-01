@@ -117,7 +117,6 @@ export const selectMaster = (color, gameId, game, uid) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    const user = game.UsersInRoom[uid];
     const firestore = getFirestore();
     await firestore
       .collection("Games")

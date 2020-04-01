@@ -6,7 +6,7 @@ export const joinGame = (id, game, user, uid) => async (
   try {
     const copy = Object.assign({}, game.UsersInRoom);
     const firestore = getFirestore();
-    if (copy[user.uid] === undefined) {
+    if (copy[uid] === undefined) {
       await firestore
         .collection("Games")
         .doc(id)
@@ -35,7 +35,6 @@ export const newGame = (history, user, uid) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
-    console.log('history', history, 'user', user, 'uid')
     const firestore = getFirestore();
     const { id } = await firestore.collection("Games").add({
       Chat: [],
@@ -119,7 +118,6 @@ export const leaveGame = (id, uid) => async (
     // if (copy[uid].isSpyMaster) {
     //   dispatch(deleteGame(id))
     // }
-
     delete copy[uid];
 
     await firestore
@@ -152,7 +150,7 @@ export const deleteGame = id => async (
   }
 };
 
-export const ReplayGame = (id, game, user) => async (
+export const ReplayGame = (id) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }

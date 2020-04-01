@@ -19,6 +19,7 @@ const PlayArea = ({
   GameOver,
   currentTurn,
   hintWord,
+  uid,
   hintCount
 }) => {
   const [firstCard, setFirstCard] = useState(1);
@@ -63,7 +64,11 @@ const PlayArea = ({
   return (
     <>
       {GameOver ? (
-        <EndGameScreen gameId={gameId} GameResult={GameResult} Games={Games} />
+        <EndGameScreen
+          gameId={gameId}
+          GameResult={GameResult}
+          uid={uid}
+        />
       ) : (
           <div className="playArea-container">
             {visibility ? (
