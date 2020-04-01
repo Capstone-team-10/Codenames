@@ -14,7 +14,6 @@ import { ChangeHintCount } from "../store/HintThunk";
 const GameLogic = props => {
   const {
     Games,
-    User,
     Users,
     history,
     decksync,
@@ -24,12 +23,16 @@ const GameLogic = props => {
     Assassin,
     UpdateWin,
     UpdateLoss,
-    victory
+    victory,
+    uid
   } = props;
   const Gameid = props.match.params.id;
 
+  const isFetchingUser = Users === undefined;
+  const currentUser = isFetchingUser ? null : Users[uid];
+
   const isFetching = Games === undefined || Games[Gameid] === undefined;
-  const displayName = User.displayName;
+  const displayName = currentUser.displayName;
 
   const game = isFetching ? null : Games[Gameid];
   const blueScore = isFetching ? 0 : game.BlueCardsLeft;
@@ -42,8 +45,8 @@ const GameLogic = props => {
   const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
   const allPlayersIds = isFetching ? [] : Object.keys(game.UsersInRoom);
   const gameStatus = isFetching ? null : game.GameStarted;
-  const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team;
-  const spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster;
+  const teamColor = isFetching ? null : game.UsersInRoom[uid]?.Team;
+  const spyMaster = isFetching ? null : game.UsersInRoom[uid]?.isSpyMaster;
 
   const FirestoreDeck = isFetching ? [] : game.CardsOnTable;
 
@@ -214,9 +217,9 @@ const GameLogic = props => {
 const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth,
+    // User: state.firebase.auth,
     Users: state.firestore.data.Users,
-    // uid: state.firebase.auth.uid
+    uid: state.firebase.auth.uid
   };
 };
 

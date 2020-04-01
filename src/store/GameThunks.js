@@ -35,6 +35,7 @@ export const newGame = (history, user, uid) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
+    console.log('history', history, 'user', user, 'uid')
     const firestore = getFirestore();
     const { id } = await firestore.collection("Games").add({
       Chat: [],

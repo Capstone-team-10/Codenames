@@ -11,7 +11,7 @@ import { useToasts } from "react-toast-notifications";
 
 
 const JoinGameLobby = (props) => {
-  const { joingGame, Games, AllUser, uid } = props;
+  const { joinGame, Games, AllUser, uid } = props;
 
   const isFetchingUser = AllUser === undefined;
   const currentUser = isFetchingUser ? null : AllUser[uid];
@@ -19,10 +19,11 @@ const JoinGameLobby = (props) => {
   const { addToast } = useToasts()
   const isFetching = !Array.isArray(Games)
   const games = isFetching ? null : Games
+  console.log('JoinGameLobby----AlUser', AllUser);
 
   const enterGame = async (id, game) => {
     try {
-      const err = await props.joinGame(id, game, currentUser, uid)
+      const err = await joinGame(id, game, currentUser, uid)
       if (err === undefined) {
         props.history.push(`/play/${id}`)
       }

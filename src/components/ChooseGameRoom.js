@@ -4,8 +4,8 @@ import "../css/ChooseGameRoom.css";
 import "../css/Title.css";
 import { newGame } from "../store/GameThunks"
 import { connect } from 'react-redux'
-// import { firestoreConnect } from 'react-redux-firebase'
-// import { compose } from 'redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 import { useToasts } from "react-toast-notifications";
 
 const ChooseGameRoom = (props) => {
@@ -14,7 +14,7 @@ const ChooseGameRoom = (props) => {
 
   const isFetching = AllUser === undefined;
   const currentUser = isFetching ? null : AllUser[uid];
-
+  console.log('------currentUser', currentUser, 'uid', uid)
   const newGameRoom = async () => {
     try {
       const err = await newGame(history, currentUser, uid)
@@ -24,6 +24,7 @@ const ChooseGameRoom = (props) => {
           autoDismiss: true
         });
       }
+
     } catch (error) {
       console.error(error)
     }
@@ -55,4 +56,13 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChooseGameRoom)
+export default compose(
+  firestoreConnect([
+    {
+      collection: "Users"
+    }
+  ]),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ChooseGameRoom);
+
+
