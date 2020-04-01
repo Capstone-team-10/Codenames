@@ -14,15 +14,16 @@ export const createProfile = (name, email, password) => async (
       .auth()
       .createUserWithEmailAndPassword(email, password);
 
-    await user.updateProfile({
-      displayName: name
-    });
+    // await user.updateProfile({
+    //   displayName: name
+    // });
 
     const firestore = getFirestore();
     await firestore
       .collection("Users")
       .doc(user.uid)
       .set({
+        displayName: name,
         Win: 0,
         Loss: 0
       });
@@ -54,12 +55,14 @@ export const googleProfile = () => async (
   try {
     const firebase = getFirebase();
     const { user } = await firebase.auth().signInWithPopup(google);
+    const name = await firebase.auth().currentUser.displayName;
 
     const firestore = getFirestore();
     await firestore
       .collection("Users")
       .doc(user.uid)
       .set({
+        displayName: name,
         Win: 0,
         Loss: 0
       });

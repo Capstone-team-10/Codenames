@@ -215,7 +215,8 @@ const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
     User: state.firebase.auth,
-    Users: state.firestore.data.Users
+    Users: state.firestore.data.Users,
+    // uid: state.firebase.auth.uid
   };
 };
 

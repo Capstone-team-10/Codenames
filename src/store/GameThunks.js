@@ -1,4 +1,4 @@
-export const joinGame = (id, game, user) => async (
+export const joinGame = (id, game, user, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -14,7 +14,7 @@ export const joinGame = (id, game, user) => async (
           {
             UsersInRoom: {
               ...game.UsersInRoom,
-              [user.uid]: {
+              [uid]: {
                 DisplayName: user.displayName,
                 Team: "",
                 isSpyMaster: false
@@ -29,7 +29,7 @@ export const joinGame = (id, game, user) => async (
   }
 };
 
-export const newGame = (history, user) => async (
+export const newGame = (history, user, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -42,7 +42,7 @@ export const newGame = (history, user) => async (
       HintWord: " ",
       GameStarted: false,
       UsersInRoom: {
-        [user.uid]: {
+        [uid]: {
           DisplayName: user.displayName,
           Team: "",
           isSpyMaster: false
@@ -115,7 +115,7 @@ export const leaveGame = (id, game, user) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
-    if (copy[user.uid].isSpyMaster){
+    if (copy[user.uid].isSpyMaster) {
       dispatch(deleteGame(id))
     }
     // console.log("What props do I get in leave thunk copy", updatedGameRoom.data().GameStarted)

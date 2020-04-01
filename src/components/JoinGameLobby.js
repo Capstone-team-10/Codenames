@@ -6,23 +6,27 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
-import {joinGame} from "../store/GameThunks"
+import { joinGame } from "../store/GameThunks"
 import { useToasts } from "react-toast-notifications";
 
 
 const JoinGameLobby = (props) => {
+  const { joingGame, Games, AllUser, uid } = props;
 
-  const {addToast} = useToasts()
-  const isFetching = !Array.isArray(props.Games)
-  const games = isFetching ? null : props.Games
+  const isFetchingUser = AllUser === undefined;
+  const currentUser = isFetchingUser ? null : AllUser[uid];
 
-  const enterGame = async (id,game) =>{
+  const { addToast } = useToasts()
+  const isFetching = !Array.isArray(Games)
+  const games = isFetching ? null : Games
+
+  const enterGame = async (id, game) => {
     try {
-      const err = await props.joinGame(id,game, props.User)
-      if(err === undefined){
+      const err = await props.joinGame(id, game, currentUser, uid)
+      if (err === undefined) {
         props.history.push(`/play/${id}`)
       }
-      else{
+      else {
         addToast("Sorry, there was a network error", {
           appearance: "warning",
           autoDismiss: true
@@ -41,7 +45,7 @@ const JoinGameLobby = (props) => {
           <div className="JoinGame-container">
             {games.length ? (
               games.filter(game => !game.GameStarted).map(game => (
-                <button key={game.id} className="title-button" onClick={()=>enterGame(game.id,game)}>
+                <button key={game.id} className="title-button" onClick={() => enterGame(game.id, game)}>
                   {game.id}
                 </button>
               ))
@@ -59,13 +63,14 @@ const JoinGameLobby = (props) => {
 const mapStateToProps = (state) => {
   return {
     Games: state.firestore.ordered.Games,
-    User: state.firebase.auth,
+    AllUser: state.firestore.data.Users,
+    uid: state.firebase.auth.uid,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    joinGame: (id,game,user) => dispatch(joinGame(id,game,user))
+    joinGame: (id, game, user, uid) => dispatch(joinGame(id, game, user, uid))
   }
 }
 
@@ -75,5 +80,5 @@ export default compose(
       collection: "Games"
     }
   ]),
-  connect(mapStateToProps,mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoinGameLobby)
