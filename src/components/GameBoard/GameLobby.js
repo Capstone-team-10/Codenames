@@ -15,10 +15,11 @@ const GameLobby = props => {
     gameId,
     StartGame,
     selectAgency,
-    User,
     Games,
     selectMaster,
-    dealCards
+    dealCards,
+    currentUser,
+    uid
   } = props;
 
   const isFetching = Games !== undefined;
@@ -50,7 +51,7 @@ const GameLobby = props => {
     if (spyMasters[agency] === "") {
       selectAgencyHandler(agency);
       try {
-        const err = await selectMaster(agency, gameId, game, User);
+        const err = await selectMaster(agency, gameId, game, uid);
         if (err !== undefined) {
           addToast(
             "Sorry, we couldn't make you spymaster right now. Try again",
@@ -74,7 +75,7 @@ const GameLobby = props => {
   /// Choosing Sides
   const selectAgencyHandler = async selectedAgency => {
     try {
-      const err = await selectAgency(selectedAgency, gameId, game, User);
+      const err = await selectAgency(selectedAgency, gameId, game, uid);
       if (err !== undefined) {
         addToast("Sorry, we couldn't select your side right now. Try again", {
           appearance: "warning",
@@ -179,21 +180,21 @@ const GameLobby = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    // Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     // Games: state.firestore.data.Games,
+//     // User: state.firebase.auth
+//   };
+// };
 
 const mapDispatchToProps = dispatch => {
   return {
     StartGame: (id, startTeam) => dispatch(StartGame(id, startTeam)),
-    selectAgency: (color, gameId, game, User) =>
-      dispatch(selectAgency(color, gameId, game, User)),
-    selectMaster: (color, gameId, game, User) =>
-      dispatch(selectMaster(color, gameId, game, User))
+    selectAgency: (color, gameId, game, uid) =>
+      dispatch(selectAgency(color, gameId, game, uid)),
+    selectMaster: (color, gameId, game, uid) =>
+      dispatch(selectMaster(color, gameId, game, uid))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameLobby);
+export default connect(null, mapDispatchToProps)(GameLobby);

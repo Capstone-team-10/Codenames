@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SideBar, PlayArea, GameLobby } from "./index";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 // import { firestoreConnect } from "react-redux-firebase";
 // import { compose } from "redux";
 
@@ -24,7 +24,9 @@ const PlayerGameBoard = ({
   GameResult,
   dealSpyAndSpymasterDecks,
   Games,
-  GameMade
+  GameMade,
+  currentUser,
+  uid
 }) => {
   const [bannedWords, setBannedWords] = useState({});
 
@@ -69,6 +71,8 @@ const PlayerGameBoard = ({
                 gameId={gameId}
                 dealCards={dealCards}
                 Games={Games}
+                currentUser={currentUser}
+                uid={uid}
               />
             )}
           <SideBar
@@ -82,6 +86,8 @@ const PlayerGameBoard = ({
             gameStatus={gameStatus}
             history={history}
             Games={Games}
+            currentUser={currentUser}
+            uid={uid}
           />
         </>
       ) : (
@@ -110,6 +116,8 @@ const PlayerGameBoard = ({
                   gameId={gameId}
                   dealCards={dealCards}
                   Games={Games}
+                  currentUser={currentUser}
+                  uid={uid}
                 />
               )}
             <SideBar
@@ -123,6 +131,8 @@ const PlayerGameBoard = ({
               history={history}
               GameMade={GameMade}
               Games={Games}
+              currentUser={currentUser}
+              uid={uid}
             />
           </>
         )}
@@ -130,11 +140,11 @@ const PlayerGameBoard = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    // Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     // Games: state.firestore.data.Games,
+//     // User: state.firebase.auth
+//   };
+// };
 
-export default connect(mapStateToProps)(PlayerGameBoard);
+export default PlayerGameBoard;

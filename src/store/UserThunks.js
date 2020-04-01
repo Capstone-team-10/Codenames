@@ -84,13 +84,13 @@ export const logout = () => async (
   }
 };
 
-export const selectAgency = (color, gameId, game, User) => async (
+export const selectAgency = (color, gameId, game, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    const user = game.UsersInRoom[User.uid];
+    const user = game.UsersInRoom[uid];
     const firestore = getFirestore();
     if (!user.isSpyMaster || (user.isSpyMaster && user.Team !== color)) {
       await firestore
@@ -99,8 +99,7 @@ export const selectAgency = (color, gameId, game, User) => async (
         .update({
           UsersInRoom: {
             ...game.UsersInRoom,
-            [User.uid]: {
-              DisplayName: User.displayName,
+            [uid]: {
               Team: color,
               isSpyMaster: false
             }
@@ -112,12 +111,13 @@ export const selectAgency = (color, gameId, game, User) => async (
   }
 };
 
-export const selectMaster = (color, gameId, game, User) => async (
+export const selectMaster = (color, gameId, game, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
+    const user = game.UsersInRoom[uid];
     const firestore = getFirestore();
     await firestore
       .collection("Games")
@@ -125,10 +125,9 @@ export const selectMaster = (color, gameId, game, User) => async (
       .update({
         UsersInRoom: {
           ...game.UsersInRoom,
-          [User.uid]: {
-            DisplayName: User.displayName,
+          [uid]: {
             Team: color,
-            isSpyMaster: !User.isSpyMaster
+            isSpyMaster: !user.isSpyMaster
           }
         }
       });
