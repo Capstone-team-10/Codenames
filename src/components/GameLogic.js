@@ -66,6 +66,7 @@ const GameLogic = props => {
             outcome: "good",
             image: getResultImage(rightCard)
           };
+          console.log('------>-bluescore', blueScore, 'curreteam', currentTeam, 'redscroe', redScore, 'gameid', Gameid, 'rightcard', rightCard)
           if ((blueScore === 1 & currentTeam) || (redScore === 1 & currentTeam)) {
             updateWinLossRecord(rightCard);
             setTimeout(() => {
