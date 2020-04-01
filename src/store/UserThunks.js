@@ -149,7 +149,7 @@ export const updateWinRecord = (userId, user) => async (
       .doc(userId)
       .set(
         {
-          Win: user[userId].Win + 1
+          Win: user.Win + 1
         },
         { merge: true }
       );
@@ -170,7 +170,7 @@ export const updateLossRecord = (userId, user) => async (
       .doc(userId)
       .set(
         {
-          Loss: user[userId].Loss + 1
+          Loss: user.Loss + 1
         },
         { merge: true }
       );

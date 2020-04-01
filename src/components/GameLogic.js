@@ -130,9 +130,9 @@ const GameLogic = props => {
   const updateWinLossRecord = winner => {
     for (let i = 0; i < allPlayersIds.length; i++) {
       if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
-        UpdateWin(allPlayersIds[i], Users);
+        UpdateWin(allPlayersIds[i], currentUser);
       } else {
-        UpdateLoss(allPlayersIds[i], Users);
+        UpdateLoss(allPlayersIds[i], currentUser);
       }
     }
   };
@@ -174,6 +174,8 @@ const GameLogic = props => {
         <PlayerGameBoard
           gameId={Gameid}
           Games={Games}
+          currentUser={currentUser}
+          uid={uid}
           history={history}
           allPlayers={allPlayers}
           deck={spyMasterDeck}
@@ -196,6 +198,8 @@ const GameLogic = props => {
             history={history}
             allPlayers={allPlayers}
             deck={spyDeck}
+            currentUser={currentUser}
+            uid={uid}
             displayName={displayName}
             gameStatus={gameStatus}
             playersPick={cardPick(spyMasterDeck)}
