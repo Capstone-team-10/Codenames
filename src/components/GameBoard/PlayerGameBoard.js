@@ -30,10 +30,15 @@ const PlayerGameBoard = ({
 }) => {
   const [bannedWords, setBannedWords] = useState({});
 
+
+
   const isFetching = Games === undefined || Games[gameId] === undefined;
 
   const game = isFetching ? null : Games[gameId];
   const currentTurn = isFetching ? "" : game.CurrentTurn;
+  // const chatLog = isFetching ? [] : game.Chat;
+  const isFetchingChat = isFetching || game.Chat === undefined;
+  const chatLog = isFetchingChat ? [] : game.Chat;
 
   useEffect(() => {
     const banned = {};
@@ -87,6 +92,7 @@ const PlayerGameBoard = ({
             Games={Games}
             currentUser={currentUser}
             uid={uid}
+            chatLog={chatLog}
           />
         </>
       ) : (
@@ -131,6 +137,7 @@ const PlayerGameBoard = ({
               Games={Games}
               currentUser={currentUser}
               uid={uid}
+              chatLog={chatLog}
             />
           </>
         )}

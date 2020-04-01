@@ -34,7 +34,8 @@ const SideBar = ({
   EndTurn,
   GameMade,
   currentUser,
-  uid
+  uid,
+  chatLog
 }) => {
   // const [hint, setHint] = useState("");
   // const [hintNumber, setHintNumber] = useState(1);
@@ -42,6 +43,11 @@ const SideBar = ({
   const [fixedHeight, setFixedHeight] = useState(45.7 + 71.3 + 33);
 
   const { addToast } = useToasts();
+
+  useEffect(() => {
+    var elem = document.getElementById('chat-box');
+    elem.scrollTop = elem.scrollHeight;
+  }, [chatLog])
 
   useEffect(() => {
     const navbarHeight = document.getElementById("navbar").offsetHeight;
@@ -83,8 +89,8 @@ const SideBar = ({
 
   const isFetching = Games === undefined || Games[gameId] === undefined;
   const game = isFetching ? null : Games[gameId]; // individual game
-  const isFetchingChat = isFetching || game.Chat === undefined;
-  const chatLog = isFetchingChat ? [] : game.Chat;
+  // const isFetchingChat = isFetching || game.Chat === undefined;
+  // const chatLog = isFetchingChat ? [] : game.Chat;
   const getHint = isFetching ? "" : game.HintWord;
   const getHintCount = isFetching ? 0 : game.HintCount;
 
@@ -183,8 +189,8 @@ const SideBar = ({
       try {
         if (chatMsg !== "") {
           await SendMessage(gameId, game, currentUser, chatMsg);
-          var elem = document.getElementById('chat-box');
-          elem.scrollTop = elem.scrollHeight;
+          // var elem = document.getElementById('chat-box');
+          // elem.scrollTop = elem.scrollHeight;
         }
       } catch (error) {
         return error.message;
