@@ -116,9 +116,9 @@ export const leaveGame = (id, uid) => async (
       .doc(id)
       .get();
     const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
-    if (copy[uid].isSpyMaster) {
-      dispatch(deleteGame(id))
-    }
+    // if (copy[uid].isSpyMaster) {
+    //   dispatch(deleteGame(id))
+    // }
 
     delete copy[uid];
 
