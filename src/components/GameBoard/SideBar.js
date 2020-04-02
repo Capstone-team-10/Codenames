@@ -45,9 +45,9 @@ const SideBar = ({
   const { addToast } = useToasts();
 
   useEffect(() => {
-    var elem = document.getElementById('chat-box');
+    var elem = document.getElementById("chat-box");
     elem.scrollTop = elem.scrollHeight;
-  }, [chatLog])
+  }, [chatLog]);
 
   useEffect(() => {
     const navbarHeight = document.getElementById("navbar").offsetHeight;
@@ -206,8 +206,7 @@ const SideBar = ({
         autoDismiss: true
       });
       return;
-    }
-    else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
+    } else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
       addToast(`Wait for your turn!`, {
         appearance: "warning",
         autoDismiss: true
@@ -217,7 +216,7 @@ const SideBar = ({
 
     let turnString = turnTracker.nextTurn(currentTurn);
     EndTurn(gameId, turnString);
-  }
+  };
 
   return (
     <div id="sideBar" className="sideBar-wrapper wrapper right">
@@ -239,15 +238,15 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-              1
-            )} Spy Master`
+                1
+              )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
       <ResizableBox
         handleSize={[10, 10]}
         resizeHandles={["s"]}
-        height={80}
+        height={120}
         width={225}
         minConstraints={[225, 50]}
         maxConstraints={[225, 750]}
@@ -270,7 +269,7 @@ const SideBar = ({
               <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
               <p className="spyMaster-hint-text">{`For: ${
                 getHintCount !== -1 ? getHintCount : 0
-                } cards `}</p>
+              } cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
@@ -310,16 +309,16 @@ const SideBar = ({
             </button>
           </>
         ) : (
-            <>
-              <h6>{`Hint: ${getHint}`}</h6>
-              <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
-            </>
-          )}
+          <>
+            <h6>{`Hint: ${getHint}`}</h6>
+            <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
+          </>
+        )}
       </div>
       <ResizableBox
         handleSize={[10, 10]}
         resizeHandles={["s"]}
-        height={175}
+        height={300}
         width={225}
         minConstraints={[225, 130]}
         maxConstraints={[225, 750]}
@@ -371,7 +370,6 @@ const SideBar = ({
     </div>
   );
 };
-
 
 const mapDispatchToProps = dispatch => {
   return {

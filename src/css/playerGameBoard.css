@@ -191,20 +191,24 @@
   width: 100%;
   height: 100%;
   padding: 30px;
-  /* background-color: navajowhite; */
   background-image: url(/images/wood-background.jpg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
+}
+
+.score-wrapper {
+  color: white;
+  font-size: 1.4rem;
+  text-shadow: 0px 0px 5px black;
 }
 
 .cards-wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: paleturquoise;
-
   height: 90%;
   max-width: 90%;
   min-width: 500px;
@@ -256,11 +260,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Merriweather;
   border: outset;
-  border-right-color: #fbfbfb;
-  border-bottom-color: #fbfbfb;
-  border-top-color: #e1dbdb;
-  border-left-color: #e1dbdb;
+  border-right-color: #e1dbdb;
+  border-bottom-color: #e1dbdb;
+  border-top-color: #fbfbfb;
+  border-left-color: #fbfbfb;
 }
 
 .card-back {
@@ -277,10 +282,18 @@
 
 .card-color-red {
   background-color: #c93939;
+  border-right-color: #dd8080;
+  border-bottom-color: #dd8080;
+  border-top-color: #c06464;
+  border-left-color: #c06464;
 }
 
 .card-color-blue {
   background-color: lightskyblue;
+  border-right-color: #abd0e1;
+  border-bottom-color: #abd0e1;
+  border-top-color: #86cfd4;
+  border-left-color: #86cfd4;
 }
 
 .card-color-white {
@@ -290,6 +303,10 @@
 .card-color-black {
   background-color: black;
   color: white;
+  border-right-color: #918787;
+  border-bottom-color: #918787;
+  border-top-color: #3a3737;
+  border-left-color: #3a3737;
 }
 
 /*                    */
@@ -421,12 +438,15 @@
   position: absolute;
   top: -60px;
   padding: 5px 20px;
-  background-color: lightskyblue;
   transition: all 0.75s ease-in-out;
 }
 
 .popIn {
   top: 9px;
+  background-image: linear-gradient(transparent 5%, #4f0d11 20%, #311f1f 80%);
+  color: white;
+  font-family: Merriweather;
+  font-size: 1.4rem;
 }
 
 /*                    */
