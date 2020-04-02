@@ -19,7 +19,6 @@ const JoinGameLobby = (props) => {
   const { addToast } = useToasts()
   const isFetching = !Array.isArray(Games)
   const games = isFetching ? null : Games
-  console.log('JoinGameLobby----AlUser', AllUser);
 
   const enterGame = async (id, game) => {
     try {

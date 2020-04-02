@@ -200,9 +200,6 @@ const SideBar = ({
   };
 
   const endTurnHandler = () => {
-    console.log("currentTurn is ", currentTurn);
-    console.log("teamColor is ", teamColor);
-    console.log("Was a guess made", GameMade)
     if (!GameMade) {
       addToast(`${teamColor} team must make at least one guess`, {
         appearance: "warning",
