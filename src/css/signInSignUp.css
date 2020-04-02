@@ -3,13 +3,13 @@
   display: flex;
   justify-content: space-around;
   height: 100vh;
-  background-image: url('./main-image.jpg');
+  background-image: url("./main-image.jpg");
   background-size: cover;
 }
 
 /* AuthForms */
 .auth-form-container {
- height: fit-content;
+  height: fit-content;
   margin: 10px;
   padding: 5px;
   background-color: burlywood;
@@ -23,11 +23,11 @@
   max-width: 40%;
   background-color: burlywood;
 }
-.User{
-  background-image: url('./main-image.jpg');
+.User {
+  background-image: url("./main-image.jpg");
   background-size: cover;
-  height: 100%;
-  display:flex;
+  height: calc(100vh - 64px);
+  display: flex;
   justify-content: center;
   align-items: flex-start;
 }
@@ -39,9 +39,9 @@
   max-width: 40%;
   background-color: burlywood;
 }
-a{
+a {
   color: black;
 }
-.input-field>label {
+.input-field > label {
   color: #353535;
 }
