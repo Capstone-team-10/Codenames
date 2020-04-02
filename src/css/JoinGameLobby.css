@@ -1,9 +1,10 @@
-.JoinGameLobby-container{
-  background-image: url('./main-image.jpg');
+.JoinGameLobby-container {
+  background-image: url("./main-image.jpg");
   background-size: cover;
   height: 100vh;
+  padding-top: 30px;
 }
-.JoinGame-container{
+.JoinGame-container {
   margin: 10%;
   display: flex;
   flex-wrap: wrap;
@@ -11,17 +12,23 @@
   justify-content: center;
   align-items: center;
 }
-.JoinGame-container > button{
+
+.JoinGame-header-text {
+  text-align: center;
+  margin: 0px;
+}
+
+.JoinGame-container > button {
   margin: 5px;
 }
 
-.JoinGame-container > h2{
+.JoinGame-container > h2 {
   margin: 15px;
   font-size: 4vh;
   color: white;
-  font-family: "Avant Garde"
+  font-family: "Avant Garde";
 }
-h2{
-  color:white;
-  font-family: "Avant Garde"
+h2 {
+  color: white;
+  font-family: "Avant Garde";
 }
