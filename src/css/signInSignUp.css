@@ -2,7 +2,7 @@
 .sign-in-sign-up-container {
   display: flex;
   justify-content: space-around;
-  height: 100%;
+  height: 100vh;
   background-image: url('./main-image.jpg');
   background-size: cover;
 }
@@ -26,7 +26,7 @@
 .User{
   background-image: url('./main-image.jpg');
   background-size: cover;
-  height: 100vh;
+  height: 100%;
   display:flex;
   justify-content: center;
   align-items: flex-start;

@@ -102,7 +102,6 @@ const GameLobby = props => {
   return (
     <>
       <div className="gameLobby-container">
-        <p className="lobby-header-text">Choose your Side</p>
         <div className="team-select-wrapper">
           <div className="blue-team-wrapper">
             <div

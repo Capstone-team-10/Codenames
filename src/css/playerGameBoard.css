@@ -191,7 +191,8 @@
   width: 100%;
   height: 100%;
   padding: 30px;
-  background-color: navajowhite;
+  /* background-color: navajowhite; */
+  background-image: url(/images/wood-background.jpg);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -304,6 +305,7 @@
   background-color: #0000007a;
   background-image: url(/images/main-image-original.jpg);
   background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
   /* overflow: hidden; */
 }
