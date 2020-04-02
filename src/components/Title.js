@@ -8,8 +8,8 @@ const Title = (props) =>{
   return (
     <div className="title-container">
        {isLoggedIn ? (null) : (<Link to="/auth/register">
-      <button className="title-button">
-        Want to be a spy!?
+      <button className="title-button  waves-effect">
+        Want to be a spy?
       </button>
       </Link>)}
     </div>

@@ -71,7 +71,7 @@ const SignIn = (props) => {
           Login
         </button>
       </form>
-      <button className="button" onClick={AuthWithGoogle}>Log in with Google</button>
+      <button className="btn center " onClick={AuthWithGoogle}>Log in with Google</button>
     </div>
   );
 };

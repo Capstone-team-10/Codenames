@@ -18,7 +18,7 @@
 /* GameDescription */
 .description-container {
   height: 100%;
-  margin: 5rem 10px;
+  margin: 10px;
   padding: 10px;
   max-width: 40%;
   background-color: burlywood;
@@ -41,4 +41,7 @@
 }
 a{
   color: black;
+}
+.input-field>label {
+  color: #353535;
 }
