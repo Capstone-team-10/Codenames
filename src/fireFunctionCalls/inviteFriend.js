@@ -1,7 +1,7 @@
 const inviteFriend = async invite => {
   try {
     const response = await fetch(
-      "http://localhost:5001/codenames-3a350/us-central1/sendInvite",
+      "https://us-central1-codenames-3a350.cloudfunctions.net/sendInvite",
       {
         method: "POST",
         mode: "no-cors",
