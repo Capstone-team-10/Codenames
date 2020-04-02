@@ -249,8 +249,6 @@ const mapDispatchToProps = dispatch => {
 
 export default compose(
   firestoreConnect(props => {
-    // console.log('props in firestoreconnect-----', props)
-    // console.log('props.matchparamsid in firestoreconnect-----', props.match.params.id)
     return [
       {
         collection: "Games",

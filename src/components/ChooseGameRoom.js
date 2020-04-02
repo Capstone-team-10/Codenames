@@ -14,7 +14,6 @@ const ChooseGameRoom = (props) => {
 
   const isFetching = AllUser === undefined;
   const currentUser = isFetching ? null : AllUser[uid];
-  console.log('------currentUser', currentUser, 'uid', uid)
   const newGameRoom = async () => {
     try {
       const err = await newGame(history, currentUser, uid)
