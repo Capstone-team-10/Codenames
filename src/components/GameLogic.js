@@ -67,8 +67,8 @@ const GameLogic = props => {
             image: getResultImage(rightCard)
           };
           if (
-            (blueScore === 1 && currentTeam === rightCard) ||
-            (redScore === 1 && currentTeam === rightCard)
+            (blueScore === 1 && currentTeam === "blue") ||
+            (redScore === 1 && currentTeam === "red")
           ) {
             updateWinLossRecord(rightCard);
             setTimeout(() => {
@@ -98,8 +98,8 @@ const GameLogic = props => {
             image: getResultImage(wrongCard)
           };
           if (
-            (blueScore === 1 && currentTeam !== wrongCard) ||
-            (redScore === 1 && currentTeam !== wrongCard)
+            (blueScore === 1 && currentTeam !== "blue") ||
+            (redScore === 1 && currentTeam !== "red")
           ) {
             updateWinLossRecord(wrongCard);
             setTimeout(() => {
