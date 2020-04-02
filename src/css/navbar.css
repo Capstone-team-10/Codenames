@@ -1,5 +1,7 @@
 .navbar {
   background-image: url(/images/navbar-texture.jpg);
+  background-position: center;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,10 +11,12 @@
 
 .controls-btn {
   margin-left: 6px;
+  background-color: #0e3732;
+  box-shadow: 0px 2px 2px black;
 }
 
 .header-logo {
-  margin: 0px 1rem;
+  font-family: special elite;
 }
 
 .logo-container {
