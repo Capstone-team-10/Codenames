@@ -67,12 +67,12 @@ const Navbar = props => {
       ) : (
         <div className="btns-right-container">
           <Link to="/auth/register">
-            <button className="btn right waves-effect waves-dark teal darken-2">
+            <button className="controls-btn btn right waves-effect waves-dark">
               Sign Up
             </button>
           </Link>
           <Link to="/auth/login">
-            <button className="btn right waves-effect waves-dark teal darken-2">
+            <button className="controls-btn btn right waves-effect waves-dark">
               Login
             </button>
           </Link>
