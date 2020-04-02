@@ -23,7 +23,7 @@ const PlayArea = ({
   hintCount
 }) => {
   const [firstCard, setFirstCard] = useState(1);
-  const [visibility, setVisibility] = useState(true);
+  const [visibility, setVisibility] = useState(false);
   const [message, setMessage] = useState("The game has started");
 
   useEffect(() => {
@@ -67,9 +67,9 @@ const PlayArea = ({
         <EndGameScreen gameId={gameId} GameResult={GameResult} uid={uid} />
       ) : (
         <div className="playArea-container">
-          {/* {visibility ? ( */}
-          <Notification message={message} setVisibility={setVisibility} />
-          {/* ) : null} */}
+          {visibility ? (
+            <Notification message={message} setVisibility={setVisibility} />
+          ) : null}
           <div className="scoreContainer">
             <p className="score-wrapper">
               Blue Score: {blueScore} Red Score: {redScore}
