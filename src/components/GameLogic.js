@@ -32,7 +32,7 @@ const GameLogic = props => {
   const currentUser = isFetchingUser ? null : Users[uid];
 
   const isFetching = Games === undefined || Games[Gameid] === undefined;
-  const displayName = currentUser.displayName;
+  const displayName = isFetchingUser ? "" : currentUser.displayName;
 
   const game = isFetching ? null : Games[Gameid];
   const blueScore = isFetching ? 0 : game.BlueCardsLeft;
