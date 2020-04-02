@@ -7,30 +7,31 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 const UserProfile = props => {
-  const { AllUser, uid } = props
+  const { AllUser, uid } = props;
 
   const isFetching = AllUser === undefined;
   // const authUser = isFetching ? null : SignInUser;
   const currentUser = isFetching ? null : AllUser[uid];
-
 
   return (
     <div>
       {currentUser ? (
         <div className="User">
           <div className="User-container">
-            <h1> Welcome, {currentUser.displayName}</h1>
-            <h3> Below is your current information and record</h3>
-            <p>Player Name: {currentUser.displayName}</p>
-            {/* <p>Player Email:{authUser.email}</p> */}
-            <p>
+            <h1> Welcome,</h1>
+            <h1>{currentUser.displayName}</h1>
+            <h3> Below is your current information</h3>
+            <p className="player-record-text">
+              Player Name: {currentUser.displayName}
+            </p>
+            <p className="player-record-text">
               Game Record: {currentUser.Win} wins : {currentUser.Loss} losses
             </p>
           </div>
         </div>
       ) : (
-          <div>Still Loading</div>
-        )}
+        <div>Still Loading</div>
+      )}
     </div>
   );
 };

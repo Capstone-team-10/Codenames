@@ -5,6 +5,7 @@
   height: 100vh;
   background-image: url("./main-image.jpg");
   background-size: cover;
+  padding-top: 70px;
 }
 
 /* AuthForms */
@@ -17,12 +18,17 @@
 
 /* GameDescription */
 .description-container {
-  height: 100%;
+  height: fit-content;
   margin: 10px;
   padding: 10px;
   max-width: 40%;
   background-color: burlywood;
 }
+
+.description-header-text {
+  text-align: center;
+}
+
 .User {
   background-image: url("./main-image.jpg");
   background-size: cover;
@@ -34,11 +40,19 @@
 
 .User-container {
   margin-top: 10vh;
-  padding: 10px;
+  padding: 70px 20px 0px;
   height: 70%;
-  max-width: 40%;
-  background-color: burlywood;
+  max-width: 50%;
+  background-image: url(/folder.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
+.player-record-text {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
 a {
   color: black;
 }
