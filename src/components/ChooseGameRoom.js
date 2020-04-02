@@ -31,11 +31,11 @@ const ChooseGameRoom = (props) => {
 
   return (
     <div className="ChooseGame-container">
-      <button className="title-button" onClick={newGameRoom}>
+      <button className="title-button waves-effect" onClick={newGameRoom}>
         New Game
         </button>
       <Link to="/JoinGame">
-        <button className="title-button">
+        <button className="title-button waves-effect">
           Join Game
           </button>
       </Link>
