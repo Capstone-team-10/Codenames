@@ -99,7 +99,6 @@ const GameLobby = props => {
     }
   };
 
-  console.log();
   return (
     <>
       <div className="gameLobby-container">

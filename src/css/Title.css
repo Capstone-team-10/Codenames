@@ -1,25 +1,21 @@
-.title-container{
-  background-image: url('./main-image.jpg');
+.title-container {
+  background-image: url("./main-image.jpg");
   background-size: cover;
-  display:flex;
-  padding-top:1%;
+  display: flex;
+  padding-top: 1%;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-
 .title-button {
   font-size: 24px;
-  padding:1%;
+  padding: 15px;
   background-color: teal;
   border-radius: 15px;
   border: 1px solid black;
 }
 
-.title-button:hover {
-  background-color: black
-}
-a{
-  color:white;
+a {
+  color: white;
 }
