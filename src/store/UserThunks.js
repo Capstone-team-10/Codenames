@@ -84,7 +84,7 @@ export const logout = () => async (
   }
 };
 
-export const selectAgency = (color, gameId, game, uid) => async (
+export const selectAgency = (color, gameId, game, uid,displayName) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -101,6 +101,7 @@ export const selectAgency = (color, gameId, game, uid) => async (
           UsersInRoom: {
             ...game.UsersInRoom,
             [uid]: {
+              DisplayName: displayName,
               Team: color,
               isSpyMaster: false
             }
@@ -114,7 +115,7 @@ export const selectAgency = (color, gameId, game, uid) => async (
   }
 };
 
-export const selectMaster = (color, gameId, game, uid) => async (
+export const selectMaster = (color, gameId, game, uid,displayName) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -129,6 +130,7 @@ export const selectMaster = (color, gameId, game, uid) => async (
           UsersInRoom: {
             ...game.UsersInRoom,
             [uid]: {
+              DisplayName: displayName,
               Team: color,
               isSpyMaster: true
             }

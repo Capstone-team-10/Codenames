@@ -78,6 +78,7 @@ const PlayerGameBoard = ({
                 dealCards={dealCards}
                 Games={Games}
                 uid={uid}
+                displayName={displayName}
               />
             )}
           <SideBar
@@ -124,6 +125,7 @@ const PlayerGameBoard = ({
                   dealCards={dealCards}
                   Games={Games}
                   uid={uid}
+                  displayName={displayName}
                 />
               )}
             <SideBar
