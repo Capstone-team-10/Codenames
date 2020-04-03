@@ -8,7 +8,7 @@ import { useToasts } from "react-toast-notifications";
 import "../css/navbar.css";
 
 const Navbar = props => {
-  const { isLoggedIn } = props;
+  const { isLoggedIn, history } = props;
 
   const { addToast } = useToasts();
 
@@ -16,7 +16,7 @@ const Navbar = props => {
     try {
       const err = await props.logout();
       if (err === undefined) {
-        props.history.push("/");
+        history.push("/");
       } else {
         addToast("Sorry, failed at logging you out. Please try again", {
           appearance: "warning",
@@ -28,6 +28,10 @@ const Navbar = props => {
     }
   };
 
+  const userHandler = () => {
+    history.push("/userProfile")
+  }
+
   return (
     <nav id="navbar" className="navbar nav-wrapper red darken-4">
       {isLoggedIn ? (
@@ -37,8 +41,8 @@ const Navbar = props => {
           </button>
         </Link>
       ) : (
-        <div></div>
-      )}
+          <div></div>
+        )}
       <div className="logo-container">
         <h1 id="header-logo" className="header-logo hide-on-med-and-down">
           Codenames
@@ -58,26 +62,25 @@ const Navbar = props => {
           >
             Log Out
           </button>
-          <Link to="/userProfile">
-            <button className="controls-btn btn right waves-effect waves-dark">
-              User Record
+          <button className="controls-btn btn right waves-effect waves-dark"
+            onClick={userHandler}>
+            User Record
             </button>
-          </Link>
         </div>
       ) : (
-        <div className="btns-right-container">
-          <Link to="/auth/register">
-            <button className="controls-btn btn right waves-effect waves-dark">
-              Sign Up
+          <div className="btns-right-container">
+            <Link to="/auth/register">
+              <button className="controls-btn btn right waves-effect waves-dark">
+                Sign Up
             </button>
-          </Link>
-          <Link to="/auth/login">
-            <button className="controls-btn btn right waves-effect waves-dark">
-              Login
+            </Link>
+            <Link to="/auth/login">
+              <button className="controls-btn btn right waves-effect waves-dark">
+                Login
             </button>
-          </Link>
-        </div>
-      )}
+            </Link>
+          </div>
+        )}
     </nav>
   );
 };

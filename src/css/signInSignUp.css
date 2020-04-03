@@ -48,6 +48,14 @@
   background-repeat: no-repeat;
 }
 
+.User-container>h1 {
+  margin: 2.0rem 0 1.68rem 0;
+}
+
+.user-profile-curr {
+  font-size: 2rem;
+}
+
 .player-record-text {
   font-size: 1.5rem;
   text-align: center;

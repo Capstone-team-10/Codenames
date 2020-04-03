@@ -20,7 +20,7 @@ const UserProfile = props => {
           <div className="User-container">
             <h1> Welcome,</h1>
             <h1>{currentUser.displayName}</h1>
-            <h3> Below is your current information</h3>
+            <h3 className="user-profile-curr"> Below is your current information</h3>
             <p className="player-record-text">
               Player Name: {currentUser.displayName}
             </p>
@@ -30,8 +30,8 @@ const UserProfile = props => {
           </div>
         </div>
       ) : (
-        <div>Still Loading</div>
-      )}
+          <div>Still Loading</div>
+        )}
     </div>
   );
 };
