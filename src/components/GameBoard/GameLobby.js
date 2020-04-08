@@ -16,7 +16,8 @@ const GameLobby = props => {
     Games,
     selectMaster,
     dealCards,
-    uid
+    uid,
+    displayName,
   } = props;
 
   const isFetching = Games !== undefined;
@@ -48,7 +49,7 @@ const GameLobby = props => {
     if (spyMasters[agency] === "") {
       selectAgencyHandler(agency);
       try {
-        const err = await selectMaster(agency, gameId, game, uid);
+        const err = await selectMaster(agency, gameId, game, uid,displayName);
         if (err !== undefined) {
           addToast(
             "Sorry, we couldn't make you spymaster right now. Try again",
@@ -72,7 +73,7 @@ const GameLobby = props => {
   /// Choosing Sides
   const selectAgencyHandler = async selectedAgency => {
     try {
-      const err = await selectAgency(selectedAgency, gameId, game, uid);
+      const err = await selectAgency(selectedAgency, gameId, game, uid,displayName);
       if (err !== undefined) {
         addToast("Sorry, we couldn't select your side right now. Try again", {
           appearance: "warning",
@@ -180,10 +181,10 @@ const GameLobby = props => {
 const mapDispatchToProps = dispatch => {
   return {
     StartGame: (id, startTeam) => dispatch(StartGame(id, startTeam)),
-    selectAgency: (color, gameId, game, uid) =>
-      dispatch(selectAgency(color, gameId, game, uid)),
-    selectMaster: (color, gameId, game, uid) =>
-      dispatch(selectMaster(color, gameId, game, uid))
+    selectAgency: (color, gameId, game, uid,displayName) =>
+      dispatch(selectAgency(color, gameId, game, uid,displayName)),
+    selectMaster: (color, gameId, game, uid,displayName) =>
+      dispatch(selectMaster(color, gameId, game, uid,displayName))
   };
 };
 
