@@ -53,23 +53,30 @@ Built with Google Firebase and React to create real-time connectivity across mul
 
 **Sign Up**
 
+<p align="center">
 ![signUp.gif](/_resources/6305f0ba7c8644e08e383ffcc1ba0878.gif)
+</p>
 <br/>
 
 **Start a new game and invite friends**
 
+<p align="center">
 ![new game and invites.gif](/_resources/ca37e06b59c74edbbb6ae8612306ad76.gif)
+</p>
 <br />
 
 **Game play for Spy and Spy Master boards**
 
+<p align="center">
 ![gamePlay.gif](/_resources/06dae5623afa4db1907071c037e737f9.gif)
+</p>
 <br />
 
 **Customized Game Endings with Replay Options**
 
+<p align="center">
 ![endGameScreens.gif](/_resources/cdb6d05660734b68b0f57c9f792966b7.gif)
-
+</p>
 <br />
 
 **User Records**
