@@ -1,6 +1,7 @@
 <p align="center">
 <img id="header-logo" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
 </p>
+
 ---
 
 **An online multiplayer adaptation of the classic hit board game Codenames. Allows 4+ players to participate in a game of deduction as two teams race to decode the clues given to them by their spymaster.**
