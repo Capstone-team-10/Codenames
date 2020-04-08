@@ -1,7 +1,6 @@
 Codenames ReadMe
 
-![Screenshot from 2020-04-06 20-01-05.png](/_resources/35c158d4790b477ea20d375a69aa9998.png)
-<img align="center" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
+<img style="display: block; margin: 0px auto;" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
 
 ---
 
@@ -58,6 +57,7 @@ Built with Google Firebase and React to create real-time connectivity across mul
 <br/>
 
 **Start a new game and invite friends**
+
 ![new game and invites.gif](/_resources/ca37e06b59c74edbbb6ae8612306ad76.gif)
 <br />
 
@@ -83,7 +83,12 @@ Built with Google Firebase and React to create real-time connectivity across mul
 
 From the terminal run
 
-`git clone https://github.com/Capstone-team-10/Codenames cd Codenames npm install npm start`
+<pre>
+git clone https://github.com/Capstone-team-10/Codenames 
+cd Codenames 
+npm install 
+npm start
+</pre>
 
 **After npm start**
 The App will start running in development mode.
