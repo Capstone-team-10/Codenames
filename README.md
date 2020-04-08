@@ -1,6 +1,11 @@
-Codenames ReadMe
+<style>
+  #header-logo {
+    display: block;
+    margin: auto;
+  }
+</style>
 
-<img style="display: block; margin: 0px auto;" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
+<img id="header-logo" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
 
 ---
 
@@ -81,7 +86,7 @@ Built with Google Firebase and React to create real-time connectivity across mul
 
 ---
 
-From the terminal run
+**From the terminal run:**
 
 <pre>
 git clone https://github.com/Capstone-team-10/Codenames 
@@ -92,5 +97,6 @@ npm start
 
 **After npm start**
 The App will start running in development mode.
-Open [http://localhost:3000](http://localhost:3000)
+  
+Open [http://localhost:3000](http://localhost:3000)<br />
 The page will reload if you make edits.
