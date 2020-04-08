@@ -1,68 +1,91 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Codenames ReadMe
 
-## Available Scripts
+![Screenshot from 2020-04-06 20-01-05.png](/_resources/35c158d4790b477ea20d375a69aa9998.png)
+<img align="center" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
 
-In the project directory, you can run:
+---
 
-### `yarn start`
+**An online multiplayer adaptation of the classic hit board game Codenames. Allows 4+ players to participate in a game of deduction as two teams race to decode the clues given to them by their spymaster.**
+<br/>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**A Brief Description:**
+Built with Google Firebase and React to create real-time connectivity across multiple users and to be able to sync up various decks, boards, and roles. One of the interesting things about the project was building the game logic, as we had to take into consideration what data we need available to manipulate and how it would interact with each user’s unique set of data. We learned how to better tackle the code from a scalability POV as reads and writes to the database can quickly pile up, especially when dealing with multiple users during one game session.
+<br />
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+**Adaptation designed and built by:** [Sunil Abraham](https://github.com/iamnotsunil), [Stanislav Levitt](https://github.com/stanislavlevitt), [AAron Staton](https://github.com/Astaton)
 
-### `yarn test`
+**Try it out here:** [Codenames](https://codenames-3a350.firebaseapp.com)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br />
 
-### `yarn build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [Firebase](https://firebase.google.com/)
+- [Firebase Authentication](https://firebase.google.com/docs/auth)
+- [Firestore](https://firebase.google.com/docs/firestore)
+- [Node](https://nodejs.org/en/)
+- [Nodemailer](https://nodemailer.com/about/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br />
 
-### `yarn eject`
+## Features
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Local login and authentication
+- Google authentication
+- Persistent real time chat
+- Create new game rooms or join existing game rooms
+- Syncronized interactive game boards
+- Email game invitations to friends
+- Constantly updated user win-loss records
+- Multiplayer 4+
+- Customized game endings
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<br/>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## App Walkthrough
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Sign Up**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![signUp.gif](/_resources/6305f0ba7c8644e08e383ffcc1ba0878.gif)
+<br/>
 
-### Code Splitting
+**Start a new game and invite friends**
+![new game and invites.gif](/_resources/ca37e06b59c74edbbb6ae8612306ad76.gif)
+<br />
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+**Game play for Spy and Spy Master boards**
 
-### Analyzing the Bundle Size
+![gamePlay.gif](/_resources/06dae5623afa4db1907071c037e737f9.gif)
+<br />
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+**Customized Game Endings with Replay Options**
 
-### Making a Progressive Web App
+![endGameScreens.gif](/_resources/cdb6d05660734b68b0f57c9f792966b7.gif)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+<br />
 
-### Advanced Configuration
+**User Records**
+![UserRecord.png](/_resources/b75eb7bca83e407b878150cb96bfe616.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+<br />
 
-### Deployment
+## Local Setup
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+---
 
-### `yarn build` fails to minify
+From the terminal run
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+`git clone https://github.com/Capstone-team-10/Codenames cd Codenames npm install npm start`
+
+**After npm start**
+The App will start running in development mode.
+Open [http://localhost:3000](http://localhost:3000)
+The page will reload if you make edits.
