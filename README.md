@@ -1,12 +1,6 @@
-<style>
-  #header-logo {
-    display: block;
-    margin: auto;
-  }
-</style>
-
+<p align="center">
 <img id="header-logo" src="/_resources/35c158d4790b477ea20d375a69aa9998.png"/>
-
+</p>
 ---
 
 **An online multiplayer adaptation of the classic hit board game Codenames. Allows 4+ players to participate in a game of deduction as two teams race to decode the clues given to them by their spymaster.**
@@ -95,8 +89,7 @@ npm install
 npm start
 </pre>
 
-**After npm start**
-The App will start running in development mode.
-  
+**After npm start**<br />
+The App will start running in development mode.<br />
 Open [http://localhost:3000](http://localhost:3000)<br />
 The page will reload if you make edits.
