@@ -52,7 +52,6 @@ Built with Google Firebase and React to create real-time connectivity across mul
 ---
 
 **Sign Up**
-![signUp.gif](/_resources/6305f0ba7c8644e08e383ffcc1ba0878.gif)
 
 <p align="center">
   <img src="/_resources/6305f0ba7c8644e08e383ffcc1ba0878.gif"/>
@@ -60,7 +59,6 @@ Built with Google Firebase and React to create real-time connectivity across mul
 <br/>
 
 **Start a new game and invite friends**
-![new game and invites.gif](/_resources/ca37e06b59c74edbbb6ae8612306ad76.gif)
 
 <p align="center">
   <img src="/_resources/ca37e06b59c74edbbb6ae8612306ad76.gif"/>
@@ -68,7 +66,6 @@ Built with Google Firebase and React to create real-time connectivity across mul
 <br />
 
 **Game play for Spy and Spy Master boards**
-![gamePlay.gif](/_resources/06dae5623afa4db1907071c037e737f9.gif)
 
 <p align="center">
  <img src="/_resources/06dae5623afa4db1907071c037e737f9.gif"/>
@@ -76,7 +73,6 @@ Built with Google Firebase and React to create real-time connectivity across mul
 <br />
 
 **Customized Game Endings with Replay Options**
-![endGameScreens.gif](/_resources/cdb6d05660734b68b0f57c9f792966b7.gif)
 
 <p align="center">
   <img src="/_resources/cdb6d05660734b68b0f57c9f792966b7.gif"/>
@@ -84,8 +80,10 @@ Built with Google Firebase and React to create real-time connectivity across mul
 <br />
 
 **User Records**
-![UserRecord.png](/_resources/b75eb7bca83e407b878150cb96bfe616.png)
 
+<p align="center">
+  <img src="/_resources/b75eb7bca83e407b878150cb96bfe616.png"/>
+</p>
 <br />
 
 ## Local Setup
