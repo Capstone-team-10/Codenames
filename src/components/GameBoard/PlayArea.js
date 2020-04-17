@@ -83,9 +83,9 @@ const PlayArea = ({
                 card={card}
                 image={card.image}
                 index={index}
-                key={card.word}
+                // key={card.word}
                 playersPick={playersPick}
-                setPickResult={setPickResult}
+                // setPickResult={setPickResult}
                 spyMaster={spyMaster}
                 currentTurn={currentTurn}
               />

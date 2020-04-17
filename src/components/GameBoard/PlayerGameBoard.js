@@ -66,7 +66,7 @@ const PlayerGameBoard = ({
               deck={deck}
               dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
               playersPick={spyMaster ? null : playersPick}
-              setPickResult={spyMaster ? null : setPickResult}
+              // setPickResult={spyMaster ? null : setPickResult}
             />
           ) : (
               <GameLobby
