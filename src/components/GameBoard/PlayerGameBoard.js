@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { SideBar, PlayArea, GameLobby } from "./index";
-// import { connect } from "react-redux";
-// import { firestoreConnect } from "react-redux-firebase";
-// import { compose } from "redux";
 
 import "../../css/playerGameBoard.css";
 
@@ -52,108 +49,52 @@ const PlayerGameBoard = ({
 
   return (
     <div id="gameBoard-container" className="gameBoard-container">
-      {spyMaster ? (
-        <>
           {gameStatus ? (
             <PlayArea
-              currentTurn={currentTurn}
-              deck={deck}
-              spyMaster={spyMaster}
+              Games={Games}
               gameId={gameId}
+              GameOver={GameOver}
+              GameResult={GameResult}
+              spyMaster={spyMaster}
+              hintWord={game.HintWord}
+              hintCount={game.HintCount}
               teamColor={teamColor}
               blueScore={blueScore}
               redScore={redScore}
-              GameOver={GameOver}
-              Games={Games}
-              GameResult={GameResult}
-              hintWord={game.HintWord}
-              hintCount={game.HintCount}
-              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              currentTurn={currentTurn}
               uid={uid}
+              deck={deck}
+              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              playersPick={spyMaster ? null : playersPick}
             />
           ) : (
               <GameLobby
-                allPlayers={allPlayers}
-                gameId={gameId}
-                dealCards={dealCards}
                 Games={Games}
+                gameId={gameId}
+                allPlayers={allPlayers}
                 uid={uid}
                 displayName={displayName}
+                dealCards={dealCards}
               />
             )}
           <SideBar
-            currentTurn={currentTurn}
-            allPlayers={allPlayers}
-            bannedWords={bannedWords}
-            displayName={displayName}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            gameId={gameId}
-            gameStatus={gameStatus}
             history={history}
             Games={Games}
+            gameId={gameId}
+            gameStatus={gameStatus}
+            spyMaster={spyMaster}
+            allPlayers={allPlayers}
             currentUser={currentUser}
+            currentTurn={currentTurn}
             uid={uid}
+            displayName={displayName}
+            teamColor={teamColor}
             chatLog={chatLog}
+            bannedWords={spyMaster ? bannedWords : null}
+            GameMade={spyMaster ? null : GameMade}
           />
-        </>
-      ) : (
-          <>
-            {gameStatus ? (
-              <PlayArea
-                currentTurn={currentTurn}
-                deck={deck}
-                playersPick={playersPick}
-                setPickResult={setPickResult}
-                spyMaster={spyMaster}
-                gameId={gameId}
-                teamColor={teamColor}
-                blueScore={blueScore}
-                Games={Games}
-                redScore={redScore}
-                GameOver={GameOver}
-                hintWord={game.HintWord}
-                hintCount={game.HintCount}
-                GameResult={GameResult}
-                dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-                uid={uid}
-              />
-            ) : (
-                <GameLobby
-                  allPlayers={allPlayers}
-                  gameId={gameId}
-                  dealCards={dealCards}
-                  Games={Games}
-                  uid={uid}
-                  displayName={displayName}
-                />
-              )}
-            <SideBar
-              currentTurn={currentTurn}
-              allPlayers={allPlayers}
-              displayName={displayName}
-              spyMaster={spyMaster}
-              teamColor={teamColor}
-              gameId={gameId}
-              gameStatus={gameStatus}
-              history={history}
-              GameMade={GameMade}
-              Games={Games}
-              currentUser={currentUser}
-              uid={uid}
-              chatLog={chatLog}
-            />
-          </>
-        )}
     </div>
   );
 };
-
-// const mapStateToProps = state => {
-//   return {
-//     // Games: state.firestore.data.Games,
-//     // User: state.firebase.auth
-//   };
-// };
 
 export default PlayerGameBoard;

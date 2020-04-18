@@ -175,59 +175,33 @@ const GameLogic = props => {
   };
 
   return (
-    <>
-      {spyMaster ? (
         <PlayerGameBoard
-          gameId={Gameid}
-          Games={Games}
-          currentUser={currentUser}
-          uid={uid}
           history={history}
-          allPlayers={allPlayers}
-          deck={spyMasterDeck}
-          displayName={displayName}
+          Games={Games}
+          gameId={Gameid}
           gameStatus={gameStatus}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
-          blueScore={blueScore}
-          redScore={redScore}
           GameOver={GameOver}
           GameResult={GameResult}
           GameMade={GameMade}
-          dealCards={dealDeck(dealCards(), Gameid)}
-          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-        />
-      ) : (
-        <PlayerGameBoard
-          gameId={Gameid}
-          Games={Games}
-          history={history}
-          allPlayers={allPlayers}
-          deck={spyDeck}
-          currentUser={currentUser}
-          uid={uid}
-          displayName={displayName}
-          gameStatus={gameStatus}
-          playersPick={cardPick(spyMasterDeck)}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
           blueScore={blueScore}
           redScore={redScore}
-          GameOver={GameOver}
-          GameResult={GameResult}
-          GameMade={GameMade}
+          allPlayers={allPlayers}
+          currentUser={currentUser}
+          displayName={displayName}
+          uid={uid}
+          teamColor={teamColor}
+          spyMaster={spyMaster}
           dealCards={dealDeck(dealCards(), Gameid)}
           dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+          deck={spyMaster ? spyMasterDeck : spyDeck}
+          playersPick = {spyMaster ? null : cardPick(spyMasterDeck)}
         />
-      )}
-    </>
-  );
+        )
 };
 
 const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    // User: state.firebase.auth,
     Users: state.firestore.data.Users,
     uid: state.firebase.auth.uid
   };
