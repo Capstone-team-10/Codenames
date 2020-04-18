@@ -101,6 +101,26 @@ export const Endturn = (id, turnString) => async (
   }
 };
 
+export const clearHint = (id) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  try {
+    const firestore = getFirestore();
+    await firestore
+      .collecction("Games")
+      .doc(id)
+      .update({
+        HintCount: -1,
+        HintWord: " ",
+      });
+  } catch (error) {
+    return error.message;
+  }
+};
+
+
 // Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
 export const leaveGame = (id, uid) => async (
   dispatch,

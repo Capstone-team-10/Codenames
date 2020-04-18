@@ -8,7 +8,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
 import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
-import { Endturn, Assassin, victory } from "../store/GameThunks";
+import { Endturn, Assassin, victory, clearHint } from "../store/GameThunks";
 import { ChangeHintCount } from "../store/HintThunk";
 
 const GameLogic = props => {
@@ -82,6 +82,7 @@ const GameLogic = props => {
           flipCard(deck, cardPicked, outcome);
           if (hintCount === 0) {
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+            clearHint(Gameid);
           }
           break;
         case neutralCard:
@@ -90,6 +91,7 @@ const GameLogic = props => {
             image: getResultImage(neutralCard)
           };
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          clearHint(Gameid);
           flipCard(deck, cardPicked, outcome);
           break;
         case wrongCard:
@@ -110,6 +112,7 @@ const GameLogic = props => {
           }
           changeCardsLeft(wrongCard, Gameid, game);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          clearHint(Gameid);
           flipCard(deck, cardPicked, outcome);
           break;
         case fatalCard:
@@ -175,28 +178,28 @@ const GameLogic = props => {
   };
 
   return (
-        <PlayerGameBoard
-          history={history}
-          Games={Games}
-          gameId={Gameid}
-          gameStatus={gameStatus}
-          GameOver={GameOver}
-          GameResult={GameResult}
-          GameMade={GameMade}
-          blueScore={blueScore}
-          redScore={redScore}
-          allPlayers={allPlayers}
-          currentUser={currentUser}
-          displayName={displayName}
-          uid={uid}
-          teamColor={teamColor}
-          spyMaster={spyMaster}
-          dealCards={dealDeck(dealCards(), Gameid)}
-          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-          deck={spyMaster ? spyMasterDeck : spyDeck}
-          playersPick = {spyMaster ? null : cardPick(spyMasterDeck)}
-        />
-        )
+    <PlayerGameBoard
+      history={history}
+      Games={Games}
+      gameId={Gameid}
+      gameStatus={gameStatus}
+      GameOver={GameOver}
+      GameResult={GameResult}
+      GameMade={GameMade}
+      blueScore={blueScore}
+      redScore={redScore}
+      allPlayers={allPlayers}
+      currentUser={currentUser}
+      displayName={displayName}
+      uid={uid}
+      teamColor={teamColor}
+      spyMaster={spyMaster}
+      dealCards={dealDeck(dealCards(), Gameid)}
+      dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+      deck={spyMaster ? spyMasterDeck : spyDeck}
+      playersPick={spyMaster ? null : cardPick(spyMasterDeck)}
+    />
+  )
 };
 
 const mapStateToProps = state => {
@@ -217,7 +220,8 @@ const mapDispatchToProps = dispatch => {
     ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
     victory: (id, team) => dispatch(victory(id, team)),
     UpdateWin: uid => dispatch(updateWinRecord(uid)),
-    UpdateLoss: uid => dispatch(updateLossRecord(uid))
+    UpdateLoss: uid => dispatch(updateLossRecord(uid)),
+    clearHint: id => dispatch(clearHint(id))
   };
 };
 
