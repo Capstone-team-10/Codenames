@@ -8,8 +8,8 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
 import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
-import { Endturn, Assassin, victory, clearHint } from "../store/GameThunks";
-import { ChangeHintCount } from "../store/HintThunk";
+import { Endturn, Assassin, victory } from "../store/GameThunks";
+import { ChangeHintCount, ClearHint } from "../store/HintThunk";
 
 const GameLogic = props => {
   const {
@@ -19,6 +19,7 @@ const GameLogic = props => {
     decksync,
     changeCardsLeft,
     ChangeHintCount,
+    ClearHint,
     Endturn,
     Assassin,
     UpdateWin,
@@ -81,8 +82,8 @@ const GameLogic = props => {
           ChangeHintCount(Gameid, game);
           flipCard(deck, cardPicked, outcome);
           if (hintCount === 0) {
+            ClearHint(Gameid);
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
-            clearHint(Gameid);
           }
           break;
         case neutralCard:
@@ -90,8 +91,8 @@ const GameLogic = props => {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
+          ClearHint(Gameid);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
-          clearHint(Gameid);
           flipCard(deck, cardPicked, outcome);
           break;
         case wrongCard:
@@ -111,8 +112,8 @@ const GameLogic = props => {
             return;
           }
           changeCardsLeft(wrongCard, Gameid, game);
+          ClearHint(Gameid);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
-          clearHint(Gameid);
           flipCard(deck, cardPicked, outcome);
           break;
         case fatalCard:
@@ -221,7 +222,7 @@ const mapDispatchToProps = dispatch => {
     victory: (id, team) => dispatch(victory(id, team)),
     UpdateWin: uid => dispatch(updateWinRecord(uid)),
     UpdateLoss: uid => dispatch(updateLossRecord(uid)),
-    clearHint: id => dispatch(clearHint(id))
+    ClearHint: (id, word, count) => dispatch(ClearHint(id, word, count))
   };
 };
 

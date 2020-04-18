@@ -25,6 +25,8 @@ const PlayArea = ({
   const [firstCard, setFirstCard] = useState(1);
   const [visibility, setVisibility] = useState(false);
   const [message, setMessage] = useState("The game has started");
+  const visibleBlueScore = 9 - blueScore;
+  const visibleRedScore = 9 - redScore;
 
   useEffect(() => {
     if (hintWord !== " ") {
@@ -66,32 +68,32 @@ const PlayArea = ({
       {GameOver ? (
         <EndGameScreen gameId={gameId} GameResult={GameResult} uid={uid} />
       ) : (
-        <div className="playArea-container">
-          {visibility ? (
-            <Notification message={message} setVisibility={setVisibility} />
-          ) : null}
-          <div className="scoreContainer">
-            <p className="score-wrapper">
-              Blue Score: {blueScore} Red Score: {redScore}
-            </p>
-          </div>
+          <div className="playArea-container">
+            {visibility ? (
+              <Notification message={message} setVisibility={setVisibility} />
+            ) : null}
+            <div className="scoreContainer">
+              <p className="score-wrapper">
+                Blue Score: {visibleBlueScore} Red Score: {visibleRedScore}
+              </p>
+            </div>
 
-          <div className="cards-wrapper">
-            {deck.map((card, index) => (
-              <PlayerCard
-                teamColor={teamColor}
-                card={card}
-                image={card.image}
-                index={index}
-                key={card.word}
-                playersPick={playersPick}
-                spyMaster={spyMaster}
-                currentTurn={currentTurn}
-              />
-            ))}
+            <div className="cards-wrapper">
+              {deck.map((card, index) => (
+                <PlayerCard
+                  teamColor={teamColor}
+                  card={card}
+                  image={card.image}
+                  index={index}
+                  key={card.word}
+                  playersPick={playersPick}
+                  spyMaster={spyMaster}
+                  currentTurn={currentTurn}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </>
   );
 };
