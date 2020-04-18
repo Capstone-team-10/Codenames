@@ -8,15 +8,15 @@ export const createProfile = (name, email, password) => async (
   { getFirebase, getFirestore }
 ) => {
   try {
+
+    if(!name){
+      return "The Username field can not be empty"
+    }
     const firebase = getFirebase();
 
     const { user } = await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password);
-
-    // await user.updateProfile({
-    //   displayName: name
-    // });
 
     const firestore = getFirestore();
     await firestore
