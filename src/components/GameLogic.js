@@ -222,7 +222,7 @@ const mapDispatchToProps = dispatch => {
     victory: (id, team) => dispatch(victory(id, team)),
     UpdateWin: uid => dispatch(updateWinRecord(uid)),
     UpdateLoss: uid => dispatch(updateLossRecord(uid)),
-    ClearHint: (id, word, count) => dispatch(ClearHint(id, word, count))
+    ClearHint: id => dispatch(ClearHint(id))
   };
 };
 
