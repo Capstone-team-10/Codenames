@@ -95,7 +95,8 @@ export const Endturn = (id, turnString) => async (
       .doc(id)
       .update({
         CurrentTurn: turnString
-      });
+      }
+      );
   } catch (error) {
     return error.message;
   }

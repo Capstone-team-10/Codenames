@@ -9,7 +9,7 @@ import { compose } from "redux";
 import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
 import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
 import { Endturn, Assassin, victory } from "../store/GameThunks";
-import { ChangeHintCount } from "../store/HintThunk";
+import { ChangeHintCount, ClearHint } from "../store/HintThunk";
 
 const GameLogic = props => {
   const {
@@ -20,6 +20,7 @@ const GameLogic = props => {
     changeCardsLeft,
     ChangeHintCount,
     Endturn,
+    ClearHint,
     Assassin,
     UpdateWin,
     UpdateLoss,
@@ -81,6 +82,7 @@ const GameLogic = props => {
           ChangeHintCount(Gameid, game);
           flipCard(deck, cardPicked, outcome);
           if (hintCount === 0) {
+            ClearHint(Gameid);
             Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           }
           break;
@@ -89,6 +91,7 @@ const GameLogic = props => {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
+          ClearHint(Gameid);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           flipCard(deck, cardPicked, outcome);
           break;
@@ -109,6 +112,7 @@ const GameLogic = props => {
             return;
           }
           changeCardsLeft(wrongCard, Gameid, game);
+          ClearHint(Gameid);
           Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
           flipCard(deck, cardPicked, outcome);
           break;
@@ -175,28 +179,28 @@ const GameLogic = props => {
   };
 
   return (
-        <PlayerGameBoard
-          history={history}
-          Games={Games}
-          gameId={Gameid}
-          gameStatus={gameStatus}
-          GameOver={GameOver}
-          GameResult={GameResult}
-          GameMade={GameMade}
-          blueScore={blueScore}
-          redScore={redScore}
-          allPlayers={allPlayers}
-          currentUser={currentUser}
-          displayName={displayName}
-          uid={uid}
-          teamColor={teamColor}
-          spyMaster={spyMaster}
-          dealCards={dealDeck(dealCards(), Gameid)}
-          dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
-          deck={spyMaster ? spyMasterDeck : spyDeck}
-          playersPick = {spyMaster ? null : cardPick(spyMasterDeck)}
-        />
-        )
+    <PlayerGameBoard
+      history={history}
+      Games={Games}
+      gameId={Gameid}
+      gameStatus={gameStatus}
+      GameOver={GameOver}
+      GameResult={GameResult}
+      GameMade={GameMade}
+      blueScore={blueScore}
+      redScore={redScore}
+      allPlayers={allPlayers}
+      currentUser={currentUser}
+      displayName={displayName}
+      uid={uid}
+      teamColor={teamColor}
+      spyMaster={spyMaster}
+      dealCards={dealDeck(dealCards(), Gameid)}
+      dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+      deck={spyMaster ? spyMasterDeck : spyDeck}
+      playersPick={spyMaster ? null : cardPick(spyMasterDeck)}
+    />
+  )
 };
 
 const mapStateToProps = state => {
@@ -217,7 +221,8 @@ const mapDispatchToProps = dispatch => {
     ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
     victory: (id, team) => dispatch(victory(id, team)),
     UpdateWin: uid => dispatch(updateWinRecord(uid)),
-    UpdateLoss: uid => dispatch(updateLossRecord(uid))
+    UpdateLoss: uid => dispatch(updateLossRecord(uid)),
+    ClearHint: id => dispatch(ClearHint(id))
   };
 };
 
