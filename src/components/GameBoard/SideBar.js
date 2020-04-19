@@ -7,7 +7,7 @@ import { ResizableBox } from "react-resizable";
 import { useToasts } from "react-toast-notifications";
 import { leaveGame, Endturn } from "../../store/GameThunks";
 import { SendMessage } from "../../store/ChatThunk";
-import { SetHintWordAndCount } from "../../store/HintThunk";
+import { SetHintWordAndCount, ClearHint } from "../../store/HintThunk";
 
 import {
   displayCurrentPlayersTurn,
@@ -31,6 +31,7 @@ const SideBar = ({
   currentTurn,
   gameStatus,
   Sendhint,
+  ClearHint,
   EndTurn,
   GameMade,
   currentUser,
@@ -215,6 +216,7 @@ const SideBar = ({
     }
 
     let turnString = turnTracker.nextTurn(currentTurn);
+    ClearHint(gameId);
     EndTurn(gameId, turnString);
   };
 
@@ -238,8 +240,8 @@ const SideBar = ({
         <p className={`players-text add-color-${teamColor}`}>
           {spyMaster
             ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
-                1
-              )} Spy Master`
+              1
+            )} Spy Master`
             : `With the ${teamColor} spy agency`}
         </p>
       </div>
@@ -269,7 +271,7 @@ const SideBar = ({
               <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
               <p className="spyMaster-hint-text">{`For: ${
                 getHintCount !== -1 ? getHintCount : 0
-              } cards `}</p>
+                } cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
@@ -309,11 +311,11 @@ const SideBar = ({
             </button>
           </>
         ) : (
-          <>
-            <h6>{`Hint: ${getHint}`}</h6>
-            <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
-          </>
-        )}
+            <>
+              <h6>{`Hint: ${getHint}`}</h6>
+              <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
+            </>
+          )}
       </div>
       <ResizableBox
         handleSize={[10, 10]}
@@ -378,7 +380,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(SendMessage(id, game, currentUser, message)),
     Sendhint: (id, word, count) =>
       dispatch(SetHintWordAndCount(id, word, count)),
-    EndTurn: (id, turnString) => dispatch(Endturn(id, turnString))
+    EndTurn: (id, turnString) => dispatch(Endturn(id, turnString)),
+    ClearHint: id => dispatch(ClearHint(id))
   };
 };
 
