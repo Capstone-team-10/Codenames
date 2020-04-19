@@ -93,12 +93,9 @@ export const Endturn = (id, turnString) => async (
     await firestore
       .collection("Games")
       .doc(id)
-      .set({
-        CurrentTurn: turnString,
-        HintCount: -1,
-        HintWord: ""
-      },
-        { merge: true }
+      .update({
+        CurrentTurn: turnString
+      }
       );
   } catch (error) {
     return error.message;
