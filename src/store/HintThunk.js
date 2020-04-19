@@ -21,28 +21,6 @@ export const SetHintWordAndCount = (id, Word, Count) => async (
   }
 };
 
-export const ClearHint = (id) => async (
-  dispatch,
-  getState,
-  { getFirebase, getFirestore }
-) => {
-  try {
-    const firestore = getFirestore();
-    await firestore
-      .collection("Games")
-      .doc(id)
-      .set(
-        {
-          HintCount: -1,
-          HintWord: ""
-        },
-        { merge: true }
-      );
-  } catch (error) {
-    return error.message;
-  }
-};
-
 export const ChangeHintCount = (id, game) => async (
   dispatch,
   getState,
