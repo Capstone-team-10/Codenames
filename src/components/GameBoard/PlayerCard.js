@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
-import { isItYourTurn, getResultImage } from "../../utils";
+import { isItYourTurn } from "../../utils";
 
 const PlayerCard = ({
   card,
