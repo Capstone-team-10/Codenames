@@ -1,7 +1,5 @@
 import React from "react";
 
-import { getResultImage } from "../../utils";
-
 const PlayerCard = ({ card, index, playersPick, setPickResult, spyMaster }) => {
   const handleClick = evt => {
     const pick = evt.currentTarget.id;

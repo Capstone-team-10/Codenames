@@ -1,0 +1,13 @@
+.rotate-card {
+    transform: rotateY(180deg);
+    animation: rotate 2s infinite;
+  }
+
+  @keyframes rotate {
+      from { 
+        transform: rotateY(0deg);
+      }
+      to {
+        transform: rotatey(360deg)
+      }
+  }
