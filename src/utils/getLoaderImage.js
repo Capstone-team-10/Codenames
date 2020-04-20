@@ -7,7 +7,7 @@ const cardImages = [
     "/images/neutral-2.png", 
     "/images/assassin.jpg"];
 
-    export default loaderImage => {
+    export default () => {
         console.log("In getLoaderResults");
         return cardImages[
           Math.floor(Math.random() * cardImages.length)
