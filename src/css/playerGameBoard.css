@@ -1,31 +1,76 @@
-/* PlayerGameBoard */
+/*                    */
+/*   PlayerGameBoard  */
+/*                    */
+
 .gameBoard-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0px;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
-/*  SideBar */
+/*                    */
+/*      SideBar       */
+/*                    */
 
 .sideBar-wrapper {
-  background-color: lightgrey;
+  background-color: #b9b3b3;
   padding: 0px 5px;
-  height: calc(100% - 64px);
+  height: 100%;
   max-width: 235px;
 }
 
 .players-text {
-  margin: 3px 0px;
+  margin: -1px 0px;
 }
 
+.players-text-header {
+  margin: 0px 0px -3px;
+  font-size: x-small;
+}
+
+.add-color-red {
+  color: red;
+  text-shadow: 0px 0px 2px black;
+}
+.add-glow-redHint,
+.add-glow-redGuess {
+  color: red;
+  text-shadow: 0px 0px 2px black;
+}
+
+.add-color-blue {
+  color: blue;
+  text-shadow: 0px 0px 2px black;
+}
+
+.add-glow-blueHint,
+.add-glow-blueGuess {
+  color: blue;
+  text-shadow: 0px 0px 2px black;
+}
+
+.current-turn-info-container,
 .playerInfo-container,
 .hint-container,
 .allPlayersInfo-container,
 .chat-container {
   background-color: slategray;
   width: 100%;
-  padding: 5px 10px;
+  padding: 2px 5px;
   margin: 5px 3px;
   border-radius: 5px;
+  border: inset;
+}
+
+.allPlayersInfo-container {
+  overflow-y: scroll;
+}
+
+.current-turn-text {
+  margin: 0px;
 }
 
 .spyMaster-hint-text-wrapper {
@@ -56,6 +101,15 @@
   flex-basis: 75%;
 }
 
+.hint-error-toast-text {
+  display: block;
+  margin: 4px;
+}
+
+.hint-error {
+  margin-left: 14px;
+}
+
 .hintNumber {
   display: block;
   height: 2rem;
@@ -79,36 +133,91 @@
   height: 30px;
 }
 
+.end-turn-btn {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #697888;
+}
+
 .leave-game-btn {
   width: 100%;
   height: 30px;
+  border: 1px solid #697888;
 }
 
-/* PlayArea */
+.log-wrapper {
+  height: calc(100% - 83px);
+  overflow-y: scroll;
+  margin: 3px 0px;
+}
+
+.messageSender {
+  font-size: small;
+  margin: 0px;
+  margin-bottom: -8px;
+  margin-left: 6px;
+  text-shadow: 0px 0px 5px black;
+  color: white;
+}
+
+.message-wrapper {
+  background-image: linear-gradient(
+    #1e5e57 10%,
+    #00796b 25%,
+    #00796b 75%,
+    #1e5e57 90%
+  );
+  border: 1px solid;
+  width: 97%;
+  color: black;
+  padding: 2px 4px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+
+.message-text {
+  margin: 0px;
+  text-shadow: 0px 0px 4px white;
+  font-size: 15px;
+}
+
+/*                    */
+/*      PlayArea      */
+/*                    */
 
 .playArea-container {
+  position: relative;
   width: 100%;
   height: 100%;
   padding: 30px;
-  background-color: navajowhite;
+  background-image: url(/images/wood-background.jpg);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
+}
+
+.score-wrapper {
+  color: white;
+  font-size: 1.4rem;
+  text-shadow: 0px 0px 5px black;
 }
 
 .cards-wrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: paleturquoise;
-
   height: 90%;
   max-width: 90%;
   min-width: 500px;
   padding: 10px;
 }
 
-/* GameCard */
+/*                    */
+/*      GameCard      */
+/*                    */
 
 .cardContainer {
   position: relative;
@@ -117,8 +226,7 @@
   justify-content: center;
   align-items: center;
   height: 8rem;
-  min-width: 8.25rem;
-  /* max-width: 11rem; */
+  min-width: 9.4rem;
   padding: 7px;
 }
 
@@ -151,6 +259,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Merriweather;
+  border: outset;
+  border-right-color: #e1dbdb;
+  border-bottom-color: #e1dbdb;
+  border-top-color: #fbfbfb;
+  border-left-color: #fbfbfb;
 }
 
 .card-back {
@@ -165,7 +279,39 @@
   color: white;
 }
 
-/* GameLobby */
+.card-color-red {
+  background-color: #c93939;
+  border-right-color: #dd8080;
+  border-bottom-color: #dd8080;
+  border-top-color: #c06464;
+  border-left-color: #c06464;
+}
+
+.card-color-blue {
+  background-color: lightskyblue;
+  border-right-color: #abd0e1;
+  border-bottom-color: #abd0e1;
+  border-top-color: #86cfd4;
+  border-left-color: #86cfd4;
+}
+
+.card-color-white {
+  background-color: white;
+}
+
+.card-color-black {
+  background-color: black;
+  color: white;
+  border-right-color: #918787;
+  border-bottom-color: #918787;
+  border-top-color: #3a3737;
+  border-left-color: #3a3737;
+}
+
+/*                    */
+/*     GameLobby      */
+/*                    */
+
 .gameLobby-container {
   display: flex;
   flex-direction: column;
@@ -175,8 +321,15 @@
   background-color: #0000007a;
   background-image: url(/images/main-image-original.jpg);
   background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
-  /* overflow: hidden; */
+}
+
+.lobby-header-text {
+  font-family: rock salt;
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 35px;
 }
 
 .team-select-wrapper {
@@ -214,6 +367,7 @@
 
 .spyMaster-check-wrapper {
   border: 1px solid white;
+  background-image: linear-gradient(#6b6666, #00000080, #00000080, #6b6666);
   border-radius: 25px;
   margin: 0px 7px;
   cursor: pointer;
@@ -242,6 +396,67 @@
 .blue-spyMaster-selected {
   color: lightskyblue;
 }
+
+/*                    */
+/*    InviteFriend    */
+/*                    */
+
+.inviteFriend-wrapper {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000000aa;
+}
+
+.formWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: lightcyan;
+  padding-bottom: 20px;
+}
+
+.inviteFriendForm {
+  padding: 20px 15px 0px;
+  margin-bottom: 7px;
+}
+
+.invite-form-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.invite-btn {
+  width: 120px;
+}
+/*    notification    */
+/*                    */
+
+.notification-container {
+  position: absolute;
+  top: -60px;
+  padding: 5px 20px;
+  transition: all 0.75s ease-in-out;
+}
+
+.popIn {
+  top: 9px;
+  background-image: linear-gradient(transparent 5%, #4f0d11 20%, #311f1f 80%);
+  color: white;
+  font-family: Merriweather;
+  font-size: 1.4rem;
+}
+
+/*                    */
+/*     media query    */
+/*                    */
 
 @media screen and (max-width: 1000px) {
   .card-inner {
@@ -273,5 +488,11 @@
   .agent-image-red {
     width: 150px;
     margin: 7px;
+  }
+}
+
+@media (max-width: 540px) {
+  .gameBoard-container {
+    top: 56px;
   }
 }

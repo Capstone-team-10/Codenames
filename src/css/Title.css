@@ -1,31 +1,21 @@
-.title-container{
-  background-image: url('./main-image.jpg');
+.title-container {
+  background-image: url("./main-image.jpg");
   background-size: cover;
-  display:flex;
-  padding-top:1%;
-  justify-content: flex-start;
-  align-items: flex-start;
+  display: flex;
+  padding-top: 1%;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
-.title-name{
-  font-size: 10vh;
-  color: white;
-  font-family: "Avant Garde"
-}
-
 .title-button {
-  align-self: center;
   font-size: 24px;
-  padding:1%;
+  padding: 15px;
   background-color: teal;
   border-radius: 15px;
   border: 1px solid black;
 }
 
-.title-button:hover {
-  background-color: black
-}
-a{
-  color:white
+a {
+  color: white;
 }

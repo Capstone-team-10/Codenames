@@ -1,77 +1,155 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+// import { firestoreConnect } from "react-redux-firebase";
+// import { compose } from "redux";
+import { ResizableBox } from "react-resizable";
 
 import { useToasts } from "react-toast-notifications";
-import { leaveGame } from "../../store/GameThunks";
+import { leaveGame, Endturn } from "../../store/GameThunks";
+import { SendMessage } from "../../store/ChatThunk";
+import { SetHintWordAndCount, ClearHint } from "../../store/HintThunk";
+
+import {
+  displayCurrentPlayersTurn,
+  isItYourTurn,
+  turnTracker
+} from "../../utils";
+
+import "../../css/resizeable.css";
 
 const SideBar = ({
   allPlayers,
   bannedWords,
-  chatLog,
   displayName,
   spyMaster,
   teamColor,
   history,
   gameId,
   Games,
-  User,
-  LeaveGame
+  SendMessage,
+  LeaveGame,
+  currentTurn,
+  gameStatus,
+  Sendhint,
+  ClearHint,
+  EndTurn,
+  GameMade,
+  currentUser,
+  uid,
+  chatLog
 }) => {
-  console.log("All Players - Siderbar", allPlayers);
-  const [hint, setHint] = useState("");
-  const [hintNumber, setHintNumber] = useState(1);
+  // const [hint, setHint] = useState("");
+  // const [hintNumber, setHintNumber] = useState(1);
+  // const [windowResized, setWindowResized] = useState(false);
+  const [fixedHeight, setFixedHeight] = useState(45.7 + 71.3 + 33);
 
   const { addToast } = useToasts();
 
   useEffect(() => {
+    var elem = document.getElementById("chat-box");
+    elem.scrollTop = elem.scrollHeight;
+  }, [chatLog]);
+
+  useEffect(() => {
+    const navbarHeight = document.getElementById("navbar").offsetHeight;
+    const sideBarHeight = document.getElementById("sideBar").offsetHeight;
+    const calculateFixedHeight = () => {
+      const currentTurn = gameStatus ? 45.7 : 0;
+      const hintHeight = spyMaster ? 141 : 92;
+      const endTurnBtn = spyMaster ? 0 : 33;
+      return Math.ceil(hintHeight + endTurnBtn + currentTurn + 71.3 + 33);
+    };
+
+    //fixed height
+    setFixedHeight(calculateFixedHeight);
+    // console.log("On load window height is: ", window.innerHeight);
+    // console.log(
+    //   `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight}. total height: ${navbarHeight +
+    //     sideBarHeight}`
+    // );
+    window.onresize = resize;
+  }, [gameStatus, spyMaster]);
+
+  useEffect(() => {
     return () => {
       LeaveHandler();
+      window.onresize = null;
     };
   }, []);
 
-  const isFetching = Games !== undefined;
-  const game = isFetching ? Games[gameId] : null;
+  const resize = () => {
+    const navbarHeight = document.getElementById("navbar").offsetHeight;
+    const sideBarHeight = document.getElementById("sideBar").offsetHeight;
+    // console.log("On resize window height is: ", window.innerHeight);
+    // console.log(
+    //   `On load navbar height is: ${navbarHeight}, and the SideBar height is: ${sideBarHeight} total height: ${navbarHeight +
+    //     sideBarHeight}`
+    // );
+    // console.log("fixed Height is: ", fixedHeight);
+  };
+
+  const isFetching = Games === undefined || Games[gameId] === undefined;
+  const game = isFetching ? null : Games[gameId]; // individual game
+  // const isFetchingChat = isFetching || game.Chat === undefined;
+  // const chatLog = isFetchingChat ? [] : game.Chat;
+  const getHint = isFetching ? "" : game.HintWord;
+  const getHintCount = isFetching ? 0 : game.HintCount;
 
   const LeaveHandler = async () => {
     try {
-      await LeaveGame(gameId, game, User);
+      await LeaveGame(gameId, uid);
       history.push("/userProfile");
-      // if(err === undefined){
-      //   history.push("/userProfile");
-      // }
-      // else{
-      //   addToast("Sorry, we couldn't exit you from this game. Try again", {
-      //     appearance: "warning",
-      //     autoDismiss: true
-      //   });
-      // }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const changeHandler = evt => {
-    console.log(evt.target.value);
-    if (evt.target.id === "hint") {
-      setHint(evt.target.value.split(/(\W|\d)/)[0].toUpperCase());
-    } else {
-      setHintNumber(evt.target.value);
-    }
-  };
-
   const submitHint = () => {
-    if (bannedWords.indexOf(hint) > 0) {
+    if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
+      addToast(`Wait for your turn!`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      document.getElementById("hint").value = "";
+      document.getElementById("hintNumber").value = "1";
+      return;
+    }
+    const hintElem = document.getElementById("hint");
+    const hintNumberElem = document.getElementById("hintNumber");
+    const bannedWord = bannedWords[hintElem.value.toUpperCase()];
+    const invalidChars = hintElem.value.split(/(\W|\d)/).length > 1;
+    const tooLong = hintElem.value.length > 15;
+    if (bannedWord || invalidChars || tooLong) {
       addToast(
-        `The word ${hint} is on the board and cannot be used as a hint!`,
+        <>
+          <p className="hint-error-toast-text">The hint entered:</p>
+          {bannedWord ? (
+            <p className="hint-error-toast-text hint-error">
+              -{hintElem.value} is a word on the board
+            </p>
+          ) : null}
+          {invalidChars ? (
+            <p className="hint-error-toast-text hint-error">
+              -Contains invalid chars, only letters without spaces are allowed
+            </p>
+          ) : null}
+          {tooLong ? (
+            <p className="hint-error-toast-text hint-error">
+              -Is too long. Hints must be less than 15 chars
+            </p>
+          ) : null}
+        </>,
         {
           appearance: "warning",
           autoDismiss: true
         }
       );
-      setHint("");
     } else {
+      // setHint(hintElem.value);
+      // setHintNumber(hintNumberElem.value);
+      Sendhint(gameId, hintElem.value, hintNumberElem.value);
+      let turnString = turnTracker.nextTurn(currentTurn);
+      EndTurn(gameId, turnString);
     }
     document.getElementById("hint").value = "";
     document.getElementById("hintNumber").value = "1";
@@ -80,7 +158,7 @@ const SideBar = ({
   //Consider moving function out to utils folder
   const spyMasterChatBan = message => {
     for (let i = 0; i < message.length; i++) {
-      if (bannedWords.indexOf(message[i].toUpperCase()) > 0) {
+      if (bannedWords[message[i].toUpperCase()]) {
         addToast(
           `The word ${message[i]} is on the board and you cannot send it in chat!`,
           {
@@ -94,43 +172,112 @@ const SideBar = ({
     return false;
   };
 
-  const submitChat = () => {
+  const onEnterPress = e => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      if (e.target.id === "chatMsg") {
+        submitChat();
+      } else {
+        submitHint();
+      }
+    }
+  };
+
+  const submitChat = async () => {
     let chatMsg = document.getElementById("chatMsg").value;
     if (spyMaster && spyMasterChatBan(chatMsg.split(" "))) {
-      console.log("Banned word used");
     } else {
-      console.log("Submit chat message");
+      try {
+        if (chatMsg !== "") {
+          await SendMessage(gameId, game, currentUser, chatMsg);
+          // var elem = document.getElementById('chat-box');
+          // elem.scrollTop = elem.scrollHeight;
+        }
+      } catch (error) {
+        return error.message;
+      }
     }
     document.getElementById("chatMsg").value = "";
   };
 
+  const endTurnHandler = () => {
+    if (!GameMade) {
+      addToast(`${teamColor} team must make at least one guess`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
+    } else if (!isItYourTurn(currentTurn, teamColor, spyMaster)) {
+      addToast(`Wait for your turn!`, {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
+    }
+
+    let turnString = turnTracker.nextTurn(currentTurn);
+    ClearHint(gameId);
+    EndTurn(gameId, turnString);
+  };
+
   return (
-    <div className="sideBar-wrapper wrapper right">
-      <div className="playerInfo-container container">
-        <p className="players-text">{`You are agent: ${displayName}`}</p>
-        <p className="players-text">{`With the ${teamColor} spy agency`}</p>
+    <div id="sideBar" className="sideBar-wrapper wrapper right">
+      {gameStatus ? (
+        <div
+          id="turnInfo"
+          className={`current-turn-info-container add-glow-${currentTurn}`}
+        >
+          <p className="current-turn-text">{`${displayCurrentPlayersTurn(
+            currentTurn
+          )}'s turn`}</p>
+        </div>
+      ) : null}
+      <div id="playerInfo" className="playerInfo-container container">
+        <p className="players-text-header">Your info:</p>
+        <p className={`players-text add-color-${teamColor}`}>
+          {`Agent ${displayName}`}
+        </p>
+        <p className={`players-text add-color-${teamColor}`}>
+          {spyMaster
+            ? `${teamColor.slice(0, 1).toUpperCase()}${teamColor.slice(
+              1
+            )} Spy Master`
+            : `With the ${teamColor} spy agency`}
+        </p>
       </div>
-      <div className="allPlayersInfo-container">
+      <ResizableBox
+        handleSize={[10, 10]}
+        resizeHandles={["s"]}
+        height={120}
+        width={225}
+        minConstraints={[225, 50]}
+        maxConstraints={[225, 750]}
+        axis={"y"}
+        className="allPlayersInfo-container"
+      >
         {allPlayers.map(({ DisplayName, Team, isSpyMaster }, index) => {
           return (
-            <p className="players-text" key={`${index}`}>{`${Team} ${
-              isSpyMaster ? "spy master: " : "spy: "
-            }${DisplayName}`}</p>
+            <p
+              className={`players-text add-color-${Team}`}
+              key={`${index}`}
+            >{`${isSpyMaster ? "SM: " : "S: "}${DisplayName}`}</p>
           );
         })}
-      </div>
+      </ResizableBox>
       <div className="hint-container">
         {spyMaster ? (
-          <React.Fragment>
+          <>
             <div className="spyMaster-hint-text-wrapper">
-              <p className="spyMaster-hint-text">{`Hint: ${hint}`}</p>
-              <p className="spyMaster-hint-text">{`For: ${hintNumber} cards `}</p>
+              <p className="spyMaster-hint-text">{`Hint: ${getHint}`}</p>
+              <p className="spyMaster-hint-text">{`For: ${
+                getHintCount !== -1 ? getHintCount : 0
+                } cards `}</p>
             </div>
             <div className="input-wrapper">
               <div className="word-hint-wrapper">
                 <label htmlFor="hint">One Word Hint</label>
                 <input
-                  onChange={changeHandler}
+                  onKeyDown={onEnterPress}
                   type="text"
                   className="input"
                   name="hint"
@@ -140,7 +287,6 @@ const SideBar = ({
               <div className="number-hint-wrapper">
                 <label htmlFor="hintNumber">Number</label>
                 <select
-                  onChange={changeHandler}
                   name="hintNumber"
                   className="hintNumber"
                   id="hintNumber"
@@ -163,29 +309,43 @@ const SideBar = ({
             >
               Submit Hint
             </button>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
-            <h6>{`Hint: ${hint}`}</h6>
-            <h6>{`For: ${hintNumber} cards `}</h6>
-          </React.Fragment>
-        )}
+            <>
+              <h6>{`Hint: ${getHint}`}</h6>
+              <h6>{`For: ${getHintCount !== -1 ? getHintCount : 0} cards `}</h6>
+            </>
+          )}
       </div>
-      <div className="chat-container">
-        <div className="log-wrapper">
+      <ResizableBox
+        handleSize={[10, 10]}
+        resizeHandles={["s"]}
+        height={300}
+        width={225}
+        minConstraints={[225, 130]}
+        maxConstraints={[225, 750]}
+        axis={"y"}
+        className="chat-container"
+      >
+        <div className="log-wrapper" id="chat-box">
           {chatLog.map(({ sender, message }, index) => {
             return (
               <React.Fragment key={`${sender}${index}`}>
-                <p className="messageSender">{sender}</p>
-                <div className="message-wrapper">
-                  <p>{message}</p>
+                <p className="messageSender">{sender}:</p>
+                <div className={`message-wrapper`}>
+                  <p className="message-text">{message}</p>
                 </div>
               </React.Fragment>
             );
           })}
         </div>
         <div className="input-wrapper">
-          <input className="input" type="text" id="chatMsg" />
+          <input
+            className="input"
+            type="text"
+            id="chatMsg"
+            onKeyDown={onEnterPress}
+          />
         </div>
         <button
           className="submit-chat btn waves-effect waves-dark teal darken-4"
@@ -193,8 +353,17 @@ const SideBar = ({
         >
           Send Message
         </button>
-      </div>
+      </ResizableBox>
+      {!spyMaster ? (
+        <button
+          className="end-turn-btn btn center waves-effect waves-dard yellow darken-3"
+          onClick={endTurnHandler}
+        >
+          End Turn
+        </button>
+      ) : null}
       <button
+        id="leaveGameBtn"
         className="leave-game-btn btn center waves-effect waves-dark red darken-4"
         onClick={LeaveHandler}
       >
@@ -204,24 +373,16 @@ const SideBar = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    LeaveGame: (id, game, user) => dispatch(leaveGame(id, game, user))
+    LeaveGame: (id, uid) => dispatch(leaveGame(id, uid)),
+    SendMessage: (id, game, currentUser, message) =>
+      dispatch(SendMessage(id, game, currentUser, message)),
+    Sendhint: (id, word, count) =>
+      dispatch(SetHintWordAndCount(id, word, count)),
+    EndTurn: (id, turnString) => dispatch(Endturn(id, turnString)),
+    ClearHint: id => dispatch(ClearHint(id))
   };
 };
 
-export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
-)(SideBar);
+export default connect(null, mapDispatchToProps)(SideBar);

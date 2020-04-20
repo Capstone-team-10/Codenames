@@ -5,7 +5,6 @@ import "../../css/playerGameBoard.css";
 
 const PlayerGameBoard = ({
   allPlayers,
-  chatLog,
   deck,
   displayName,
   gameStatus,
@@ -15,64 +14,85 @@ const PlayerGameBoard = ({
   teamColor,
   gameId,
   history,
+  dealCards,
+  blueScore,
+  redScore,
+  GameOver,
+  GameResult,
+  dealSpyAndSpymasterDecks,
+  Games,
+  GameMade,
+  currentUser,
+  uid
 }) => {
-  const [bannedWords, setBannedWords] = useState([]);
+  const [bannedWords, setBannedWords] = useState({});
+
+
+
+  const isFetching = Games === undefined || Games[gameId] === undefined;
+
+  const game = isFetching ? null : Games[gameId];
+  const currentTurn = isFetching ? "" : game.CurrentTurn;
+  // const chatLog = isFetching ? [] : game.Chat;
+  const isFetchingChat = isFetching || game.Chat === undefined;
+  const chatLog = isFetchingChat ? [] : game.Chat;
 
   useEffect(() => {
-    const banned = [];
+    const banned = {};
     deck.forEach(({ word, flipped }) => {
       if (!flipped) {
-        banned.push(word);
+        banned[word] = word;
       }
     });
     setBannedWords(banned);
-    console.log("banned words are: ", banned);
   }, [deck]);
 
   return (
-    <div className="gameBoard-container">
-      {spyMaster ? (
-        <>
-          {gameStatus ? (
-            <PlayArea deck={deck} spyMaster={spyMaster} gameId={gameId}/>
-          ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
-          )}
-          <SideBar
-            allPlayers={allPlayers}
-            bannedWords={bannedWords}
-            displayName={displayName}
-            chatLog={chatLog}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            gameId={gameId}
-            history={history}
-          />
-        </>
-      ) : (
-        <>
+    <div id="gameBoard-container" className="gameBoard-container">
           {gameStatus ? (
             <PlayArea
-              deck={deck}
-              playersPick={playersPick}
-              setPickResult={setPickResult}
-              spyMaster={spyMaster}
+              Games={Games}
               gameId={gameId}
+              GameOver={GameOver}
+              GameResult={GameResult}
+              spyMaster={spyMaster}
+              hintWord={game.HintWord}
+              hintCount={game.HintCount}
+              teamColor={teamColor}
+              blueScore={blueScore}
+              redScore={redScore}
+              currentTurn={currentTurn}
+              uid={uid}
+              deck={deck}
+              dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+              playersPick={spyMaster ? null : playersPick}
             />
           ) : (
-            <GameLobby allPlayers={allPlayers} gameId={gameId}/>
-          )}
+              <GameLobby
+                Games={Games}
+                gameId={gameId}
+                allPlayers={allPlayers}
+                uid={uid}
+                displayName={displayName}
+                dealCards={dealCards}
+              />
+            )}
           <SideBar
-            allPlayers={allPlayers}
-            displayName={displayName}
-            chatLog={chatLog}
-            spyMaster={spyMaster}
-            teamColor={teamColor}
-            gameId={gameId}
             history={history}
+            Games={Games}
+            gameId={gameId}
+            gameStatus={gameStatus}
+            spyMaster={spyMaster}
+            allPlayers={allPlayers}
+            currentUser={currentUser}
+            currentTurn={currentTurn}
+            uid={uid}
+            displayName={displayName}
+            teamColor={teamColor}
+            chatLog={chatLog}
+            bannedWords={spyMaster ? bannedWords : null}
+            GameMade={spyMaster ? null : GameMade}
           />
-        </>
-      )}
     </div>
   );
 };

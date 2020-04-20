@@ -1,90 +1,100 @@
 import React from "react";
-import { Link} from "react-router-dom";
-import { connect } from 'react-redux';
-import {logout} from "../store/UserThunks"
-import { withRouter } from 'react-router'
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../store/UserThunks";
+import { withRouter } from "react-router";
 import { useToasts } from "react-toast-notifications";
 
 import "../css/navbar.css";
 
-const Navbar = (props) => {
-  const { isLoggedOut,isLoggedIn } = props;
-  const {addToast} = useToasts()
-  const LoggingOut = async () =>{
+const Navbar = props => {
+  const { isLoggedIn, history } = props;
+
+  const { addToast } = useToasts();
+
+  const LoggingOut = async () => {
     try {
-      const err = await props.logout()
-      console.log("Logout", err)
-      if(err === undefined){
-        props.history.push("/")
-      }
-      else{
+      const err = await props.logout();
+      if (err === undefined) {
+        history.push("/");
+      } else {
         addToast("Sorry, failed at logging you out. Please try again", {
           appearance: "warning",
           autoDismiss: true
         });
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
-  // if(isLoggedOut){
-  //   return <Redirect to="/"/>
-  // }
-  // else{
-    return (
-      <nav id="navbar" className="navbar nav-wrapper red darken-4">
-        <button className="btn controls-btn waves-effect waves-dark teal darken-2">
-          <Link to="/onSubmit">
-          Go to Game Room
-          </Link>
-        </button>
-        <div className="logo-container brand-logo teal darken-2 center">
-          <h1 id="header-logo" className="header-logo hide-on-med-and-down">
-            <Link to="/">Codenames</Link>
-          </h1>
-          <h3
-            id="header-logo"
-            className="header-logo hide-on-large-only hide-on-small-only"
-          >
-            <Link to="/">Codenames</Link>
-          </h3>
-        </div>
-        <div className="btns-right-container">
+  };
 
-          {isLoggedIn ? ( <button className="btn right waves-effect waves-dark teal darken-2" onClick={LoggingOut}>
-            Log Out
-          </button>) : (
-            <>
-            <button className="btn right waves-effect waves-dark teal darken-2">
-            <Link to="/auth/register">Register</Link>
+  const userHandler = () => {
+    history.push("/userProfile")
+  }
+
+  return (
+    <nav id="navbar" className="navbar nav-wrapper red darken-4">
+      {isLoggedIn ? (
+        <Link to="/onSubmit">
+          <button className="btn controls-btn waves-effect waves-dark">
+            Go to Game Room
           </button>
-          <button className="btn right waves-effect waves-dark teal darken-2">
-          <Link to="/auth/login">Login</Link>
-        </button>
-        </>
-          )}
-          {isLoggedIn && (
-            <button className="btn right waves-effect waves-dark teal darken-2">
-              <Link to="/userProfile">User Record</Link>
-            </button>)}
+        </Link>
+      ) : (
+          <div></div>
+        )}
+      <div className="logo-container">
+        <h1 id="header-logo" className="header-logo hide-on-med-and-down">
+          Codenames
+        </h1>
+        <h3
+          id="header-logo"
+          className="header-logo hide-on-large-only hide-on-small-only"
+        >
+          Codenames
+        </h3>
+      </div>
+      {isLoggedIn ? (
+        <div className="btns-right-container">
+          <button
+            className="controls-btn btn right waves-effect waves-dark"
+            onClick={LoggingOut}
+          >
+            Log Out
+          </button>
+          <button className="controls-btn btn right waves-effect waves-dark"
+            onClick={userHandler}>
+            User Record
+            </button>
         </div>
-      </nav>
-    );
-  // }
+      ) : (
+          <div className="btns-right-container">
+            <Link to="/auth/register">
+              <button className="controls-btn btn right waves-effect waves-dark">
+                Sign Up
+            </button>
+            </Link>
+            <Link to="/auth/login">
+              <button className="controls-btn btn right waves-effect waves-dark">
+                Login
+            </button>
+            </Link>
+          </div>
+        )}
+    </nav>
+  );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    isLoggedIn: !state.firebase.auth.isEmpty,
-    isLoggedOut: state.firebase.auth.isEmpty,
-  }
-}
+    isLoggedIn: !state.firebase.auth.isEmpty
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(logout()),
-  }
-}
+    logout: () => dispatch(logout())
+  };
+};
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Navbar))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar));

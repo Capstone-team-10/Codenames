@@ -1,35 +1,42 @@
-.EndGameScreen{
-  background-image: url('./main-image.jpg');
+.EndGameScreen {
+  background-image: url("./main-image.jpg");
   background-size: cover;
-  height: 100vh;
-  display:flex;
+  height: 100%;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.EndScreen-message{
-  background-color: white;
+.EndScreen-message {
+  font-family: special elite;
+  color: white;
+  font-size: 1.7rem;
+  text-shadow: 0px 0px 2px black, 1px 1px 2px black, -1px -1px 2px black;
 }
 
-.EndScreen-buttons{
+.EndScreen-buttons {
   padding: 5%;
 }
-button{
-  margin:3px;
+button {
+  margin: 3px;
 }
-.bluewin{
-    background-image: url('./blue-win.jpg');
-}
-
-.redwin{
-  background-image: url('./red-win.jpg');
+.bluewin {
+  background-image: url("./blue-win.jpg");
+  width: 100%;
 }
 
-.bluekilled{
-  background-image: url('./assassinated.jpg');
+.redwin {
+  background-image: url("./red-win.jpg");
+  width: 100%;
 }
 
-.redkilled{
-  background-image: url('./assassinated.jpg');
+.bluekilled {
+  background-image: url("./assassinated.jpg");
+  width: 100%;
+}
+
+.redkilled {
+  background-image: url("./assassinated.jpg");
+  width: 100%;
 }

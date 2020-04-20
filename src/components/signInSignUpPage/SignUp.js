@@ -62,24 +62,24 @@ const SignUp = (props) => {
   }
     return (
       <div className="signUp-wrapper">
-        <form id="signUp" className="container" onSubmit={submitHandler}>
+        <form id="signUp" onSubmit={submitHandler}>
           <div className="input-field">
             <label htmlFor="name">Display Name</label>
-            <input type="text" id="name" onChange={onChangeHandler} />
+            <input type="text" id="name" onChange={onChangeHandler} required/>
           </div>
           <div className="input-field">
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" onChange={onChangeHandler} />
+            <input type="email" id="email" onChange={onChangeHandler} required/>
           </div>
           <div className="input-field">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" onChange={onChangeHandler} />
+            <input type="password" id="password" onChange={onChangeHandler} required/>
           </div>
-          <button type="submit" className="btn center">
+          <button type="submit" className="btn center ">
             Sign Up
           </button>
         </form>
-        <button className="button" onClick={AuthWithGoogle}>Sign up with Google</button>
+        <button className="btn center  " onClick={AuthWithGoogle}>Sign up with Google</button>
       </div>
     );
 };

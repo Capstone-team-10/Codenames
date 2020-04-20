@@ -1,14 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "../css/Title.css";
 
-export default function Title() {
+const Title = props => {
+  const { isLoggedIn } = props;
   return (
-    <div className="title-container">
-      <h1 className="title-name">CODENAMES</h1>
-      <button className="title-button">
-        <Link to="/auth/register">Want to be a spy?</Link>
-      </button>
+    <div id="title-container" className="title-container">
+      {isLoggedIn ? null : (
+        <Link to="/auth/register">
+          <button className="title-button  waves-effect">
+            Want to be a spy?
+          </button>
+        </Link>
+      )}
     </div>
-  )
-}
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: !state.firebase.auth.isEmpty
+  };
+};
+
+export default connect(mapStateToProps)(Title);

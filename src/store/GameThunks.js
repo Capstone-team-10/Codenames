@@ -1,34 +1,35 @@
-export const joinGame = (id, game, user) => async (
+export const joinGame = (id, game, user, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
-  console.log(`id: ${id}, game: ${game}`);
   try {
     const copy = Object.assign({}, game.UsersInRoom);
     const firestore = getFirestore();
-    console.log("User In Game", copy[user.uid]);
-    if (copy[user.uid] === undefined) {
+    if (copy[uid] === undefined) {
       await firestore
         .collection("Games")
         .doc(id)
-        .set({
-          UsersInRoom: {
-            ...game.UsersInRoom,
-            [user.uid]: {
-              DisplayName: user.displayName,
-              Team: "",
-              isSpyMaster: false
+        .set(
+          {
+            UsersInRoom: {
+              ...game.UsersInRoom,
+              [uid]: {
+                DisplayName: user.displayName,
+                Team: "",
+                isSpyMaster: false
+              }
             }
-          }
-        });
+          },
+          { merge: true }
+        );
     }
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
-export const newGame = (history, user) => async (
+export const newGame = (history, user, uid) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -36,9 +37,12 @@ export const newGame = (history, user) => async (
   try {
     const firestore = getFirestore();
     const { id } = await firestore.collection("Games").add({
+      Chat: [],
+      HintCount: -1,
+      HintWord: " ",
       GameStarted: false,
       UsersInRoom: {
-        [user.uid]: {
+        [uid]: {
           DisplayName: user.displayName,
           Team: "",
           isSpyMaster: false
@@ -47,11 +51,11 @@ export const newGame = (history, user) => async (
     });
     history.push(`/play/${id}`);
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
-export const StartGame = id => async (
+export const StartGame = (id, CurrentTurn) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -67,31 +71,56 @@ export const StartGame = id => async (
           GameOver: false,
           BlueCardsLeft: 9,
           RedCardsLeft: 9,
-          HintCount: 0,
-          HintWord: "",
-          CurrentTurn: "",
+          GameResult: "",
+          CurrentTurn: CurrentTurn,
           CardPickedResult: "",
-          CardsOnTable: [],
-          Chat: []
+          CardsOnTable: []
         },
         { merge: true }
       );
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
-// Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
-export const leaveGame = (id, game, user) => async (
+export const Endturn = (id, turnString) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
   try {
-    const copy = Object.assign({}, game.UsersInRoom);
-    delete copy[user.uid];
-
     const firestore = getFirestore();
+    await firestore
+      .collection("Games")
+      .doc(id)
+      .update({
+        CurrentTurn: turnString
+      }
+      );
+  } catch (error) {
+    return error.message;
+  }
+};
+
+// Add conditional, if you are spymaster and want to leave game, dispatch to EndGame Thunk
+export const leaveGame = (id, uid) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  try {
+    const firestore = getFirestore();
+
+    let updatedGameRoom = await firestore
+      .collection("Games")
+      .doc(id)
+      .get();
+    const copy = Object.assign({}, updatedGameRoom.data().UsersInRoom);
+    // if (copy[uid].isSpyMaster) {
+    //   dispatch(deleteGame(id))
+    // }
+    delete copy[uid];
+
     await firestore
       .collection("Games")
       .doc(id)
@@ -102,7 +131,7 @@ export const leaveGame = (id, game, user) => async (
       dispatch(deleteGame(id));
     }
   } catch (error) {
-    return error
+    return error;
   }
 };
 
@@ -118,11 +147,11 @@ export const deleteGame = id => async (
       .doc(id)
       .delete();
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
-export const ReplayGame = (id, game, user) => async (
+export const ReplayGame = (id) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -134,29 +163,57 @@ export const ReplayGame = (id, game, user) => async (
       .doc(id)
       .update({
         GameOver: false,
-        GameStarted: false
+        GameStarted: false,
+        HintCount: -1,
+        HintWord: " "
       });
-    // dispatch(joinGame(id,game,user))
   } catch (error) {
-    return error.message
+    return error.message;
   }
 };
 
-export const GameOver = (id, result) => async (
+export const Assassin = (id, team) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
 ) => {
+  const result = team === "red" ? "redkilled" : "bluekilled";
   try {
     const firestore = getFirestore();
     await firestore
       .collection("Games")
       .doc(id)
-      .set({
-        GameOver: true,
-        GameResult: result
-      });
+      .set(
+        {
+          GameOver: true,
+          GameResult: result
+        },
+        { merge: true }
+      );
   } catch (error) {
-    return error.message
+    return error.message;
+  }
+};
+
+export const victory = (id, team) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const result = team === "red" ? "redwin" : "bluewin";
+  try {
+    const firestore = getFirestore();
+    await firestore
+      .collection("Games")
+      .doc(id)
+      .set(
+        {
+          GameOver: true,
+          GameResult: result
+        },
+        { merge: true }
+      );
+  } catch (error) {
+    return error.message;
   }
 };

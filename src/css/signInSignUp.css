@@ -2,14 +2,15 @@
 .sign-in-sign-up-container {
   display: flex;
   justify-content: space-around;
-  height: 100%;
-  background-image: url('./main-image.jpg');
+  height: 100vh;
+  background-image: url("./main-image.jpg");
   background-size: cover;
+  padding-top: 70px;
 }
 
 /* AuthForms */
 .auth-form-container {
- height: fit-content;
+  height: fit-content;
   margin: 10px;
   padding: 5px;
   background-color: burlywood;
@@ -17,28 +18,52 @@
 
 /* GameDescription */
 .description-container {
-  height: 100%;
-  margin: 5rem 10px;
+  height: fit-content;
+  margin: 10px;
   padding: 10px;
   max-width: 40%;
   background-color: burlywood;
 }
-.User{
-  background-image: url('./main-image.jpg');
+
+.description-header-text {
+  text-align: center;
+}
+
+.User {
+  background-image: url("./main-image.jpg");
   background-size: cover;
-  height: 100vh;
-  display:flex;
+  height: calc(100vh - 64px);
+  display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
 .User-container {
   margin-top: 10vh;
-  padding: 10px;
+  padding: 70px 20px 0px;
   height: 70%;
-  max-width: 40%;
-  background-color: burlywood;
+  max-width: 50%;
+  background-image: url(/folder.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-a{
+
+.User-container>h1 {
+  margin: 2.0rem 0 1.68rem 0;
+}
+
+.user-profile-curr {
+  font-size: 2rem;
+}
+
+.player-record-text {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+a {
   color: black;
+}
+.input-field > label {
+  color: #353535;
 }

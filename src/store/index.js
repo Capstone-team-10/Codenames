@@ -14,12 +14,8 @@ import {
 } from "react-redux-firebase";
 import firebase, {rrfConfig} from "../fireStore"
 import firebaseConfig from "../fireStore/config";
-import cards from "./cards";
-import chat from "./chat";
 
 const reducer = combineReducers({
-  cards,
-  chat,
   firebase: firebaseReducer,
   firestore: firestoreReducer
 });

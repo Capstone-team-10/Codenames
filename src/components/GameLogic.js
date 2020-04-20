@@ -1,43 +1,58 @@
 import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
 
-import { dealCards, dummyData, getResultImage, turnTracker } from "../utils";
+import { dealCards, getResultImage, turnTracker } from "../utils";
 
-import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { syncPlayerDecks, changeCardsLeft } from "../store/DeckThunk";
+import { updateWinRecord, updateLossRecord } from "../store/UserThunks";
+import { Endturn, Assassin, victory } from "../store/GameThunks";
+import { ChangeHintCount, ClearHint } from "../store/HintThunk";
 
-const GameLogic = (props) => {
-  //Dummy data start)
-  const {Games,User,history} = props
-  const Gameid = props.match.params.id
+const GameLogic = props => {
   const {
-    // allPlayers,
-    chatLog,
-    // displayName,
-    // gameStatus,
-    // spyMaster,
-    // teamColor
-  } = dummyData;
-  //End dummy data
-  const isFetching = (Games === undefined || Games[Gameid] === undefined)
-  const displayName = User.displayName
+    Games,
+    Users,
+    history,
+    decksync,
+    changeCardsLeft,
+    ChangeHintCount,
+    Endturn,
+    ClearHint,
+    Assassin,
+    UpdateWin,
+    UpdateLoss,
+    victory,
+    uid
+  } = props;
+  const Gameid = props.match.params.id;
 
+  const isFetchingUser = Users === undefined;
+  const currentUser = isFetchingUser ? null : Users[uid];
 
+  const isFetching = Games === undefined || Games[Gameid] === undefined;
+  const displayName = isFetchingUser ? "" : currentUser.displayName;
 
-  const game = isFetching ? null : Games[Gameid]
+  const game = isFetching ? null : Games[Gameid];
+  const blueScore = isFetching ? 0 : game.BlueCardsLeft;
+  const redScore = isFetching ? 0 : game.RedCardsLeft;
+  const GameOver = isFetching ? false : game.GameOver;
+  const GameResult = isFetching ? "" : game.GameResult;
+  const GameMade = isFetching ? false : game.GuessMade;
+  let hintCount = isFetching ? 0 : game.HintCount;
 
-  const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom)
+  const allPlayers = isFetching ? [] : Object.values(game.UsersInRoom);
+  const allPlayersIds = isFetching ? [] : Object.keys(game.UsersInRoom);
+  const gameStatus = isFetching ? null : game.GameStarted;
+  const teamColor = isFetching ? null : game.UsersInRoom[uid]?.Team;
+  const spyMaster = isFetching ? null : game.UsersInRoom[uid]?.isSpyMaster;
 
-  const gameStatus = isFetching ? null : game.GameStarted
-  const teamColor = isFetching ? null : game.UsersInRoom[User.uid]?.Team
-  const  spyMaster = isFetching ? null : game.UsersInRoom[User.uid]?.isSpyMaster
-  ///////////////
-
+  const FirestoreDeck = isFetching ? [] : game.CardsOnTable;
 
   const [spyDeck, setSpyDeck] = useState([]);
   const [spyMasterDeck, setSpyMasterDeck] = useState([]);
-  const [pickResult, setPickResult] = useState();
 
   const cardPick = deck => {
     return (cardPicked, currentTeam) => {
@@ -45,101 +60,183 @@ const GameLogic = (props) => {
       const wrongCard = currentTeam === "red" ? "blue" : "red";
       const neutralCard = "white";
       const fatalCard = "black";
+      let outcome;
       switch (deck[cardPicked].color) {
         case rightCard:
-          setPickResult("good");
-          return {
+          outcome = {
             outcome: "good",
             image: getResultImage(rightCard)
           };
+          if (
+            (blueScore === 1 && currentTeam === "blue") ||
+            (redScore === 1 && currentTeam === "red")
+          ) {
+            updateWinLossRecord(rightCard);
+            setTimeout(() => {
+              victory(Gameid, rightCard);
+            }, 3000);
+            flipCard(deck, cardPicked, outcome);
+            return;
+          }
+          changeCardsLeft(rightCard, Gameid, game);
+          ChangeHintCount(Gameid, game);
+          flipCard(deck, cardPicked, outcome);
+          if (hintCount === 0) {
+            ClearHint(Gameid);
+            Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          }
+          break;
         case neutralCard:
-          setPickResult("neutral");
-          return {
+          outcome = {
             outcome: "neutral",
             image: getResultImage(neutralCard)
           };
+          ClearHint(Gameid);
+          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          flipCard(deck, cardPicked, outcome);
+          break;
         case wrongCard:
-          setPickResult("bad");
-          return {
+          outcome = {
             outcome: "bad",
             image: getResultImage(wrongCard)
           };
+          if (
+            (blueScore === 1 && currentTeam !== "blue") ||
+            (redScore === 1 && currentTeam !== "red")
+          ) {
+            updateWinLossRecord(wrongCard);
+            setTimeout(() => {
+              victory(Gameid, wrongCard);
+            }, 3000);
+            flipCard(deck, cardPicked, outcome);
+            return;
+          }
+          changeCardsLeft(wrongCard, Gameid, game);
+          ClearHint(Gameid);
+          Endturn(Gameid, turnTracker.nextTurn(game.CurrentTurn));
+          flipCard(deck, cardPicked, outcome);
+          break;
         case fatalCard:
-          setPickResult("fatal");
-          return {
+          outcome = {
             outcome: "fatal",
             image: getResultImage(fatalCard)
           };
+          updateWinLossRecord(wrongCard);
+          setTimeout(() => {
+            Assassin(Gameid, currentTeam);
+          }, 3000);
+          flipCard(deck, cardPicked, outcome);
+          break;
         default:
           console.error(
             `Invalid input cardPicked: ${cardPicked}, currentTeam: ${currentTeam}, deck: `,
             deck
           );
       }
+      return outcome;
     };
   };
 
-  const makeSpyAndSpyMasterDecks = deck => {
-    const spy = deck.map(({ word, flipped }) => ({ word, flipped }));
+  const updateWinLossRecord = winner => {
+    for (let i = 0; i < allPlayersIds.length; i++) {
+      if (game.UsersInRoom[allPlayersIds[i]].Team === winner) {
+        UpdateWin(allPlayersIds[i]);
+      } else {
+        UpdateLoss(allPlayersIds[i]);
+      }
+    }
+  };
+
+  const flipCard = (deck, cardPicked, outcome) => {
+    const deckCopy = [...deck];
+    const cardCopy = Object.assign({}, deckCopy[cardPicked]);
+    cardCopy.flipped = true;
+    cardCopy.image = outcome.image;
+    deckCopy[cardPicked] = cardCopy;
+    decksync(deckCopy, Gameid);
+  };
+
+  const dealDeck = (deck, Gameid) => {
+    return () => {
+      decksync(deck, Gameid);
+    };
+  };
+
+  useEffect(() => {
+    dealSpyAndSpymasterDecks();
+  }, [FirestoreDeck]);
+
+  const dealSpyAndSpymasterDecks = (gameDeck = FirestoreDeck) => {
+    const deck = gameDeck ? gameDeck : [];
+    const spy = deck.map(({ word, flipped, image }) => ({
+      word,
+      flipped,
+      image
+    }));
 
     setSpyMasterDeck(deck);
     setSpyDeck(spy);
   };
 
-  useEffect(() => {
-    console.log("pickResult is: ", pickResult);
-  }, [pickResult]);
-
-  useEffect(() => {
-    let cardsFromDealer = dealCards();
-    makeSpyAndSpyMasterDecks(cardsFromDealer);
-  }, []);
-
   return (
-    <>
-      {spyMaster ? (
-        <PlayerGameBoard
-          gameId = {Gameid}
-          history = {history}
-          allPlayers={allPlayers}
-          chatLog={chatLog}
-          deck={spyMasterDeck}
-          displayName={displayName}
-          gameStatus={gameStatus}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
-        />
-      ) : (
-        <PlayerGameBoard
-          gameId = {Gameid}
-          history = {history}
-          allPlayers={allPlayers}
-          chatLog={chatLog}
-          deck={spyDeck}
-          displayName={displayName}
-          gameStatus={gameStatus}
-          setPickResult={setPickResult}
-          playersPick={cardPick(spyMasterDeck)}
-          spyMaster={spyMaster}
-          teamColor={teamColor}
-        />
-      )}
-    </>
-  );
+    <PlayerGameBoard
+      history={history}
+      Games={Games}
+      gameId={Gameid}
+      gameStatus={gameStatus}
+      GameOver={GameOver}
+      GameResult={GameResult}
+      GameMade={GameMade}
+      blueScore={blueScore}
+      redScore={redScore}
+      allPlayers={allPlayers}
+      currentUser={currentUser}
+      displayName={displayName}
+      uid={uid}
+      teamColor={teamColor}
+      spyMaster={spyMaster}
+      dealCards={dealDeck(dealCards(), Gameid)}
+      dealSpyAndSpymasterDecks={dealSpyAndSpymasterDecks}
+      deck={spyMaster ? spyMasterDeck : spyDeck}
+      playersPick={spyMaster ? null : cardPick(spyMasterDeck)}
+    />
+  )
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     Games: state.firestore.data.Games,
-    User: state.firebase.auth
-  }
-}
+    Users: state.firestore.data.Users,
+    uid: state.firebase.auth.uid
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    decksync: (deck, Gameid) => dispatch(syncPlayerDecks(deck, Gameid)),
+    changeCardsLeft: (currentTeam, id, game) =>
+      dispatch(changeCardsLeft(currentTeam, id, game)),
+    Endturn: (id, turnString) => dispatch(Endturn(id, turnString)),
+    Assassin: (id, result) => dispatch(Assassin(id, result)),
+    ChangeHintCount: (id, game) => dispatch(ChangeHintCount(id, game)),
+    victory: (id, team) => dispatch(victory(id, team)),
+    UpdateWin: uid => dispatch(updateWinRecord(uid)),
+    UpdateLoss: uid => dispatch(updateLossRecord(uid)),
+    ClearHint: id => dispatch(ClearHint(id))
+  };
+};
 
 export default compose(
-  firestoreConnect([
-    {
-      collection: "Games"
-    }
-  ]),
-  connect(mapStateToProps)
-)(GameLogic)
+  firestoreConnect(props => {
+    return [
+      {
+        collection: "Games",
+        doc: `${props.match.params.id}`
+      },
+      {
+        collection: "Users"
+      }
+    ];
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(GameLogic);

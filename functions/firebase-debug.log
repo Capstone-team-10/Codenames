@@ -1,0 +1,34 @@
+[debug] [2020-04-02T23:09:11.126Z] ----------------------------------------------------------------------
+[debug] [2020-04-02T23:09:11.128Z] Command:       /usr/local/bin/node /usr/local/bin/firebase functions:shell
+[debug] [2020-04-02T23:09:11.129Z] CLI Version:   7.16.1
+[debug] [2020-04-02T23:09:11.129Z] Platform:      darwin
+[debug] [2020-04-02T23:09:11.129Z] Node Version:  v12.13.0
+[debug] [2020-04-02T23:09:11.134Z] Time:          Thu Apr 02 2020 19:09:11 GMT-0400 (Eastern Daylight Time)
+[debug] [2020-04-02T23:09:11.134Z] ----------------------------------------------------------------------
+[debug] [2020-04-02T23:09:11.134Z] 
+[debug] [2020-04-02T23:09:11.147Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-02T23:09:11.147Z] > authorizing via signed-in user
+[debug] [2020-04-02T23:09:11.148Z] [iam] checking project codenames-3a350 for permissions ["firebase.projects.get"]
+[debug] [2020-04-02T23:09:11.151Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-04-02T23:09:11.151Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-04-02T23:09:11.328Z] <<< HTTP RESPONSE 200
+[debug] [2020-04-02T23:09:11.342Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/codenames-3a350:testIamPermissions  
+
+[debug] [2020-04-02T23:09:11.612Z] <<< HTTP RESPONSE 200
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "12"
+[info] ✔  functions: functions emulator started at http://localhost:5000
+[debug] [2020-04-02T23:09:11.645Z] [functions] Watching "/Users/sunabr/fullStack/codeNames/Codenames/functions" for Cloud Functions...
+[debug] [2020-04-02T23:09:11.669Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-04-02T23:09:11.669Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-04-02T23:09:11.669Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-04-02T23:09:11.670Z] DEBUG: [worker-~diagnostic~-87228bf6-c417-4de1-b963-9f889e82c8a4]: Assigning socketPath: /var/folders/qw/6gfz_9w1793f9mvbqv2zzw8m0000gn/T/fire_emu_65801.sock
+[debug] [2020-04-02T23:09:11.670Z] DEBUG: [worker-~diagnostic~-87228bf6-c417-4de1-b963-9f889e82c8a4]: BUSY
+[debug] [2020-04-02T23:09:12.000Z] DEBUG: [runtime-status] [65801] Functions runtime initialized. {"cwd":"/Users/sunabr/fullStack/codeNames/Codenames/functions","node_version":"12.13.0"}
+[debug] [2020-04-02T23:09:12.001Z] DEBUG: [runtime-status] [65801] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-04-02T23:09:12.003Z] DEBUG: [runtime-status] [65801] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.10.0","resolution":"/Users/sunabr/fullStack/codeNames/Codenames/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-04-02T23:09:12.005Z] DEBUG: [runtime-status] [65801] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.5.0","resolution":"/Users/sunabr/fullStack/codeNames/Codenames/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-04-02T23:09:12.006Z] DEBUG: [runtime-status] [65801] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.5.0","resolution":"/Users/sunabr/fullStack/codeNames/Codenames/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-04-02T23:09:13.189Z] [functions[sendInvite]] http function initialized (http://localhost:5000/codenames-3a350/us-central1/sendInvite).
+[info] i  functions: Loaded functions: sendInvite
+[debug] [2020-04-02T23:09:13.213Z] DEBUG: [worker-~diagnostic~-87228bf6-c417-4de1-b963-9f889e82c8a4]: IDLE
