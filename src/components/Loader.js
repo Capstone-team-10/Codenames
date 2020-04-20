@@ -6,14 +6,21 @@ import "../css/Loader.css";
 
 export default function Loader() {
     useEffect( () => {
-        let count = 1;
+        let counter = 1;
+        let frontImg = "/images/agent-red-1.jpeg";
+        let backImg = "/images/agent-blue-1.png";
         let loaderImgFronteElem = document.getElementById('loader-front');
-        let loaderImgBackeElem = document.getElementById('loader-front');
+        let loaderImgBackeElem = document.getElementById('loader-back');
+        loaderImgFronteElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
+        loaderImgBackeElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
         let timer = setInterval( () => {
-            if(count % 2 === 0){
+            if(counter % 2 === 0){
+                loaderImgFronteElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
             } else {
+                loaderImgBackeElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
             }
-        }, 1000);
+            counter++;
+        }, 1500);
 
         return () => {
             clearInterval(timer);
@@ -22,8 +29,8 @@ export default function Loader() {
 
   return (
     <div className="loaderContainer">
-        <div className="cardContainer">
-            <div className="card-inner" >
+        <div className="loader-cardContainer">
+            <div className="loader-inner rotate-card" >
                 <img
                     id="loader-front"
                     src=""
