@@ -26,16 +26,60 @@
     transform-style: preserve-3d;
   }
 
-.rotate-card {
-    transform: rotateY(180deg);
-    animation: rotate 3s infinite;
+  #loader-front,
+  #loader-back {
+    backface-visibility: hidden;
   }
 
-  @keyframes rotate {
-      from { 
-        transform: rotateY(0deg);
-      }
-      to {
-        transform: rotatey(360deg)
-      }
+.rotate-card0 {
+  animation: rotate0 1s linear infinite;
+  transform: rotateY(0deg);
+}
+.rotate-card1 {
+  animation: rotate1 1s linear infinite;
+  transform: rotatey(90deg);
+}
+.rotate-card2 {
+  animation: rotate2 1s linear infinite;
+  transform: rotateY(180deg);
+}
+.rotate-card3 {
+  animation: rotate3 1s linear infinite;
+  transform: rotateY(270deg);
+}
+
+@keyframes rotate0 {
+  from { 
+    transform: rotateY(0deg);
   }
+  to {
+    transform: rotatey(90deg);
+  }
+}
+
+@keyframes rotate1 {
+  from { 
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotatey(180deg);
+  }
+}
+
+@keyframes rotate2 {
+  from { 
+    transform: rotateY(180deg);
+  }
+  to {
+    transform: rotatey(270deg);
+  }
+}
+
+@keyframes rotate3 {
+  from { 
+    transform: rotateY(270deg);
+  }
+  to {
+    transform: rotatey(360deg);
+  }
+}

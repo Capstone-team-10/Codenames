@@ -7,20 +7,30 @@ import "../css/Loader.css";
 export default function Loader() {
     useEffect( () => {
         let counter = 1;
-        let frontImg = "/images/agent-red-1.jpeg";
-        let backImg = "/images/agent-blue-1.png";
         let loaderImgFronteElem = document.getElementById('loader-front');
         let loaderImgBackeElem = document.getElementById('loader-back');
+        let loaderInnerElem = document.getElementById('loader-inner');
         loaderImgFronteElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
         loaderImgBackeElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
+        loaderInnerElem.classList.add('rotate-card0');
         let timer = setInterval( () => {
-            if(counter % 2 === 0){
+            if(counter === 0){
+                loaderInnerElem.classList.toggle('rotate-card0');
+                loaderInnerElem.classList.toggle('rotate-card3');
+            } else if(counter === 1){
                 loaderImgFronteElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
-            } else {
+                loaderInnerElem.classList.toggle('rotate-card1');
+                loaderInnerElem.classList.toggle('rotate-card0');
+            } else if (counter === 2){
+                loaderInnerElem.classList.toggle('rotate-card2');
+                loaderInnerElem.classList.toggle('rotate-card1');
+            }else{
                 loaderImgBackeElem.src = `${process.env.PUBLIC_URL}${getLoaderImage()}`;
+                loaderInnerElem.classList.toggle('rotate-card3');
+                loaderInnerElem.classList.toggle('rotate-card2');
             }
-            counter++;
-        }, 1500);
+            counter = counter > 2 ? 0 : counter += 1;
+        }, 1000);
 
         return () => {
             clearInterval(timer);
@@ -30,7 +40,9 @@ export default function Loader() {
   return (
     <div className="loaderContainer">
         <div className="loader-cardContainer">
-            <div className="loader-inner rotate-card" >
+            <div 
+                id="loader-inner"
+                className="loader-inner" >
                 <img
                     id="loader-front"
                     src=""
