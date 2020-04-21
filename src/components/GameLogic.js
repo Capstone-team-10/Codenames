@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PlayerGameBoard from "./GameBoard";
+import Loader from "../components/Loader";
 
 import { dealCards, getResultImage, turnTracker } from "../utils";
 
@@ -179,6 +180,10 @@ const GameLogic = props => {
   };
 
   return (
+    !currentUser && !game ? 
+    (
+      <Loader />
+    ) : (
     <PlayerGameBoard
       history={history}
       Games={Games}
@@ -200,6 +205,7 @@ const GameLogic = props => {
       deck={spyMaster ? spyMasterDeck : spyDeck}
       playersPick={spyMaster ? null : cardPick(spyMasterDeck)}
     />
+    ) 
   )
 };
 
