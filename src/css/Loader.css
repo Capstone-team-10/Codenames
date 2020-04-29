@@ -1,35 +1,35 @@
 .loaderContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: Calc( 100vh - 64px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: Calc(100vh - 64px);
 }
 
 .loader-cardContainer {
-    position: relative;
-    display: flex;
-    /* flex: 1 1 calc(20% - 14px); */
-    justify-content: center;
-    align-items: center;
-    height: 16rem;
-    width: 32rem;
-    min-width: 9.4rem;
-    padding: 7px;
-  }
-  
-  .loader-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0px 8px 9px black;
-    transform-style: preserve-3d;
-  }
+  position: relative;
+  display: flex;
+  /* flex: 1 1 calc(20% - 14px); */
+  justify-content: center;
+  align-items: center;
+  height: 16rem;
+  width: 32rem;
+  min-width: 9.4rem;
+  padding: 7px;
+}
 
-  #loader-front,
-  #loader-back {
-    backface-visibility: hidden;
-  }
+.loader-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 8px 9px black;
+  transform-style: preserve-3d;
+}
+
+#loader-front,
+#loader-back {
+  backface-visibility: hidden;
+}
 
 .rotate-card0 {
   animation: rotate0 1s linear infinite;
@@ -49,37 +49,37 @@
 }
 
 @keyframes rotate0 {
-  from { 
+  from {
     transform: rotateY(0deg);
   }
   to {
-    transform: rotatey(90deg);
+    transform: rotateY(90deg);
   }
 }
 
 @keyframes rotate1 {
-  from { 
+  from {
     transform: rotateY(90deg);
   }
   to {
-    transform: rotatey(180deg);
+    transform: rotateY(180deg);
   }
 }
 
 @keyframes rotate2 {
-  from { 
+  from {
     transform: rotateY(180deg);
   }
   to {
-    transform: rotatey(270deg);
+    transform: rotateY(270deg);
   }
 }
 
 @keyframes rotate3 {
-  from { 
+  from {
     transform: rotateY(270deg);
   }
   to {
-    transform: rotatey(360deg);
+    transform: rotateY(360deg);
   }
 }
